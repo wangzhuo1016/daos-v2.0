@@ -1,37 +1,21 @@
 #!/bin/bash
 
-REPOS_DIR=/etc/dnf/repos.d
-DISTRO_NAME=leap15
-LSB_RELEASE=lsb-release
-EXCLUDE_UPGRADE=fuse,fuse-libs,fuse-devel,mercury,daos,daos-\*
+REPOS_DIR=/etc/yum.repos.d
+DISTRO_NAME=fedora
+LSB_RELEASE=redhat-lsb-core
+EXCLUDE_UPGRADE=fuse,mercury,daos,daos-\*
 
 bootstrap_dnf() {
-    rm -rf "$REPOS_DIR"
-    ln -s ../zypp/repos.d "$REPOS_DIR"
+    :
 }
 
 group_repo_post() {
-    if [ -n "$DAOS_STACK_GROUP_REPO" ]; then
-        rpm --import \
-            "${REPOSITORY_URL}${DAOS_STACK_GROUP_REPO%/*}/opensuse-15.2-devel-languages-go-x86_64-proxy/repodata/repomd.xml.key"
-    fi
+    # Nothing to do for EL
+    :
 }
 
 distro_custom() {
-    # monkey-patch lua-lmod
-    if ! grep MODULEPATH=".*"/usr/share/modules /etc/profile.d/lmod.sh; then \
-        sed -e '/MODULEPATH=/s/$/:\/usr\/share\/modules/'                     \
-               /etc/profile.d/lmod.sh;                                        \
-    fi
-
-    # force install of avocado 69.x
-    dnf -y erase avocado{,-common}                                              \
-                 python2-avocado{,-plugins-{output-html,varianter-yaml-to-mux}}
-    python3 -m pip install --upgrade pip
-    python3 -m pip install "avocado-framework<70.0"
-    python3 -m pip install "avocado-framework-plugin-result-html<70.0"
-    python3 -m pip install "avocado-framework-plugin-varianter-yaml-to-mux<70.0"
-
+    :
 }
 
 post_provision_config_nodes() {
@@ -52,9 +36,8 @@ post_provision_config_nodes() {
 
     time dnf repolist
     # the group repo is always on the test image
-    #add_group_repo
-    # in fact is's on the Leap image twice so remove one
-    rm -f $REPOS_DIR/daos-stack-ext-opensuse-15-stable-group.repo
+    # not for fedora though
+    add_group_repo
     add_local_repo
     time dnf repolist
 
@@ -94,16 +77,23 @@ post_provision_config_nodes() {
     if ! rpm -q "$(echo "$INST_RPMS" |
                    sed -e 's/--exclude [^ ]*//'                 \
                        -e 's/[^ ]*-daos-[0-9][0-9]*//g')"; then
-        if [ -n "$INST_RPMS" ] && ! retry_cmd 360 dnf -y install $INST_RPMS; then
-            dump_repos
-            exit "$rc"
-        fi
+        while [ -n "$INST_RPMS" ] &&
+              [ $n -gt 0 ] &&
+              ! time dnf -y install $INST_RPMS; do
+            rc=${PIPESTATUS[0]}
+            (( n-- ))
+        done
+    fi
+    if [ "$rc" -ne 0 ]; then
+        dump_repos
+        exit "$rc"
     fi
 
     distro_custom
 
     # now make sure everything is fully up-to-date
-    if ! retry_cmd 600 dnf -y upgrade --exclude "$EXCLUDE_UPGRADE"; then
+    if ! time dnf -y upgrade \
+                  --exclude "$EXCLUDE_UPGRADE"; then
         dump_repos
         exit 1
     fi

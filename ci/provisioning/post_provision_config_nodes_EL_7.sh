@@ -128,8 +128,6 @@ post_provision_config_nodes() {
     fi
     rm -f /etc/profile.d/openmpi.sh
     rm -f /tmp/daos_control.log
-    retry_cmd 360 dnf -y install $LSB_RELEASE
-
     if lspci | grep "ConnectX-6"; then
         # No openmpi3 or MACSio-openmpi3 can be installed currently
         # when the ConnnectX-6 driver is installed
@@ -137,11 +135,22 @@ post_provision_config_nodes() {
         INST_RPMS="${INST_RPMS// MACSio-openmpi3}"
     fi
 
+    if ! rpm -q "$LSB_RELEASE"; then
+        time dnf -y install "$LSB_RELEASE"
+    fi
+
+    n=3
+    rc=0
+    # shellcheck disable=SC2001
     # shellcheck disable=SC2086
-    if [ -n "$INST_RPMS" ] && ! retry_cmd 360 dnf -y install $INST_RPMS; then
-        rc=${PIPESTATUS[0]}
-        dump_repos
-        exit "$rc"
+    if ! rpm -q "$(echo "$INST_RPMS" |
+                   sed -e 's/--exclude [^ ]*//'                 \
+                       -e 's/[^ ]*-daos-[0-9][0-9]*//g')"; then
+        if [ -n "$INST_RPMS" ] && ! retry_cmd 360 dnf -y install $INST_RPMS; then
+            rc=${PIPESTATUS[0]}
+            dump_repos
+            exit "$rc"
+        fi
     fi
 
     distro_custom
