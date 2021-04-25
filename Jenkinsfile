@@ -767,7 +767,7 @@ pipeline {
                         expression { ! skipStage() }
                     }
                     agent {
-                        label 'ci_nlt_1'
+                        label 'brian_hdwr_1'
                     }
                     steps {
                         provisionNodes NODELIST: env.NODELIST,
