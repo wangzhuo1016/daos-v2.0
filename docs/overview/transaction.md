@@ -63,7 +63,7 @@ examples are collective MPI-IO operations, POSIX file read/write
 or HDF5 dataset read/write.
 
 For parts of the data model that require conflict serialization, 
-DAOS provides distributed serializable transaction based on multi-version 
+DAOS provides distributed serializable transactions based on multi-version 
 concurrency control. Transactions are typically needed when different user 
 processes can overwrite the value associated with a dkey/akey pair. 
 Examples are a SQL database over DAOS or a consistent POSIX namespace 

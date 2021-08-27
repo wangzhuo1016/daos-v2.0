@@ -45,7 +45,7 @@ a container, then reading and writing to the container.
 
 ## Clean Up
 
-Remove one of the copy created using datamover
+Remove one of the copies created using datamover
 
 	rm -rf /tmp/daos_dfuse/daos_container_copy
 

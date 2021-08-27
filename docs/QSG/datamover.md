@@ -289,7 +289,7 @@ Check data inside the POSIX directories:
 
 ## Clean Up
 
-Remove one of the copy created using datamover
+Remove one of the copies created using datamover
 
 	rm -rf /tmp/daos_dfuse/daos_container_copy
 
@@ -306,7 +306,7 @@ Remove dfuse mountpoint:
 List containers to be destroyed:
 
 	# list containers
-	daos pool list-containers --pool $DAOS_POOL  # sample output
+	daos pool list-containers --pool $DAOS_POOL
 
 	# sample output
 	cd46cf6e-f886-4682-8077-e3cbcd09b43a
