@@ -272,6 +272,8 @@ dtx_aggregate(void *arg)
 	struct dtx_batched_cont_args	*dbca = arg;
 	struct ds_cont_child		*cont = dbca->dbca_cont;
 
+	D_ERROR("dtx_aggregate()\n");
+
 	if (dbca->dbca_agg_req == NULL)
 		goto out;
 
@@ -279,6 +281,7 @@ dtx_aggregate(void *arg)
 		struct dtx_stat		stat = { 0 };
 		int			rc;
 
+		D_ERROR("vos_dtx_aggregate()\n");
 		rc = vos_dtx_aggregate(cont->sc_hdl);
 		if (rc != 0)
 			break;
