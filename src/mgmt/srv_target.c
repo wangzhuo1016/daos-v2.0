@@ -511,7 +511,8 @@ tgt_vos_preallocate(uuid_t uuid, daos_size_t scm_size, int tgt_nr)
 		 * Use fallocate(2) instead of posix_fallocate(3) since the
 		 * latter is bogus with tmpfs.
 		 */
-		rc = fallocate(fd, 0, 0, scm_size);
+		//rc = fallocate(fd, 0, 0, scm_size);
+		rc = ftruncate(fd, scm_size);
 		if (rc) {
 			rc = daos_errno2der(errno);
 			D_ERROR(DF_UUID": failed to allocate vos file %s with "
