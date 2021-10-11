@@ -512,7 +512,13 @@ tgt_vos_preallocate(uuid_t uuid, daos_size_t scm_size, int tgt_nr)
 		 * latter is bogus with tmpfs.
 		 */
 		//rc = fallocate(fd, 0, 0, scm_size);
-		rc = ftruncate(fd, scm_size);
+		//rc = ftruncate(fd, scm_size);
+		daos_size_t offset;
+		for (offset = 0; offset < scm_size; offset += scm_size / 16) {
+			rc = fallocate(fd, 0, offset, scm_size / 16);
+			if (rc)
+				break;
+		}
 		if (rc) {
 			rc = daos_errno2der(errno);
 			D_ERROR(DF_UUID": failed to allocate vos file %s with "
