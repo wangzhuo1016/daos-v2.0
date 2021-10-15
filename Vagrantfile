@@ -28,6 +28,14 @@ ENV['VAGRANT_EXPERIMENTAL'] = 'typed_triggers'
 
 Vagrant.configure("2") do |config|
 
+        # Cluster tunables
+        num_hosts = 3
+        pmem_count = 2
+        pmem_size = 32 # G
+        cpu_count = 8
+        cpus_per_numa = 4
+        dram_size = 16 # G
+
         # disable the default shared folder
         config.vm.synced_folder ".", "/vagrant", disabled: true
         # but share the user's daoshome
@@ -38,11 +46,13 @@ Vagrant.configure("2") do |config|
 
         config.vm.provider :libvirt do |libvirt, override|
                 override.vm.box = "centos/7"
-                libvirt.cpus = 4
-                libvirt.numa_nodes = [
-                        {:cpus => "0-1", :memory => 1024 * 8},
-                        {:cpus => "2-3", :memory => 1024 * 8}
-                ]
+                libvirt.cpus = cpu_count
+                libvirt.numa_nodes = []
+                numa_dram_size = dram_size / (cpu_count / cpus_per_numa) * 1024 # K (hence the 1024 multiplier)
+                (0..cpu_count-1).each_slice(cpus_per_numa) do |a, _|
+                        b = a + cpus_per_numa - 1
+                        libvirt.numa_nodes.append({:cpus => "#{a}-#{b}", :memory => numa_dram_size})
+                end
         end
 
         # Increase yum timeout for slow mirrors
@@ -133,7 +143,7 @@ EOF"
         #
         # Create the cluster
         #
-        (1..3).each do |ss_idx|
+        (1..num_hosts).each do |ss_idx|
                 config.vm.define "vm#{ss_idx}", autostart: true do |ss|
                         ss.vm.host_name = "vm#{ss_idx}"
                         ss.trigger.before :up do |trigger|
@@ -155,15 +165,21 @@ EOF"
                                         lv.qemuargs :value => "-device"
                                         lv.qemuargs :value => "nvme,drive=NVME#{ss_idx}-#{nvme_idx},serial=nvme-1234#{ss_idx}#{nvme_idx}"
                                 end
-                                # PMEM
+                                # PMEMs
+                                slots = 2 + pmem_count
+                                maxmem = dram_size + pmem_count * pmem_size
                                 lv.qemuargs :value => "-machine"
                                 lv.qemuargs :value => "pc,accel=kvm,nvdimm=on"
                                 lv.qemuargs :value => "-m"
-                                lv.qemuargs :value => "16G,slots=2,maxmem=48G"
-                                lv.qemuargs :value => "-object"
-                                lv.qemuargs :value => "memory-backend-file,id=mem#{ss_idx},share=on,mem-path=" + ENV['HOME'] + "/tmp/nvdimm#{ss_idx},size=32768M"
-                                lv.qemuargs :value => "-device"
-                                lv.qemuargs :value => "nvdimm,id=nvdimm#{ss_idx},memdev=mem#{ss_idx},label-size=2097152"
+                                lv.qemuargs :value => "#{dram_size}G,slots=#{slots},maxmem=#{maxmem}G"
+                                (1..pmem_count).each do |pmem_idx|
+                                        id="#{ss_idx}-#{pmem_idx}"
+                                        lv.qemuargs :value => "-object"
+                                        lv.qemuargs :value => "memory-backend-file,id=mem#{id},share=on,mem-path=" + ENV['HOME'] + "/tmp/nvdimm#{id},size=#{pmem_size}G"
+                                        lv.qemuargs :value => "-device"
+                                        #lv.qemuargs :value => "nvdimm,id=nvdimm#{id},memdev=mem#{id}"
+                                        lv.qemuargs :value => "nvdimm,id=nvdimm#{id},memdev=mem#{id},label-size=2097152"
+                                end
                         end
                         config.vm.provision "Configure selinux", type: "shell", inline: "selinuxenabled && setenforce 0; cat >/etc/selinux/config<<__EOF
 SELINUX=disabled
@@ -177,15 +193,25 @@ __EOF"
         # Update ~/.ssh/config so that "ssh $vm" works without having to use vagrant ssh
         config.trigger.after :up, type: :command do |trigger|
                 trigger.run = {inline: 'bash -c "set -x; ' +
-                                                'echo \"# Added by ' + __FILE__ + '\" >> ' + ENV['HOME'] + '/.ssh/config; ' +
-                                                'vagrant ssh-config >> ' + ENV['HOME'] + '/.ssh/config; ' +
-                                                'echo \"# Added by ' + __FILE__ + '\" >> ' + ENV['HOME'] + '/.ssh/config"'}
+                                                'vagrant ssh-config > vagrant_ssh_config; ' +
+                                                'if grep \"^#Include ' + ENV['PWD'].gsub("/", "\\/") + '\\/vagrant_ssh_config\" ' + ENV['HOME'] + '/.ssh/config; then' +
+                                                '    sed -i -e \"s/^#\(Include ' + ENV['PWD'].gsub("/", "\\/") + '\\/vagrant_ssh_config\)/\1/\" ' + ENV['HOME'] + '/.ssh/config; ' +
+                                                'else ' +
+                                                '    echo \"# Added by ' + __FILE__ + '\" >> ' + ENV['HOME'] + '/.ssh/config; ' +
+                                                '    cat vagrant_ssh_config >> ' + ENV['HOME'] + '/.ssh/config; ' +
+                                                '    echo \"# Added by ' + __FILE__ + '\" >> ' + ENV['HOME'] + '/.ssh/config; ' +
+                                                'fi"'}
         end
         config.trigger.before :destroy, type: :command do |trigger|
-                trigger.run = {inline: 'bash -c "set -x; ed <<EOF ' + ENV['HOME'] + '/.ssh/config || true' + '
+                trigger.run = {inline: 'bash -c "if grep \"^Include ' + ENV['PWD'].gsub("/", "\\/") + '\\/vagrant_ssh_config\" ' + ENV['HOME'] + '/.ssh/config; then' +
+                                                '    sed -i -e \"s/^\(Include ' + ENV['PWD'].gsub("/", "\\/") + '\\/vagrant_ssh_config\)/#\1/\" ' + ENV['HOME'] + '/.ssh/config; ' +
+                                                'else ' +
+                                                    'ed <<EOF ' + ENV['HOME'] + '/.ssh/config || true' + '
 /^# Added by ' + __FILE__.gsub("/", "\\/") + '$/;/^# Added by ' + __FILE__.gsub("/", "\\/") + '$/d
 .
 wq
-EOF"'}
+EOF
+' +
+                                                'fi"'}
         end
 end

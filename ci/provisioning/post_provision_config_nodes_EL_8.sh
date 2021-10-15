@@ -15,22 +15,9 @@ group_repo_post() {
 }
 
 distro_custom() {
-    # force install of avocado 69.x
-    dnf -y erase avocado{,-common}                                              \
-                 python2-avocado{,-plugins-{output-html,varianter-yaml-to-mux}} \
-                 python3-pyyaml
-    pip3 install "avocado-framework<70.0"
-    pip3 install "avocado-framework-plugin-result-html<70.0"
-    pip3 install "avocado-framework-plugin-varianter-yaml-to-mux<70.0"
-    pip3 install clustershell
-
-    if ! rpm -q nfs-utils; then
-        retry_cmd 360 dnf -y install nfs-utils
-    fi
-
-    # CORCI-1096
-    dnf -y install esmtp
-    sed -e 's/^\(hostname *= *\)[^ ].*$/\1 mail.wolf.hpdd.intel.com:25/' < /usr/share/doc/esmtp/sample.esmtprc > /etc/esmtprc
+    # install avocado
+    dnf -y install python3-avocado{,-plugins-{output-html,varianter-yaml-to-mux}} \
+                   clustershell
 
     dnf config-manager --disable powertools
 
@@ -91,13 +78,19 @@ post_provision_config_nodes() {
     fi
     rm -f /etc/profile.d/openmpi.sh
     rm -f /tmp/daos_control.log
-    retry_cmd 360 dnf -y install $LSB_RELEASE
+    if ! rpm -q "$LSB_RELEASE"; then
+        retry_cmd 360 dnf -y install $LSB_RELEASE
+    fi
 
     # shellcheck disable=SC2086
-    if [ -n "$INST_RPMS" ] && ! retry_cmd 360 dnf -y install $INST_RPMS; then
-        rc=${PIPESTATUS[0]}
-        dump_repos
-        exit "$rc"
+    if ! rpm -q "$(echo "$INST_RPMS" |
+                   sed -e 's/--exclude [^ ]*//'                 \
+                       -e 's/[^ ]*-daos-[0-9][0-9]*//g')"; then
+        if [ -n "$INST_RPMS" ] && ! retry_cmd 360 dnf -y install $INST_RPMS; then
+            rc=${PIPESTATUS[0]}
+            dump_repos
+            exit "$rc"
+        fi
     fi
 
     distro_custom

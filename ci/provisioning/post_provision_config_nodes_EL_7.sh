@@ -46,6 +46,7 @@ EOF
 
     # Mellanox OFED hack
     if ls -d /usr/mpi/gcc/openmpi-*; then
+        mkdir -p /etc/modulefiles/mpi/
         cat <<EOF > /etc/modulefiles/mpi/mlnx_openmpi-x86_64
 #%Module 1.0
 #
@@ -69,15 +70,6 @@ setenv			MPI_COMPILER	openmpi-x86_64
 setenv			MPI_SUFFIX	_openmpi
 setenv	 		MPI_HOME	/usr/mpi/gcc/openmpi-4.1.0rc5
 EOF
-    fi
-
-    # CORCI-1096
-    grep 'relayhost' /etc/postfix/main.cf
-    echo 'relayhost = [mail.wolf.hpdd.intel.com]' >> /etc/postfix/main.cf
-    if ! postfix reload; then
-        postfix reload
-        echo "Error $? reloading postfix"
-        exit 1
     fi
 
 }
@@ -128,6 +120,10 @@ post_provision_config_nodes() {
     fi
     rm -f /etc/profile.d/openmpi.sh
     rm -f /tmp/daos_control.log
+    if ! rpm -q "$LSB_RELEASE"; then
+        retry_cmd 360 dnf -y install $LSB_RELEASE
+    fi
+
     if lspci | grep "ConnectX-6"; then
         # No openmpi3 or MACSio-openmpi3 can be installed currently
         # when the ConnnectX-6 driver is installed
@@ -135,12 +131,6 @@ post_provision_config_nodes() {
         INST_RPMS="${INST_RPMS// MACSio-openmpi3}"
     fi
 
-    if ! rpm -q "$LSB_RELEASE"; then
-        time dnf -y install "$LSB_RELEASE"
-    fi
-
-    n=3
-    rc=0
     # shellcheck disable=SC2001
     # shellcheck disable=SC2086
     if ! rpm -q "$(echo "$INST_RPMS" |

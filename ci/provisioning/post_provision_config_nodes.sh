@@ -82,23 +82,23 @@ dump_repos() {
 }
 
 env > /root/last_run-env.txt
-if ! grep ":$MY_UID:" /etc/group; then
-  if ! groupadd -g "$MY_UID" "${REMOTE_ACCT:-jenkins}"; then
-    echo "Couldn't add group ${REMOTE_ACCT:-jenkins} "\
-         "with gid $MY_UID, pressing on..."
-  fi
-fi
 mkdir -p /localhome
-if grep ":$MY_UID:$MY_UID:" /etc/passwd; then
-  home=$(grep "$MY_UID:$MY_UID::" /etc/passwd | cut -d: -f 6)
-else
-  if ! useradd -b /localhome -g "$MY_UID" -u "$MY_UID" \
-               -s /bin/bash jenkins; then
-    echo "Couldn't add user jenkins with uid $MY_UID, pressing on..."
-  fi
-  home=/localhome/${REMOTE_ACCT:-jenkins}
+if userinfo=$(grep ":$MY_UID:$MY_UID:" /etc/passwd); then
+    userdel "${userinfo%%:*}"
 fi
-jenkins_ssh=/localhome/jenkins/.ssh
+if groupinfo=$(grep ":$MY_UID:" /etc/group); then
+    groupdel "${groupinfo%%:*}"
+fi
+if ! groupadd -g "$MY_UID" "${REMOTE_ACCT:-jenkins}"; then
+  echo "Couldn't add group ${REMOTE_ACCT:-jenkins} "\
+       "with gid $MY_UID, pressing on..."
+fi
+if ! useradd -b /localhome -g "$MY_UID" -u "$MY_UID" \
+             -s /bin/bash jenkins; then
+  echo "Couldn't add user jenkins with uid $MY_UID, pressing on..."
+fi
+home=/localhome/${REMOTE_ACCT:-jenkins}
+jenkins_ssh="$home"/.ssh
 mkdir -p "${jenkins_ssh}"
 if ! grep -q -s -f /tmp/ci_key.pub "${jenkins_ssh}/authorized_keys"; then
   cat /tmp/ci_key.pub >> "${jenkins_ssh}/authorized_keys"

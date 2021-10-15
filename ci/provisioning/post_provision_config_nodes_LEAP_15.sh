@@ -82,14 +82,10 @@ post_provision_config_nodes() {
     fi
     rm -f /etc/profile.d/openmpi.sh
     rm -f /tmp/daos_control.log
-
     if ! rpm -q "$LSB_RELEASE"; then
-        time dnf -y install "$LSB_RELEASE"
+        retry_cmd 360 dnf -y install $LSB_RELEASE
     fi
 
-    n=3
-    rc=0
-    # shellcheck disable=SC2001
     # shellcheck disable=SC2086
     if ! rpm -q "$(echo "$INST_RPMS" |
                    sed -e 's/--exclude [^ ]*//'                 \

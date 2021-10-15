@@ -6,7 +6,7 @@
 rm -f ci_key*
 ssh-keygen -N "" -f ci_key
 cat << "EOF" > ci_key_ssh_config
-host wolf-*
+host *
     CheckHostIp no
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
@@ -63,8 +63,8 @@ if [ -d .git ]; then
     git log --pretty=format:%h --abbrev-commit --abbrev=7 |
       retry_cmd 60 ssh -i ci_key -l "${REMOTE_ACCT:-jenkins}" "${NODESTRING%%,*}" \
                        "cat >/tmp/commit_list"
-    if [ "${SKIPLIST_MOUNT-x}" != "x" ]; then
+    if [ "${SKIPLIST_MOUNT-:x}" != "x" ]; then
         retry_cmd 600 ssh root@"${NODESTRING%%,*}" "mkdir -p /scratch && " \
-                                                   "mount wolf-2:/export/scratch /scratch"
+                                                   "mount ${SKIPLIST_MOUNT} /scratch"
     fi
 fi
