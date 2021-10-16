@@ -48,6 +48,8 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
     if /sbin/lspci | grep "Non-Volatile memory controller"; then
         if /sbin/lspci | grep "Non-Volatile memory controller: Intel Corporation QEMU NVM Express Controller"; then
             sudo bash -c "set -ex
+ls -l /dev/pmem*
+ndctl list -Nu
 ndctl destroy-namespace -f namespace0.0
 ndctl destroy-namespace -f namespace1.0
 ndctl list -Nu
