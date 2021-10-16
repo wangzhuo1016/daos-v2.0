@@ -24,7 +24,7 @@ stacktrace() {
           echo -e "Called from: \c"
       fi
       echo "$file:$line $func()"
-      ((i++))
+      ((i++)) || true
    done
 }
 

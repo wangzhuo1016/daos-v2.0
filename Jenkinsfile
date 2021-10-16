@@ -1023,7 +1023,6 @@ pipeline {
                         }
                     }
                 } // stage('Scan CentOS 8 RPMs')
-                method code too large */
                 stage('Scan Leap 15 RPMs') {
                     when {
                         beforeAgent true
@@ -1085,6 +1084,7 @@ pipeline {
                         }
                     }
                 } // stage('Fault inection testing')
+                method code too large */
             } // parallel
         } // stage('Test')
         stage('Test Storage Prep') {
