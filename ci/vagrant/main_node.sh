@@ -13,6 +13,8 @@ fi
 case "$1" in
     "start-vagrant")
         mkdir -p ~/.local/share/libvirt/images/ ~/tmp/
+        # remove any previously used pmem backing files
+        rm ~/tmp/nvdimm*
         # The following seems to need to be done or else vagrant fails to start
         sudo virsh net-list --all
         vagrant up || exit 1
