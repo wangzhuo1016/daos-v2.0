@@ -42,6 +42,7 @@ case "$1" in
         NODE_COUNT=${NODE_COUNT}                   \
         OPERATIONS_EMAIL=\"$OPERATIONS_EMAIL\"     \
         NODELIST="$NODESTRING"                     \
+        WITH_VALGRIND=\"$WITH_VALGRIND\"           \
         ci/functional/test_main.sh || exit 1
     ;;
 esac
