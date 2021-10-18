@@ -18,5 +18,5 @@ ssh -i ci_key jenkins@"$NODE" \
      DISTRO=${DISTRO:-}                                                    \
      DAOS_STACK_$(toupper "${DISTRO:-}")_LOCAL_REPO=\"${!DSL_REPO_var:-}\" \
      TEST_TAG=\"${TEST_TAG:-}\"                                            \
-     WITH_VALGRIND=\"$WITH_VALGRIND\"                                      \
+     WITH_VALGRIND=\"${WITH_VALGRIND:-}\"                                  \
      ${PWD}/ci/vagrant/main_node.sh \"$1\"" || exit 1
