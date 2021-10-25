@@ -803,6 +803,7 @@ pipeline {
                     }
                     post {
                         always {
+                            functionalTestPostV2()
                             sh 'ssh -i ci_key jenkins@' + env.NODELIST +
                               ''' "cd $PWD
                                    vagrant destroy -f
