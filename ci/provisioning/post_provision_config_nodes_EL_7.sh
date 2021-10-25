@@ -93,6 +93,7 @@ post_provision_config_nodes() {
     time dnf repolist
     # the group repo is always on the test image
     #add_group_repo
+    # local repo won't be configured on Vagrant test nodes
     add_local_repo
     time dnf repolist
 
