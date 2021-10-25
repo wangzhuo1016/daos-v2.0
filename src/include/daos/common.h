@@ -877,14 +877,14 @@ daos_recx_merge(daos_recx_t *src, daos_recx_t *dst)
 #define DAOS_NVME_MEM_PRIMARY	0
 
 /** Size of (un)expected Mercury buffers */
-#define DAOS_RPC_SIZE  (20480) /* 20KiB */
+#define DAOS_RPC_SIZE  (4096) /* 4KiB */
 /**
  * Threshold for inline vs bulk transfer
  * If the data size is smaller or equal to this limit, it will be transferred
  * inline in the request/reply. Otherwise, a RDMA transfer will be used.
  * Based on RPC size above and reserve 1KiB for RPC fields and cart/HG headers.
  */
-#define DAOS_BULK_LIMIT	(DAOS_RPC_SIZE - 1024) /* Reserve 1KiB for headers */
+#define DAOS_BULK_LIMIT	(DAOS_RPC_SIZE - 512) /* Reserve 0.5KiB for headers */
 
 crt_init_options_t *daos_crt_init_opt_get(bool server, int crt_nr);
 
