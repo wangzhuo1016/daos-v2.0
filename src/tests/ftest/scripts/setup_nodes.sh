@@ -46,16 +46,31 @@ echo \"/var/tmp/core.%e.%t.%p\" > /proc/sys/kernel/core_pattern"
 sudo rm -f /var/tmp/core.*
 if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
     if /sbin/lspci | grep "Non-Volatile memory controller"; then
-        if /sbin/lspci | grep "Non-Volatile memory controller: Intel Corporation QEMU NVM Express Controller"; then
+        if /sbin/lspci | grep -e "Non-Volatile memory controller: Intel Corporation QEMU NVM Express Controller" \
+                              -e "Non-Volatile memory controller: Red Hat, Inc. Device 0010"; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
 ndctl list -Nu
 ndctl destroy-namespace -f namespace0.0
 ndctl destroy-namespace -f namespace1.0
 ndctl list -Nu
-ndctl create-namespace -f
-ndctl create-namespace -f
-ndctl list -Nu"
+created=0
+for x in 0 1; do
+    n=5
+    while (( n-- )); do
+        if ndctl create-namespace -f; then
+            (( created++ ))
+            break
+        else
+            sleep 5
+        fi
+    done
+done
+ndctl list -Nu
+if [ \"\$created\" -lt 2 ]; then
+     echo \"Failed to create namespaces\"
+     exit 1
+fi"
         fi
     else
         if grep /mnt/daos\  /proc/mounts; then
