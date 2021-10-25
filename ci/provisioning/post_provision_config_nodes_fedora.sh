@@ -83,7 +83,7 @@ post_provision_config_nodes() {
     distro_custom
 
     # now make sure everything is fully up-to-date
-    if ! retry_cmd 600 dnf -y upgrade --exclude "$EXCLUDE_UPGRADE"; then
+    if ! retry_cmd 600 dnf --disablerepo=repo.dc.hpdd.intel.com_repository_fedora-\*-x86_64-group_ -y upgrade --exclude "$EXCLUDE_UPGRADE"; then
         dump_repos
         exit 1
     fi
