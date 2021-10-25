@@ -772,7 +772,7 @@ pipeline {
                     steps {
                         provisionNodes NODELIST: env.NODELIST,
                                        node_count: 1,
-                                       distro: 'fedora33',
+                                       distro: 'fedora34',
                                        inst_rpms: 'bridge-utils'
                         sh label: "Set up Vangrant host",
                            script: 'NODE=' + env.NODELIST + ' '                 +
