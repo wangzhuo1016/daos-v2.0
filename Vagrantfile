@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
         #          nfs_udp: false
 
         config.vm.provider :libvirt do |libvirt, override|
-                override.vm.box = "centos/7"
+                override.vm.box = "centos/8"
                 libvirt.cpus = cpu_count
                 libvirt.numa_nodes = []
                 numa_dram_size = dram_size / (cpu_count / cpus_per_numa) * 1024 # K (hence the 1024 multiplier)
@@ -54,11 +54,6 @@ Vagrant.configure("2") do |config|
                         libvirt.numa_nodes.append({:cpus => "#{a}-#{b}", :memory => numa_dram_size})
                 end
         end
-
-        # Increase yum timeout for slow mirrors
-        config.vm.provision "Extend yum mirror timeout",
-                type: "shell",
-                inline: "sed -i -e '/^distroverpkg/atimeout=300' /etc/yum.conf"
 
         # Vagrant (dumbly) adds the host's name to the loopback /etc/hosts
         # entry.  https://github.com/hashicorp/vagrant/issues/7263
@@ -80,17 +75,19 @@ Vagrant.configure("2") do |config|
 for i in all default; do
     echo 1 > /proc/sys/net/ipv6/conf/$i/disable_ipv6
 done
-if ! grep ip_resolve= /etc/yum.conf; then
-    sed -i -e '/^\\[main\\]$/aip_resolve=4' /etc/yum.conf
+if ! grep ip_resolve= /etc/dnf/dnf.conf; then
+    sed -i -e '/^\\[main\\]$/aip_resolve=4' /etc/dnf/dnf.conf
 fi"
 
         # Install needed packages for daos
         config.vm.provision "Install epel-release", type: "shell",
-                            inline: "yum -y install epel-release"
+                            inline: "dnf -y install epel-release"
+        config.vm.provision "Enable PowerTools repo", type: "shell",
+                            inline: "dnf config-manager --set-enabled powertools"
         config.vm.provision "Install basic packages 1", \
                             type: "shell",              \
-                            inline: "yum -y install librdmacm libcmocka ed \
-                                     python-clustershell python3-pip strace"
+                            inline: "dnf -y install librdmacm libcmocka ed \
+                                     python3-clustershell python3-pip strace"
 
         # Allow cluster hosts to ssh to each other
         if not(File.exist?("id_rsa"))
@@ -186,7 +183,7 @@ SELINUX=disabled
 SELINUXTYPE=targeted
 __EOF"
                         config.vm.provision "Allow ssh passwords", type: "shell", inline: "sed -i -e '/PasswordAuthentication no/s/no/yes/' /etc/ssh/sshd_config"
-                        config.vm.provision "Install basic tools", type: "shell", inline: "yum -y install time"
+                        config.vm.provision "Install basic tools", type: "shell", inline: "dnf -y install time"
                 end
         end
 

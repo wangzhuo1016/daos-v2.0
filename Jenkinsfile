@@ -761,7 +761,7 @@ pipeline {
                 expression { ! skipStage() }
             }
             parallel {
-                stage('Test on CentOS 7 [in] Vagrant'){
+                stage('Test on CentOS 8 [in] Vagrant'){
                     when {
                         beforeAgent true
                         expression { ! skipStage() }
@@ -780,16 +780,16 @@ pipeline {
                                    'ci/vagrant/node_setup.sh'
                         sh label: "Start Vagrant cluster",
                            script: 'NODE=' + env.NODELIST + ' '       +
-                                   'DISTRO="EL_7" '                   +
+                                   'DISTRO="EL_8" '                   +
                                    'ci/vagrant/main.sh start-vagrant'
                         sh label: "Get Vagrant status",
                            script: 'NODE=' + env.NODELIST + ' '       +
                                    'ci/vagrant/main.sh vagrant-status'
                         sh label: "Configure Vagrant nodes",
                            script: 'NODE=' + env.NODELIST + ' '                            +
-                                   'DISTRO="EL_7" '                                        +
+                                   'DISTRO="EL_8" '                                        +
                                    'NODESTRING="vm1,vm2,vm3" '                             +
-                                   'INST_REPOS="' + daosRepos('centos7') + '" '            +
+                                   'INST_REPOS="' + daosRepos('centos8') + '" '            +
                                    'INST_RPMS="' + functionalPackages(1,
                                                                       next_version) + '" ' +
                                    'ci/vagrant/main.sh config-vagrant-nodes'
