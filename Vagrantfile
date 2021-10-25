@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
         # world complexity levels
         config.vm.provision "Fix /etc/hosts",
                 type: "shell",
-                inline: "sed -i -e \"/^127.0.0.1/s/\$HOSTNAME//g\" -e '/^127.0.0.1[         ]*$/d' /etc/hosts"
+                inline: "sed -i -e \"/^127\.[0-9\.]*[    ]*\$HOSTNAME[$         ]*/d\" /etc/hosts"
 
         # Verbose booting
         config.vm.provision "Fix grub", type: "shell",
