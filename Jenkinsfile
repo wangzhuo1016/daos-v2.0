@@ -12,7 +12,7 @@
 
 // To use a test branch (i.e. PR) until it lands to master
 // I.e. for testing library changes
-@Library(value="pipeline-lib@bmurrell/vagrant-cluster") _
+//@Library(value="pipeline-lib@your_branch") _
 
 // For master, this is just some wildly high number
 next_version = "1000"
@@ -803,8 +803,10 @@ pipeline {
                     }
                     post {
                         always {
-                            functionalTestPostV2 NODELIST: 'vm1,vm2,vm3',
-                                                 remote_acct: 'vagrant'
+                            sh 'ssh -i ci_key jenkins@' + env.NODELIST +
+                              ''' "ssh -v -i ci_key -l vagrant vm1 tar -C /var/tmp/ -czf - ftest |
+                                           tar -C /var/tmp -xvzf -" || true'''
+                            functionalTestPostV2
                             sh 'ssh -i ci_key jenkins@' + env.NODELIST +
                               ''' "cd $PWD
                                    vagrant destroy -f
