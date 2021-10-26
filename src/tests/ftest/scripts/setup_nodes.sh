@@ -52,25 +52,30 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
 ndctl list -Nu
-ndctl destroy-namespace -f namespace0.0
-ndctl destroy-namespace -f namespace1.0
-ndctl list -Nu
-created=0
+modified=0
 for x in 0 1; do
-    n=5
-    while (( n-- )); do
+    ndctl create-namespace -e namespace\${x}.0 -m fsdax -f
+    (( modified++ )) || true
+done
+ndctl list -Nu
+if [ \"\$modified\" -lt 2 ]; then
+    echo \"Failed to modify namespaces, trying to recreate them...\"
+    for x in 0 1; do
+        ndctl destroy-namespace -f namespace\${x}.0
+    done
+    ndctl list -Nu
+    created=0
+    for x in 0 1; do
         if ndctl create-namespace -f; then
             (( created++ )) || true
             break
-        else
-            sleep 5
         fi
     done
-done
-ndctl list -Nu
-if [ \"\$created\" -lt 2 ]; then
-     echo \"Failed to create namespaces\"
-     exit 1
+    ndctl list -Nu
+    if [ \"\$created\" -lt 2 ]; then
+         echo \"Failed to create namespaces\"
+         exit 1
+    fi
 fi"
         fi
     else
