@@ -803,17 +803,19 @@ pipeline {
                     }
                     post {
                         always {
-                            sh 'ssh -i ci_key jenkins@' + env.NODELIST +
-                              ''' "ssh -v -i ci_key -l vagrant vm1 tar -C /var/tmp/ -czf - ftest |
-                                           tar -C /var/tmp -xvzf -" || true'''
-                            functionalTestPostV2
-                            sh 'ssh -i ci_key jenkins@' + env.NODELIST +
-                              ''' "cd $PWD
-                                   vagrant destroy -f
-                                   if grep \\"Host vm1\\" ~/.ssh/config; then
-                                       echo \\"vagrant destroy did not clean up .ssh/config\\"
-                                       exit 1
-                                   fi"'''
+                            sh label: 'Copy test artifacts from VM',
+                               script: 'ssh -i ci_key jenkins@' + env.NODELIST +
+                                        ''' "ssh -v -i ci_key -l vagrant vm1 tar -C /var/tmp/ -czf - ftest |
+                                             tar -C /var/tmp -xvzf -" || true'''
+                            functionalTestPostV2()
+                            sh label: 'Shut down Vagrant cluster',
+                               script: 'ssh -i ci_key jenkins@' + env.NODELIST +
+                                      ''' "cd $PWD
+                                           vagrant destroy -f
+                                           if grep \\"Host vm1\\" ~/.ssh/config; then
+                                               echo \\"vagrant destroy did not clean up .ssh/config\\"
+                                               exit 1
+                                           fi"'''
                         }
                         unsuccessful {
                             sh 'ssh -i ci_key jenkins@' + env.NODELIST +
