@@ -47,6 +47,7 @@ sudo rm -f /var/tmp/core.*
 if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
     if /sbin/lspci | grep "Non-Volatile memory controller"; then
         if /sbin/lspci | grep -e "Non-Volatile memory controller: Intel Corporation QEMU NVM Express Controller" \
+                              -e "Non-Volatile memory controller: Red Hat, Inc. QEMU NVM Express Controller"     \
                               -e "Non-Volatile memory controller: Red Hat, Inc. Device 0010"; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
