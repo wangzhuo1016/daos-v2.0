@@ -52,6 +52,8 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
 ndctl list -Nu
+ndctl disable-region all && ndctl init-labels -f all && ndctl enable-region
+ndctl list -Nu
 modified=0
 for x in 0 1; do
     if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
@@ -74,7 +76,6 @@ if [ \"\$modified\" -lt 2 ]; then
     for x in 0 1; do
         if ndctl create-namespace -f; then
             (( created++ )) || true
-            break
         fi
     done
     ndctl list -Nu
