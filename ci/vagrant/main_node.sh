@@ -41,11 +41,11 @@ case "$1" in
     ;;
     "run-tests")
         REMOTE_ACCT="${REMOTE_ACCT:-vagrant}" \
-        STAGE_NAME="${STAGE_NAME}"            \
-        TEST_TAG="${TEST_TAG:-basic}"         \
+        STAGE_NAME="$STAGE_NAME"              \
+        TEST_TAG="$TEST_TAG:-basic"           \
         FTEST_ARG=auto                        \
         PRAGMA_SUFFIX=-vm                     \
-        NODE_COUNT="${NODE_COUNT}"            \
+        NODE_COUNT="$NODE_COUNT"              \
         OPERATIONS_EMAIL="$OPERATIONS_EMAIL"  \
         NODELIST="$NODESTRING"                \
         WITH_VALGRIND="$WITH_VALGRIND"        \
