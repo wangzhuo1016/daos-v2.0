@@ -804,9 +804,10 @@ pipeline {
                     post {
                         always {
                             sh label: 'Copy test artifacts from VM',
-                               script: 'ssh -i ci_key jenkins@' + env.NODELIST +
+                               script: 'ssh jenkins@' + env.NODELIST +
                                         ''' "ssh -v -i ci_key -l vagrant vm1 tar -C /var/tmp/ -czf - ftest |
                                              tar -C /var/tmp -xvzf -" || true'''
+                            fileOperations([folderCreateOperation(env.STAGE_NAME)])
                             functionalTestPostV2()
                             sh label: 'Shut down Vagrant cluster',
                                script: 'ssh -i ci_key jenkins@' + env.NODELIST +
