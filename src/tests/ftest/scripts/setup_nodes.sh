@@ -52,7 +52,9 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
 ndctl list -Nu
-ndctl disable-region all && ndctl init-labels -f all && ndctl enable-region
+ndctl disable-region all || true
+ndctl init-labels -f all || true
+ndctl enable-region all || true
 ndctl list -Nu
 modified=0
 for x in 0 1; do
