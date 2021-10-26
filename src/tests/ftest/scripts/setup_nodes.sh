@@ -60,7 +60,7 @@ for x in 0 1; do
     n=5
     while (( n-- )); do
         if ndctl create-namespace -f; then
-            (( created++ ))
+            (( created++ )) || true
             break
         else
             sleep 5
