@@ -54,14 +54,20 @@ ls -l /dev/pmem*
 ndctl list -Nu
 modified=0
 for x in 0 1; do
-    ndctl create-namespace -e namespace\${x}.0 -m fsdax -f
-    (( modified++ )) || true
+    if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
+        echo \"Failed to modify namespace\"
+    else
+        (( modified++ )) || true
+    fi
 done
 ndctl list -Nu
 if [ \"\$modified\" -lt 2 ]; then
     echo \"Failed to modify namespaces, trying to recreate them...\"
     for x in 0 1; do
-        ndctl destroy-namespace -f namespace\${x}.0
+        if ! ndctl destroy-namespace -f namespace\${x}.0; then
+            echo \"Failed to destroy namespaces\"
+            exit 1
+        fi
     done
     ndctl list -Nu
     created=0
@@ -73,8 +79,8 @@ if [ \"\$modified\" -lt 2 ]; then
     done
     ndctl list -Nu
     if [ \"\$created\" -lt 2 ]; then
-         echo \"Failed to create namespaces\"
-         exit 1
+        echo \"Failed to create namespaces\"
+        exit 1
     fi
 fi"
         fi
