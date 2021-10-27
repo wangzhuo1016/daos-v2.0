@@ -50,6 +50,13 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
                               -e "Non-Volatile memory controller: Red Hat, Inc. QEMU NVM Express Controller"     \
                               -e "Non-Volatile memory controller: Red Hat, Inc. Device 0010"; then
             sudo bash -c "set -ex
+# VMs don't have IOMMU (except https://wiki.qemu.org/Features/VT-d)
+cat <<EOF > /etc/systemd/system/daos_server.service.d/override.conf
+[Service]
+User=root
+Group=root
+EOF
+
 ls -l /dev/pmem*
 ndctl list --regions
 ndctl list -Nu
