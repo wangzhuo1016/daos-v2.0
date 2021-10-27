@@ -793,6 +793,13 @@ pipeline {
                                    'INST_RPMS="' + functionalPackages(1,
                                                                       next_version) + '" ' +
                                    'ci/vagrant/main.sh config-vagrant-nodes'
+                        sh label: "Install Launchable",
+                           script: "pip3 install --user --upgrade launchable~=1.0"
+                        withCredentials([string(credentialsId: 'launchable-test', variable: 'LAUNCHABLE_TOKEN')]) {
+                            sh label: "Send build data",
+                               script: """export PATH=$PATH:$HOME/.local/bin
+                                          launchable record build --name $BUILD_TAG --source src=."""
+                        }
                         sh label: "Run tests on Vagrant nodes",
                            script: 'NODE=' + env.NODELIST + ' '                        +
                                    'TEST_TAG="' + commitPragma("Test-tag-vagrant",
