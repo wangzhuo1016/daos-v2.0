@@ -511,109 +511,6 @@ pipeline {
                         }
                     }
                 }
-                stage('Build on CentOS 7 debug') {
-                    when {
-                        beforeAgent true
-                        expression { ! skipStage() }
-                    }
-                    agent {
-                        dockerfile {
-                            filename 'utils/docker/Dockerfile.centos.7'
-                            label 'docker_runner'
-                            additionalBuildArgs dockerBuildArgs(repo_type: 'stable',
-                                                                qb: quickBuild(),
-                                                                deps_build: true) +
-                                                " -t ${sanitized_JOB_NAME}-centos7 " +
-                                                ' --build-arg QUICKBUILD_DEPS="' +
-                                                quickBuildDeps('centos7') + '"' +
-                                                ' --build-arg REPOS="' + prRepos() + '"'
-                        }
-                    }
-                    steps {
-                        sconsBuild parallel_build: parallelBuild(),
-                                   scons_exe: 'scons-3',
-                                   scons_args: "PREFIX=/opt/daos TARGET_TYPE=release",
-                                   build_deps: "no"
-                    }
-                    post {
-                        unsuccessful {
-                            sh """if [ -f config.log ]; then
-                                      mv config.log config.log-centos7-gcc-debug
-                                  fi"""
-                            archiveArtifacts artifacts: 'config.log-centos7-gcc-debug',
-                                             allowEmptyArchive: true
-                        }
-                    }
-                }
-                stage('Build on CentOS 7 release') {
-                    when {
-                        beforeAgent true
-                        expression { ! skipStage() }
-                    }
-                    agent {
-                        dockerfile {
-                            filename 'utils/docker/Dockerfile.centos.7'
-                            label 'docker_runner'
-                            additionalBuildArgs dockerBuildArgs(repo_type: 'stable',
-                                                                qb: quickBuild(),
-                                                                deps_build: true) +
-                                                " -t ${sanitized_JOB_NAME}-centos7 " +
-                                                ' --build-arg QUICKBUILD_DEPS="' +
-                                                quickBuildDeps('centos7') + '"' +
-                                                ' --build-arg REPOS="' + prRepos() + '"'
-                            args '--tmpfs /mnt/daos_0'
-                        }
-                    }
-                    steps {
-                        sconsBuild parallel_build: parallelBuild(),
-                                   scons_exe: 'scons-3',
-                                   scons_args: "PREFIX=/opt/daos TARGET_TYPE=release",
-                                   build_deps: "no"
-                    }
-                    post {
-                        unsuccessful {
-                            sh """if [ -f config.log ]; then
-                                      mv config.log config.log-centos7-gcc-release
-                                  fi"""
-                            archiveArtifacts artifacts: 'config.log-centos7-gcc-release',
-                                             allowEmptyArchive: true
-                        }
-                    }
-                }
-                stage('Build on CentOS 7 with Clang debug') {
-                    when {
-                        beforeAgent true
-                        expression { ! skipStage() }
-                    }
-                    agent {
-                        dockerfile {
-                            filename 'utils/docker/Dockerfile.centos.7'
-                            label 'docker_runner'
-                            additionalBuildArgs dockerBuildArgs(repo_type: 'stable',
-                                                                qb: quickBuild(),
-                                                                deps_build: true) +
-                                                " -t ${sanitized_JOB_NAME}-centos7 " +
-                                                ' --build-arg QUICKBUILD_DEPS="' +
-                                                quickBuildDeps('centos7') + '"' +
-                                                ' --build-arg REPOS="' + prRepos() + '"'
-                        }
-                    }
-                    steps {
-                        sconsBuild parallel_build: parallelBuild(),
-                                   scons_exe: 'scons-3',
-                                   scons_args: "PREFIX=/opt/daos TARGET_TYPE=release",
-                                   build_deps: "no"
-                    }
-                    post {
-                        unsuccessful {
-                            sh """if [ -f config.log ]; then
-                                      mv config.log config.log-centos7-clang-debug
-                                  fi"""
-                            archiveArtifacts artifacts: 'config.log-centos7-clang-debug',
-                                             allowEmptyArchive: true
-                        }
-                    }
-                }
                 stage('Build on Leap 15 with Intel-C and TARGET_PREFIX') {
                     when {
                         beforeAgent true
@@ -988,7 +885,7 @@ pipeline {
                                 daos_pkg_version: daosPackagesVersion("centos8", next_version)
                    }
                 } // stage('Test CentOS 7 RPMs')
-                stage('Test Leap 15 RPMs') {
+                stage('Test Leap 15.2 RPMs') {
                     when {
                         beforeAgent true
                         expression { ! skipStage() }
@@ -998,6 +895,7 @@ pipeline {
                     }
                     steps {
                         testRpm inst_repos: daosRepos(),
+                                target: 'leap15.2',
                                 daos_pkg_version: daosPackagesVersion(next_version)
                    }
                 } // stage('Test Leap 15 RPMs')
