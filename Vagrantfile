@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
         pmem_size = 32 # G
         cpu_count = 8
         cpus_per_numa = 4
-        dram_size = 16 # G
+        dram_size = 20 # G
 
         # disable the default shared folder
         config.vm.synced_folder ".", "/vagrant", disabled: true
