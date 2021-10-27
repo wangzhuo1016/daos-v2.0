@@ -19,8 +19,6 @@ case "$1" in
         fi
         # The following seems to need to be done or else vagrant fails to start
         sudo virsh net-list --all
-        #vagrant version; vagrant plugin list
-        #VAGRANT_LOG=debug vagrant up --provider=libvirt
         vagrant up || exit 1
     ;;
     "vagrant-status")

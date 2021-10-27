@@ -885,7 +885,7 @@ pipeline {
                                 daos_pkg_version: daosPackagesVersion("centos8", next_version)
                    }
                 } // stage('Test CentOS 7 RPMs')
-                stage('Test Leap 15.2 RPMs') {
+                stage('Test Leap 15 RPMs') {
                     when {
                         beforeAgent true
                         expression { ! skipStage() }
@@ -895,7 +895,6 @@ pipeline {
                     }
                     steps {
                         testRpm inst_repos: daosRepos(),
-                                target: 'leap15.2',
                                 daos_pkg_version: daosPackagesVersion(next_version)
                    }
                 } // stage('Test Leap 15 RPMs')
