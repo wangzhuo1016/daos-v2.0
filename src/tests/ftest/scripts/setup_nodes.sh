@@ -51,6 +51,7 @@ if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
                               -e "Non-Volatile memory controller: Red Hat, Inc. Device 0010"; then
             sudo bash -c "set -ex
 ls -l /dev/pmem*
+ndctl list --regions
 ndctl list -Nu
 ndctl disable-region all || true
 ndctl init-labels -f all || true

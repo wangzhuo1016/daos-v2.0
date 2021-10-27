@@ -9,8 +9,9 @@ if $TEST_RPMS; then
     mkdir -p install/lib/daos/TESTING/
     first_node=${NODELIST%%,*}
     # scp doesn't copy symlinks, it resolves them
-    ssh -v -i ci_key -l "${REMOTE_ACCT:-jenkins}" "${first_node}" tar -C /var/tmp/ -czf - ftest |
-        tar -C install/lib/daos/TESTING/ -xvzf - || true
+    ssh -i ci_key -l "${REMOTE_ACCT:-jenkins}" "${first_node}" \
+        tar -C /var/tmp/ -czf - ftest |
+        tar -C install/lib/daos/TESTING/ -xzf -
 fi
 
 rm -rf install/lib/daos/TESTING/ftest/avocado/job-results/*/*/html/
