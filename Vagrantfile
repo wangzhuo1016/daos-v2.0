@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
         #          nfs_udp: false
 
         config.vm.provider :libvirt do |libvirt, override|
-                override.vm.box = "centos/8"
+                override.vm.box = "centos/7"
                 libvirt.cpus = cpu_count
                 libvirt.numa_nodes = []
                 numa_dram_size = dram_size / (cpu_count / cpus_per_numa) * 1024 # K (hence the 1024 multiplier)

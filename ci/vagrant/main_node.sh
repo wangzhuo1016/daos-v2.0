@@ -25,6 +25,7 @@ case "$1" in
         vagrant status || exit 1
     ;;
     "config-vagrant-nodes")
+        DAOS_STACK_EL_7_LOCAL_REPO="${!DSL_REPO_var}" \
         DAOS_STACK_EL_8_LOCAL_REPO="${!DSL_REPO_var}" \
         REPOSITORY_URL="$REPOSITORY_URL"              \
         JENKINS_URL="$JENKINS_URL"                    \
