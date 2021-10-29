@@ -58,30 +58,7 @@ User=root
 Group=root
 EOF
 
-ls -l /dev/pmem*
-ndctl list --regions
-ndctl list -Nu
-ndctl disable-region all || true
-ndctl init-labels -f all || true
-ndctl enable-region all || true
-ndctl list -Nu || true
-modified=0
-ndctl list -i || true
-for x in 0 1; do
-    if ! ndctl create-namespace; then
-        echo \"Failed to create namespace\"
-        if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
-            echo \"Failed to modify namespace\"
-        else
-            (( modified++ )) || true
-        fi
-    else
-        (( modified++ )) || true
-    fi
-done
-ndctl list -Nu || true
-if [ \"\$modified\" -lt 2 ]; then
-    echo \"Failed to modify namespaces, trying to recreate them...\"
+create_namespaces() {
     for x in 0 1; do
         if ! ndctl destroy-namespace -f namespace\${x}.0; then
             echo \"Failed to destroy namespaces\"
@@ -96,6 +73,43 @@ if [ \"\$modified\" -lt 2 ]; then
         fi
     done
     ndctl list -Nu || true
+
+    echo $\created
+}
+
+ls -l /dev/pmem*
+ndctl list --regions
+ndctl list -Nu
+ndctl disable-region all || true
+ndctl init-labels -f all || true
+ndctl enable-region all || true
+ndctl list -Nu || true
+modified=0
+ndctl list -Ni || true
+if [[ $(lsb_release -s -r) = 8.* ]]; then
+    for x in 0 1; do
+        if ! ndctl create-namespace; then
+            echo \"Failed to create namespace\"
+            if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
+                echo \"Failed to modify namespace\"
+            else
+                (( modified++ )) || true
+            fi
+        else
+            (( modified++ )) || true
+        fi
+    done
+    ndctl list -Nu || true
+    if [ \"\$modified\" -lt 2 ]; then
+        echo \"Failed to modify namespaces, trying to recreate them...\"
+        created=\$(create_namespaces)
+        if [ \"\$created\" -lt 2 ]; then
+            echo \"Failed to create namespaces\"
+            exit 1
+        fi
+    fi
+else
+    created=\$(create_namespaces)
     if [ \"\$created\" -lt 2 ]; then
         echo \"Failed to create namespaces\"
         exit 1
