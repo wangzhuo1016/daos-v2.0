@@ -41,7 +41,7 @@ case "$1" in
         REMOTE_ACCT="${REMOTE_ACCT:-vagrant}" \
         STAGE_NAME="$STAGE_NAME"              \
         TEST_TAG="$TEST_TAG:-basic"           \
-        FTEST_ARG=auto                        \
+        FTEST_ARG=--nvme:auto                 \
         PRAGMA_SUFFIX=-vm                     \
         NODE_COUNT="$NODE_COUNT"              \
         OPERATIONS_EMAIL="$OPERATIONS_EMAIL"  \
