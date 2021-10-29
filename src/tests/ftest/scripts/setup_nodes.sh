@@ -66,9 +66,9 @@ ndctl init-labels -f all || true
 ndctl enable-region all || true
 ndctl list -Nu || true
 modified=0
+ndctl list -i || true
 for x in 0 1; do
-    ndctl list -i namespace\${x}.0 || true
-    if ! ndctl create-namespace namespace\${x}.0; then
+    if ! ndctl create-namespace; then
         echo \"Failed to create namespace\"
         if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
             echo \"Failed to modify namespace\"
