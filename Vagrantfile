@@ -87,9 +87,10 @@ fi"
         # Install needed packages for daos
         config.vm.provision "Install epel-release and redhat-lsb-core", type: "shell",
                             inline: "$(which dnf 2>/dev/null || which yum) -y install epel-release redhat-lsb-core"
-        config.vm.provision "Enable PowerTools repo", type: "shell",
-                            inline: "[[ $(lsb_release -s -r) = 8.* ]] &&
-                                     dnf config-manager --set-enabled powertools"
+        config.vm.provision "Enable PowerTools repo (if EL8)", type: "shell",
+                            inline: "if [[ $(lsb_release -s -r) = 8.* ]]; then
+                                         dnf config-manager --set-enabled powertools
+                                     fi"
         config.vm.provision "Install basic packages 1", \
                             type: "shell",              \
                             inline: "[[ $(lsb_release -s -r) = 8.* ]] && py=3
