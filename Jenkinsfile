@@ -679,9 +679,9 @@ pipeline {
                                    'NFS_SERVER=${NFS_SERVER:-${HOSTNAME%%.*}} ' +
                                    'ci/vagrant/node_setup.sh'
                         sh label: "Start Vagrant cluster",
-                           script: 'NODE=' + env.NODELIST + ' '                                                      +
-                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\\(.*\)"/\\1/p\' Vagrantfile) ' +
-                                   'DISTRO="EL_$EL" '                                                                +
+                           script: 'NODE=' + env.NODELIST + ' '                                                       +
+                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\\(.*\\)"/\\1/p\' Vagrantfile) ' +
+                                   'DISTRO="EL_$EL" '                                                                 +
                                    'ci/vagrant/main.sh start-vagrant'
                         sh label: "Get Vagrant status",
                            script: 'NODE=' + env.NODELIST + ' '       +
