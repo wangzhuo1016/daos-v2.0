@@ -658,7 +658,7 @@ pipeline {
                 expression { ! skipStage() }
             }
             parallel {
-                stage('Test on CentOS 8 [in] Vagrant'){
+                stage('Test on CentOS 7 [in] Vagrant'){
                     when {
                         beforeAgent true
                         expression { ! skipStage() }
@@ -691,7 +691,7 @@ pipeline {
                                    'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\\(.*\\)"/\\1/p\' Vagrantfile) ' +
                                    'DISTRO="EL_$EL" '                                                                 +
                                    'NODESTRING="vm1,vm2,vm3" '                                                        +
-                                   'INST_REPOS="' + daosRepos('centos8') + '" '                                       +
+                                   'INST_REPOS="' + daosRepos('centos7') + '" '                                       +
                                    'INST_RPMS="' + functionalPackages(1,
                                                                       next_version) + '" '                            +
                                    'ci/vagrant/main.sh config-vagrant-nodes'
