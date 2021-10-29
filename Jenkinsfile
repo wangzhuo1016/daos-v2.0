@@ -668,7 +668,7 @@ pipeline {
                     }
                     steps {
                         sh label: "Test syntax to get centos version",
-                           script: 'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\/\(.*\)"/\1/p\' Vagrantfile) ' +
+                           script: 'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\(.*\)"/\1/p\' Vagrantfile) ' +
                                    'DISTRO="EL_$EL" true'
                         provisionNodes NODELIST: env.NODELIST,
                                        node_count: 1,
@@ -680,7 +680,7 @@ pipeline {
                                    'ci/vagrant/node_setup.sh'
                         sh label: "Start Vagrant cluster",
                            script: 'NODE=' + env.NODELIST + ' '                                                   +
-                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\/\(.*\)"/\1/p\' Vagrantfile) ' +
+                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\(.*\)"/\1/p\' Vagrantfile) ' +
                                    'DISTRO="EL_$EL" '                                                             +
                                    'ci/vagrant/main.sh start-vagrant'
                         sh label: "Get Vagrant status",
@@ -688,7 +688,7 @@ pipeline {
                                    'ci/vagrant/main.sh vagrant-status'
                         sh label: "Configure Vagrant nodes",
                            script: 'NODE=' + env.NODELIST + ' '                                                   +
-                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\/\(.*\)"/\1/p\' Vagrantfile) ' +
+                                   'EL=$(sed -ne \'s/ *override.vm.box *= *"centos\\/\(.*\)"/\1/p\' Vagrantfile) ' +
                                    'DISTRO="EL_$EL" '                                                             +
                                    'NODESTRING="vm1,vm2,vm3" '                                                    +
                                    'INST_REPOS="' + daosRepos('centos8') + '" '                                   +
