@@ -2327,7 +2327,7 @@ def main():
         "\tExample command: launch.py -s pool"
     ]
     parser = ArgumentParser(
-        prog="launcher.py",
+        prog="launch.py",
         formatter_class=RawDescriptionHelpFormatter,
         description="\n".join(description))
     parser.add_argument(

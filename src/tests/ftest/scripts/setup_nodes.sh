@@ -64,16 +64,22 @@ ndctl list -Nu
 ndctl disable-region all || true
 ndctl init-labels -f all || true
 ndctl enable-region all || true
-ndctl list -Nu
+ndctl list -Nu || true
 modified=0
 for x in 0 1; do
-    if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
-        echo \"Failed to modify namespace\"
+    ndctl list -i namespace\${x}.0 || true
+    if ! ndctl create-namespace namespace\${x}.0; then
+        echo \"Failed to create namespace\"
+        if ! ndctl create-namespace -e namespace\${x}.0 -m fsdax -f; then
+            echo \"Failed to modify namespace\"
+        else
+            (( modified++ )) || true
+        fi
     else
         (( modified++ )) || true
     fi
 done
-ndctl list -Nu
+ndctl list -Nu || true
 if [ \"\$modified\" -lt 2 ]; then
     echo \"Failed to modify namespaces, trying to recreate them...\"
     for x in 0 1; do
@@ -82,14 +88,14 @@ if [ \"\$modified\" -lt 2 ]; then
             exit 1
         fi
     done
-    ndctl list -Nu
+    ndctl list -Nu || true
     created=0
     for x in 0 1; do
         if ndctl create-namespace -f; then
             (( created++ )) || true
         fi
     done
-    ndctl list -Nu
+    ndctl list -Nu || true
     if [ \"\$created\" -lt 2 ]; then
         echo \"Failed to create namespaces\"
         exit 1
