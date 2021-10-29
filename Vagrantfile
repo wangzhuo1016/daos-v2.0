@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
         pmem_size = 32 # G
         cpu_count = 8
         cpus_per_numa = 4
-        dram_size = 20 # G
+        dram_size = 16 # G
 
         # disable the default shared folder
         config.vm.synced_folder ".", "/vagrant", disabled: true
@@ -75,19 +75,26 @@ Vagrant.configure("2") do |config|
 for i in all default; do
     echo 1 > /proc/sys/net/ipv6/conf/$i/disable_ipv6
 done
-if ! grep ip_resolve= /etc/dnf/dnf.conf; then
-    sed -i -e '/^\\[main\\]$/aip_resolve=4' /etc/dnf/dnf.conf
+if [ -f /etc/dnf/dnf.conf ]; then
+    conf_file=/etc/dnf/dnf.conf
+else
+    conf_file=/etc/yum.conf
+fi
+if ! grep ip_resolve= $conf_file; then
+    sed -i -e '/^\\[main\\]$/aip_resolve=4' $conf_file
 fi"
 
         # Install needed packages for daos
-        config.vm.provision "Install epel-release", type: "shell",
-                            inline: "dnf -y install epel-release"
+        config.vm.provision "Install epel-release and redhat-lsb-core", type: "shell",
+                            inline: "$(which dnf 2>/dev/null || which yum) -y install epel-release redhat-lsb-core"
         config.vm.provision "Enable PowerTools repo", type: "shell",
-                            inline: "dnf config-manager --set-enabled powertools"
+                            inline: "[[ $(lsb_release -s -r) = 8.* ]] &&
+                                     dnf config-manager --set-enabled powertools"
         config.vm.provision "Install basic packages 1", \
                             type: "shell",              \
-                            inline: "dnf -y install librdmacm libcmocka ed \
-                                     python3-clustershell python3-pip strace"
+                            inline: "[[ $(lsb_release -s -r) = 8.* ]] && py=3
+                                     $(which dnf 2>/dev/null || which yum) -y install librdmacm libcmocka ed \
+                                     python$py-clustershell python3-pip strace"
 
         # Allow cluster hosts to ssh to each other
         if not(File.exist?("id_rsa"))
@@ -183,7 +190,7 @@ SELINUX=disabled
 SELINUXTYPE=targeted
 __EOF"
                         config.vm.provision "Allow ssh passwords", type: "shell", inline: "sed -i -e '/PasswordAuthentication no/s/no/yes/' /etc/ssh/sshd_config"
-                        config.vm.provision "Install basic tools", type: "shell", inline: "dnf -y install time"
+                        config.vm.provision "Install basic tools", type: "shell", inline: "$(which dnf 2>/dev/null || which yum) -y install time"
                 end
         end
 
