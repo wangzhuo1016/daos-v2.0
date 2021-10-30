@@ -25,17 +25,18 @@ case "$1" in
         vagrant status || exit 1
     ;;
     "config-vagrant-nodes")
-        DAOS_STACK_EL_7_LOCAL_REPO="${!DSL_REPO_var}" \
-        DAOS_STACK_EL_8_LOCAL_REPO="${!DSL_REPO_var}" \
-        REPOSITORY_URL="$REPOSITORY_URL"              \
-        JENKINS_URL="$JENKINS_URL"                    \
-        INST_REPOS="$INST_REPOS"                      \
-        INST_RPMS="$INST_RPMS"                        \
-        GPG_KEY_URLS=""                               \
-        CONFIG_POWER_ONLY=false                       \
-        DISTRO=EL_8                                   \
-        NODESTRING="$NODESTRING"                      \
-        FOR_DAOS=true                                 \
+        DAOS_STACK_EL_7_LOCAL_REPO="${!DSL_REPO_var}"                     \
+        DAOS_STACK_EL_8_LOCAL_REPO="${!DSL_REPO_var}"                     \
+        DAOS_STACK_$(toupper "${DISTRO:-}")_LOCAL_REPO="${!DSL_REPO_var}" \
+        REPOSITORY_URL="$REPOSITORY_URL"                                  \
+        JENKINS_URL="$JENKINS_URL"                                        \
+        INST_REPOS="$INST_REPOS"                                          \
+        INST_RPMS="$INST_RPMS"                                            \
+        GPG_KEY_URLS=""                                                   \
+        CONFIG_POWER_ONLY=false                                           \
+        DISTRO="$DISTRO"                                                  \
+        NODESTRING="$NODESTRING"                                          \
+        FOR_DAOS=true                                                     \
         ci/provisioning/post_provision_config.sh || exit 1
     ;;
     "run-tests")
