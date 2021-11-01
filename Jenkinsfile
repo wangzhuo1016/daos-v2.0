@@ -718,14 +718,6 @@ pipeline {
                                              tar -C /var/tmp -xvzf -" || true'''
                             fileOperations([folderCreateOperation(env.STAGE_NAME)])
                             functionalTestPostV2()
-                            sh label: 'Shut down Vagrant cluster',
-                               script: 'ssh -i ci_key jenkins@' + env.NODELIST +
-                                      ''' "cd $PWD
-                                           vagrant destroy -f
-                                           if grep \\"Host vm1\\" ~/.ssh/config; then
-                                               echo \\"vagrant destroy did not clean up .ssh/config\\"
-                                               exit 1
-                                           fi"'''
                         }
                         unsuccessful {
                             sh 'ssh -i ci_key jenkins@' + env.NODELIST +
