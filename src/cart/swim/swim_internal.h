@@ -19,8 +19,8 @@
 #include <string.h>
 #include <sys/queue.h>
 #include <errno.h>
-#include <time.h>
 
+#include <cart/api.h>
 #include <cart/swim.h>
 #include <gurt/debug.h>
 #include <gurt/common.h>
@@ -100,7 +100,6 @@ struct swim_context {
 
 	uint64_t		 sc_default_ping_timeout;
 	uint64_t		 sc_expect_progress_time;
-	uint64_t		 sc_last_success_time;
 	uint64_t		 sc_next_tick_time;
 	uint64_t		 sc_next_event;
 	uint64_t		 sc_deadline;
@@ -132,17 +131,6 @@ swim_ctx_unlock(struct swim_context *ctx)
 		SWIM_ERROR("SWIM_MUTEX_UNLOCK() failed rc=%d\n", rc);
 
 	return rc;
-}
-
-static inline uint64_t
-swim_now_ms(void)
-{
-	struct timespec now;
-	int rc;
-
-	rc = clock_gettime(CLOCK_MONOTONIC, &now);
-
-	return rc ? 0 : now.tv_sec * 1000 + now.tv_nsec / 1000000;
 }
 
 static inline enum swim_context_state

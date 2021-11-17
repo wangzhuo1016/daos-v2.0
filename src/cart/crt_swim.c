@@ -332,7 +332,6 @@ static void crt_swim_cli_cb(const struct crt_cb_info *cb_info)
 	swim_id_t		 self_id = swim_self_get(ctx);
 	swim_id_t		 from_id;
 	swim_id_t		 to_id = rpc->cr_ep.ep_rank;
-	uint64_t		 now;
 	int			 reply_rc;
 	int			 rc;
 
@@ -358,31 +357,36 @@ static void crt_swim_cli_cb(const struct crt_cb_info *cb_info)
 		      rpc_out->upds.ca_count, self_id, from_id, to_id,
 		      DP_RC(cb_info->cci_rc), DP_RC(rpc_out->rc));
 
+	if (self_id == SWIM_ID_INVALID)
+		D_GOTO(out, rc = -DER_UNINIT);
+
 	if (cb_info->cci_rc && to_id == ctx->sc_target)
 		ctx->sc_deadline = 0;
 
 	reply_rc = cb_info->cci_rc ? cb_info->cci_rc : rpc_out->rc;
-	if (reply_rc && reply_rc != -DER_TIMEDOUT && reply_rc != -DER_UNREACH)
-		D_TRACE_ERROR(rpc, "remote %lu failed: "DF_RC"\n", to_id,
-			      DP_RC(reply_rc));
+	if (reply_rc && reply_rc != -DER_TIMEDOUT && reply_rc != -DER_UNREACH) {
+		if (reply_rc == -DER_UNINIT || reply_rc == -DER_NONEXIST) {
+			struct swim_member_update *upds;
 
-	now = swim_now_ms();
-	if (cb_info->cci_rc == 0)
-		ctx->sc_last_success_time = now;
+			D_TRACE_DEBUG(DB_TRACE, rpc,
+				      "%lu: %lu => %lu answered but not bootstrapped yet.\n",
+				      self_id, from_id, to_id);
 
-	if (ctx->sc_last_success_time) {
-		uint64_t delay = now - ctx->sc_last_success_time;
-		uint64_t max_delay = swim_suspect_timeout_get() * 2 / 3;
-
-		if (delay > max_delay) {
-			D_ERROR("Network outage detected (errors during "
-				"%lu.%lu sec >  maximum allowed "
-				"%lu.%lu sec). Suspend SWIM eviction "
-				"until network stabilized.\n",
-				delay / 1000, delay % 1000,
-				max_delay / 1000, max_delay % 1000);
-			crt_swim_suspend_all();
-			ctx->sc_last_success_time = 0;
+			/* Simulate ALIVE answer */
+			D_FREE(rpc_out->upds.ca_arrays);
+			rc = swim_updates_prepare(ctx, to_id, to_id,
+						  &rpc_out->upds.ca_arrays,
+						  &rpc_out->upds.ca_count);
+			upds = rpc_out->upds.ca_arrays;
+			if (!rc && upds != NULL && rpc_out->upds.ca_count > 0)
+				upds[0].smu_state.sms_status = SWIM_MEMBER_ALIVE;
+			/*
+			 * The error from this function should be just ignored
+			 * because of it's fine if simulation of valid answer fails.
+			 */
+		} else {
+			D_TRACE_ERROR(rpc, "%lu: %lu => %lu remote failed: "DF_RC"\n",
+				      self_id, from_id, to_id, DP_RC(reply_rc));
 		}
 	}
 
@@ -428,7 +432,8 @@ static int crt_swim_send_request(struct swim_context *ctx, swim_id_t id,
 	int			 ctx_idx = csm->csm_crt_ctx_idx;
 	int			 rc;
 
-	rpc_type = (id == to) ? SWIM_RPC_PING : SWIM_RPC_IREQ;
+	if (self_id == SWIM_ID_INVALID)
+		D_GOTO(out, rc = -DER_UNINIT);
 
 	crt_ctx = crt_context_lookup(ctx_idx);
 	if (crt_ctx == CRT_CONTEXT_NULL) {
@@ -440,6 +445,7 @@ static int crt_swim_send_request(struct swim_context *ctx, swim_id_t id,
 	ep.ep_rank = (d_rank_t)to;
 	ep.ep_tag  = ctx_idx;
 
+	rpc_type = (id == to) ? SWIM_RPC_PING : SWIM_RPC_IREQ;
 	opc = CRT_PROTO_OPC(CRT_OPC_SWIM_BASE, CRT_OPC_SWIM_VERSION, rpc_type);
 	rc = crt_req_create(crt_ctx, &ep, opc, &rpc);
 	if (rc) {
@@ -548,6 +554,9 @@ static swim_id_t crt_swim_get_dping_target(struct swim_context *ctx)
 	swim_id_t		 id;
 	uint32_t		 count = 0;
 
+	if (self_id == SWIM_ID_INVALID)
+		D_GOTO(out, id = SWIM_ID_INVALID);
+
 	D_ASSERT(csm->csm_target != NULL);
 
 	crt_swim_csm_lock(csm);
@@ -565,6 +574,7 @@ static swim_id_t crt_swim_get_dping_target(struct swim_context *ctx)
 		 csm->csm_target->cst_state.sms_status == SWIM_MEMBER_DEAD);
 out_unlock:
 	crt_swim_csm_unlock(csm);
+out:
 	if (id != SWIM_ID_INVALID)
 		D_DEBUG(DB_TRACE, "select dping target: %lu => {%lu %c %lu}\n",
 			self_id, id, SWIM_STATUS_CHARS[
@@ -583,6 +593,9 @@ static swim_id_t crt_swim_get_iping_target(struct swim_context *ctx)
 	swim_id_t		 id;
 	uint32_t		 count = 0;
 
+	if (self_id == SWIM_ID_INVALID)
+		D_GOTO(out, id = SWIM_ID_INVALID);
+
 	D_ASSERT(csm->csm_target != NULL);
 
 	crt_swim_csm_lock(csm);
@@ -600,6 +613,7 @@ static swim_id_t crt_swim_get_iping_target(struct swim_context *ctx)
 		 csm->csm_target->cst_state.sms_status != SWIM_MEMBER_ALIVE);
 out_unlock:
 	crt_swim_csm_unlock(csm);
+out:
 	if (id != SWIM_ID_INVALID)
 		D_DEBUG(DB_TRACE, "select iping target: %lu => {%lu %c %lu}\n",
 			self_id, id, SWIM_STATUS_CHARS[
@@ -653,6 +667,7 @@ static int crt_swim_get_member_state(struct swim_context *ctx,
 	struct crt_swim_target	*cst;
 	int			 rc = -DER_NONEXIST;
 
+	D_ASSERT(state != NULL);
 	crt_swim_csm_lock(csm);
 	D_CIRCLEQ_FOREACH(cst, &csm->csm_head, cst_link) {
 		if (cst->cst_id == id) {
@@ -675,12 +690,19 @@ static int crt_swim_set_member_state(struct swim_context *ctx,
 	struct crt_swim_target	*cst;
 	int			 rc = -DER_NONEXIST;
 
+	D_ASSERT(state != NULL);
 	if (state->sms_status == SWIM_MEMBER_SUSPECT)
 		state->sms_delay += swim_ping_timeout_get();
 
 	crt_swim_csm_lock(csm);
 	D_CIRCLEQ_FOREACH(cst, &csm->csm_head, cst_link) {
 		if (cst->cst_id == id) {
+			if (cst->cst_state.sms_status != SWIM_MEMBER_ALIVE &&
+			    state->sms_status == SWIM_MEMBER_ALIVE)
+				csm->csm_alive_count++;
+			else if (cst->cst_state.sms_status == SWIM_MEMBER_ALIVE &&
+			    state->sms_status != SWIM_MEMBER_ALIVE)
+				csm->csm_alive_count--;
 			cst->cst_state = *state;
 			rc = 0;
 			break;
@@ -702,6 +724,7 @@ static void crt_swim_new_incarnation(struct swim_context *ctx,
 	struct crt_swim_membs	*csm = &grp_priv->gp_membs_swim;
 	uint64_t		 incarnation = crt_hlc_get();
 
+	D_ASSERT(state != NULL);
 	D_ASSERTF(id == swim_self_get(ctx), DF_U64" == "DF_U64"\n",
 		  id, swim_self_get(ctx));
 	crt_swim_csm_lock(csm);
@@ -733,11 +756,16 @@ static int64_t crt_swim_progress_cb(crt_context_t crt_ctx, int64_t timeout, void
 			D_ERROR("SWIM shutdown\n");
 		swim_self_set(ctx, SWIM_ID_INVALID);
 	} else if (rc == -DER_TIMEDOUT || rc == -DER_CANCELED) {
-		uint64_t now = swim_now_ms();
+		/*
+		 * Change only for very long timeout to avoid confusing of DAOS scheduler.
+		 * NB: !!! Mercury only supports milli-second timeout !!!
+		 */
+		if (timeout > 1000) {
+			uint64_t hlc = crt_hlc_get();
 
-		if (now < ctx->sc_next_event)
-			timeout = ctx->sc_next_event - now;
-		D_DEBUG(DB_TRACE, "adjust the timeout=%li\n", timeout);
+			if (hlc < ctx->sc_next_event)
+				timeout = crt_hlc2msec(ctx->sc_next_event - hlc);
+		}
 	} else if (rc) {
 		D_ERROR("swim_progress(): "DF_RC"\n", DP_RC(rc));
 	}
@@ -783,6 +811,7 @@ int crt_swim_init(int crt_ctx_idx)
 	struct crt_swim_membs	*csm = &grp_priv->gp_membs_swim;
 	d_rank_list_t		*grp_membs;
 	d_rank_t		 self = grp_priv->gp_self;
+	uint64_t		 hlc = crt_hlc_get();
 	int			 i, rc;
 
 	if (crt_gdata.cg_swim_inited) {
@@ -792,6 +821,8 @@ int crt_swim_init(int crt_ctx_idx)
 
 	grp_membs = grp_priv_get_membs(grp_priv);
 	csm->csm_crt_ctx_idx = crt_ctx_idx;
+	csm->csm_last_unpack_hlc = hlc;
+	csm->csm_alive_count = 0;
 	csm->csm_nglitches = 0;
 	csm->csm_nmessages = 0;
 	/*
@@ -799,7 +830,7 @@ int crt_swim_init(int crt_ctx_idx)
 	 * crt_rank_self_set, we choose the self incarnation here instead of in
 	 * crt_swim_rank_add.
 	 */
-	csm->csm_incarnation = crt_hlc_get();
+	csm->csm_incarnation = hlc;
 	csm->csm_ctx = swim_init(SWIM_ID_INVALID, &crt_swim_ops, NULL);
 	if (csm->csm_ctx == NULL) {
 		D_ERROR("swim_init() failed for self=%u, crt_ctx_idx=%d\n",
@@ -1044,7 +1075,11 @@ void crt_swim_accommodate(void)
 		else if (average > max_timeout)
 			average = max_timeout;
 
-		if (average != ping_timeout) {
+		/*
+		 * (x >> 5) is just (x / 32) but a way faster.
+		 * This should avoid changes for small deltas.
+		 */
+		if ((average >> 5) != (ping_timeout >> 5)) {
 			D_INFO("change PING timeout from %lu ms to %lu ms\n",
 			       ping_timeout, average);
 			swim_ping_timeout_set(average);
@@ -1056,6 +1091,7 @@ int crt_swim_rank_add(struct crt_grp_priv *grp_priv, d_rank_t rank)
 {
 	struct crt_swim_membs	*csm = &grp_priv->gp_membs_swim;
 	struct crt_swim_target	*cst2, *cst = NULL;
+	swim_id_t		 id = SWIM_ID_INVALID;
 	swim_id_t		 self_id;
 	d_rank_t		 self = grp_priv->gp_self;
 	bool			 self_in_list = false;
@@ -1102,7 +1138,8 @@ int crt_swim_rank_add(struct crt_grp_priv *grp_priv, d_rank_t rank)
 			if (cst == NULL)
 				D_GOTO(out_unlock, rc = -DER_NOMEM);
 		}
-		cst->cst_id = (swim_id_t)rank;
+		id = (swim_id_t)rank;
+		cst->cst_id = id;
 		cst->cst_state.sms_incarnation = 0;
 		cst->cst_state.sms_status = SWIM_MEMBER_INACTIVE;
 		D_CIRCLEQ_INSERT_AFTER(&csm->csm_head, csm->csm_target, cst,
@@ -1127,8 +1164,10 @@ out_check_self:
 
 out_unlock:
 	crt_swim_csm_unlock(csm);
-out:
 	D_FREE(cst);
+
+	if (id != SWIM_ID_INVALID)
+		(void)swim_member_new_remote(csm->csm_ctx, id);
 
 	if (rc && rc != -DER_ALREADY) {
 		if (rank_in_list)
@@ -1136,6 +1175,7 @@ out:
 		if (self_in_list)
 			crt_swim_rank_del(grp_priv, self);
 	}
+out:
 	return rc;
 }
 

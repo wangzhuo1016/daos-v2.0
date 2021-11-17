@@ -30,6 +30,7 @@
 	ACTION(FILE *,  fopen,     (const char *, const char *))              \
 	ACTION(FILE *,  freopen,   (const char *, const char *, FILE *))      \
 	ACTION(int,     open,      (const char *, int, ...))                  \
+	ACTION(int,     openat,    (int, const char *, int, ...))             \
 	ACTION(ssize_t, pread,     (int, void *, size_t, off_t))              \
 	ACTION(ssize_t, pwrite,    (int, const void *, size_t, off_t))        \
 	ACTION(off_t,   lseek,     (int, off_t, int))                         \
@@ -54,6 +55,7 @@
 	ACTION(int,     dup2,      (int, int))                                \
 	ACTION(int,     fcntl,     (int, int, ...))                           \
 	ACTION(FILE *,  fdopen,    (int, const char *))                       \
+	ACTION(int,     mkstemp,   (char *))                                  \
 	ACTION(int,     __fxstat,  (int, int, struct stat *))                 \
 	ACTION(int,     ferror,    (FILE *))                                  \
 	ACTION(void,    clearerr,  (FILE *))                                  \
@@ -61,8 +63,10 @@
 	ACTION(long,    ftell,     (FILE *))                                  \
 	ACTION(void,    rewind,    (FILE *))                                  \
 	ACTION(off_t,   ftello,    (FILE *))                                  \
-	ACTION(size_t,  fread,     (void *, size_t, size_t, FILE *)) \
+	ACTION(size_t,  fread,     (void *, size_t, size_t, FILE *))          \
 	ACTION(size_t,  fwrite,    (const void *ptr, size_t size, size_t nmemb, FILE *stream))
+
+
 
 #define FOREACH_INTERCEPT(ACTION)            \
 	FOREACH_SINGLE_INTERCEPT(ACTION)     \

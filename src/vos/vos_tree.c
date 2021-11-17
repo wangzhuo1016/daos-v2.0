@@ -790,7 +790,7 @@ static struct vos_btr_attr vos_btr_attrs[] = {
 	{
 		.ta_class	= VOS_BTR_DKEY,
 		.ta_order	= VOS_KTR_ORDER,
-		.ta_feats	= VOS_OFEAT_BITS | BTR_FEAT_UINT_KEY |
+		.ta_feats	= VOS_KEY_CMP_LEXICAL | BTR_FEAT_UINT_KEY |
 				  BTR_FEAT_DIRECT_KEY | BTR_FEAT_DYNAMIC_ROOT,
 		.ta_name	= "vos_dkey",
 		.ta_ops		= &key_btr_ops,
@@ -798,7 +798,7 @@ static struct vos_btr_attr vos_btr_attrs[] = {
 	{
 		.ta_class	= VOS_BTR_AKEY,
 		.ta_order	= VOS_KTR_ORDER,
-		.ta_feats	= VOS_OFEAT_BITS | BTR_FEAT_UINT_KEY |
+		.ta_feats	= VOS_KEY_CMP_LEXICAL | BTR_FEAT_UINT_KEY |
 				  BTR_FEAT_DIRECT_KEY | BTR_FEAT_DYNAMIC_ROOT,
 		.ta_name	= "vos_akey",
 		.ta_ops		= &key_btr_ops,
@@ -952,7 +952,6 @@ tree_open_create(struct vos_object *obj, enum vos_tree_class tclass, int flags,
 
 			/* Check and setup the akey key compare bits */
 			obj_feats = daos_obj_id2feat(obj->obj_df->vo_id.id_pub);
-			tree_feats = (uint64_t)obj_feats << VOS_OFEAT_SHIFT;
 			if (obj_feats & DAOS_OF_AKEY_UINT64)
 				tree_feats |= VOS_KEY_CMP_UINT64_SET;
 			else if (obj_feats & DAOS_OF_AKEY_LEXICAL)
@@ -1109,7 +1108,7 @@ key_tree_release(daos_handle_t toh, bool is_array)
 int
 key_tree_punch(struct vos_object *obj, daos_handle_t toh, daos_epoch_t epoch,
 	       daos_epoch_t bound, d_iov_t *key_iov, d_iov_t *val_iov,
-	       uint64_t flags, struct vos_ts_set *ts_set,
+	       uint64_t flags, struct vos_ts_set *ts_set, umem_off_t *known_key,
 	       struct vos_ilog_info *parent, struct vos_ilog_info *info)
 {
 	struct vos_rec_bundle	*rbund = iov2rec_bundle(val_iov);
@@ -1175,6 +1174,18 @@ key_tree_punch(struct vos_object *obj, daos_handle_t toh, daos_epoch_t epoch,
 			    info, ts_set, true,
 			    (flags & VOS_OF_REPLAY_PC) != 0);
 
+	if (rc != 0)
+		goto done;
+
+	if (*known_key != umem_ptr2off(vos_obj2umm(obj), krec)) {
+		/** Set the bit to mark the key as punched.   Since this version doesn't support
+		 *  the optimization, this makes it compatible with versions that do.
+		 */
+		rc = umem_tx_add_ptr(vos_obj2umm(obj), known_key, sizeof(*known_key));
+		if (rc)
+			D_GOTO(done, rc);
+		*known_key |= 0x1;
+	}
 done:
 	VOS_TX_LOG_FAIL(rc, "Failed to punch key: "DF_RC"\n", DP_RC(rc));
 
@@ -1206,8 +1217,6 @@ obj_tree_init(struct vos_object *obj)
 		D_DEBUG(DB_DF, "Create btree for object\n");
 
 		obj_feats = daos_obj_id2feat(obj->obj_df->vo_id.id_pub);
-		/* Use hashed key if feature bits aren't set for object */
-		tree_feats = (uint64_t)obj_feats << VOS_OFEAT_SHIFT;
 		if (obj_feats & DAOS_OF_DKEY_UINT64)
 			tree_feats |= VOS_KEY_CMP_UINT64_SET;
 		else if (obj_feats & DAOS_OF_DKEY_LEXICAL)
