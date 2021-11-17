@@ -55,8 +55,8 @@
 	ACTION(int,     dup2,      (int, int))                                \
 	ACTION(int,     fcntl,     (int, int, ...))                           \
 	ACTION(FILE *,  fdopen,    (int, const char *))                       \
-	ACTION(int,     mkstemp,   (char *))                                  \
 	ACTION(int,     __fxstat,  (int, int, struct stat *))                 \
+	ACTION(int,     mkstemp,   (char *))                                  \
 	ACTION(int,     ferror,    (FILE *))                                  \
 	ACTION(void,    clearerr,  (FILE *))                                  \
 	ACTION(int,     feof,      (FILE *))                                  \
@@ -65,8 +65,6 @@
 	ACTION(off_t,   ftello,    (FILE *))                                  \
 	ACTION(size_t,  fread,     (void *, size_t, size_t, FILE *))          \
 	ACTION(size_t,  fwrite,    (const void *ptr, size_t size, size_t nmemb, FILE *stream))
-
-
 
 #define FOREACH_INTERCEPT(ACTION)            \
 	FOREACH_SINGLE_INTERCEPT(ACTION)     \
