@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__obj__query__class__t">
+<title>daos_obj_query_class_t Struct Reference</title>
+<indexterm><primary>daos_obj_query_class_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__obj__query__class__t_1a7fe83fe613282d305d3aeacba805f901">coh</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> <link linkend="_structdaos__obj__query__class__t_1a0a0851242238193058e72905887b5666">cid</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__oclass__attr">daos_oclass_attr</link> * <link linkend="_structdaos__obj__query__class__t_1ada9c80821116446255b52e7ca22b01ba">cattr</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Object class query args </para>
+<para>
+Definition at line 555 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__obj__query__class__t_1ada9c80821116446255b52e7ca22b01ba"/>    <section>
+    <title>cattr</title>
+<indexterm><primary>cattr</primary><secondary>daos_obj_query_class_t</secondary></indexterm>
+<indexterm><primary>daos_obj_query_class_t</primary><secondary>cattr</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__oclass__attr">daos_oclass_attr</link>* cattr</computeroutput></para>
+<para>Object class attributes. </para>
+<para>
+Definition at line 561 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__query__class__t_1a0a0851242238193058e72905887b5666"/>    <section>
+    <title>cid</title>
+<indexterm><primary>cid</primary><secondary>daos_obj_query_class_t</secondary></indexterm>
+<indexterm><primary>daos_obj_query_class_t</primary><secondary>cid</secondary></indexterm>
+<para><computeroutput><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid</computeroutput></para>
+<para>Object class ID. </para>
+<para>
+Definition at line 559 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__query__class__t_1a7fe83fe613282d305d3aeacba805f901"/>    <section>
+    <title>coh</title>
+<indexterm><primary>coh</primary><secondary>daos_obj_query_class_t</secondary></indexterm>
+<indexterm><primary>daos_obj_query_class_t</primary><secondary>coh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> coh</computeroutput></para>
+<para>Container open handle. </para>
+<para>
+Definition at line 557 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

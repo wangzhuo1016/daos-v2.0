@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__rebuild__status">
+<title>daos_rebuild_status Struct Reference</title>
+<indexterm><primary>daos_rebuild_status</primary></indexterm>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uint32_t <link linkend="_structdaos__rebuild__status_1a53402a8db445b6a296e44cc187167783">rs_version</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__rebuild__status_1a0e49c4e15a5939d0fafd5e0b589b2dcc">rs_seconds</link></para>
+</listitem>
+            <listitem><para>int32_t <link linkend="_structdaos__rebuild__status_1a5f1aeeff061c055d0a9c265fc79a2523">rs_errno</link></para>
+</listitem>
+            <listitem><para>int32_t <link linkend="_structdaos__rebuild__status_1a54c93dc6788aa1b62e7b026e5dda3780">rs_done</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__rebuild__status_1add9893d4451b0f9dd488c1eec20d60a1"/>int32_t <emphasis role="strong">rs_padding32</emphasis></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__rebuild__status_1af7384f98aa463b1bdd438cb762d88a41"/>int32_t <emphasis role="strong">rs_fail_rank</emphasis></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__rebuild__status_1a3b8c61712359e69280549efacc68f14f">rs_toberb_obj_nr</link></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__rebuild__status_1a8ba115f9315f1de96220939baf7e8be2">rs_obj_nr</link></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__rebuild__status_1a721fda8845cd9a064c691a979f5ac2ca">rs_rec_nr</link></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__rebuild__status_1a40a55e247da425a1ed29c522bdb6b05a">rs_size</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<para>
+Definition at line 93 of file daos_pool.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__rebuild__status_1a54c93dc6788aa1b62e7b026e5dda3780"/>    <section>
+    <title>rs_done</title>
+<indexterm><primary>rs_done</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_done</secondary></indexterm>
+<para><computeroutput>int32_t rs_done</computeroutput></para>
+<para>rebuild is done or not, it is valid only if @rs_version is non-zero </para>
+<para>
+Definition at line 103 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a5f1aeeff061c055d0a9c265fc79a2523"/>    <section>
+    <title>rs_errno</title>
+<indexterm><primary>rs_errno</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_errno</secondary></indexterm>
+<para><computeroutput>int32_t rs_errno</computeroutput></para>
+<para>errno for rebuild failure </para>
+<para>
+Definition at line 99 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a8ba115f9315f1de96220939baf7e8be2"/>    <section>
+    <title>rs_obj_nr</title>
+<indexterm><primary>rs_obj_nr</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_obj_nr</secondary></indexterm>
+<para><computeroutput>uint64_t rs_obj_nr</computeroutput></para>
+<para><formalpara><title>rebuilt objects, it&apos;s non-zero only if rs_done is 1</title></formalpara>
+</para>
+<para>
+Definition at line 117 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a721fda8845cd9a064c691a979f5ac2ca"/>    <section>
+    <title>rs_rec_nr</title>
+<indexterm><primary>rs_rec_nr</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_rec_nr</secondary></indexterm>
+<para><computeroutput>uint64_t rs_rec_nr</computeroutput></para>
+<para><formalpara><title>rebuilt records, it&apos;s non-zero only if rs_done is 1</title></formalpara>
+</para>
+<para>
+Definition at line 119 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a0e49c4e15a5939d0fafd5e0b589b2dcc"/>    <section>
+    <title>rs_seconds</title>
+<indexterm><primary>rs_seconds</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_seconds</secondary></indexterm>
+<para><computeroutput>uint32_t rs_seconds</computeroutput></para>
+<para>Time (Seconds) for the rebuild </para>
+<para>
+Definition at line 97 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a40a55e247da425a1ed29c522bdb6b05a"/>    <section>
+    <title>rs_size</title>
+<indexterm><primary>rs_size</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_size</secondary></indexterm>
+<para><computeroutput>uint64_t rs_size</computeroutput></para>
+<para>rebuild space cost </para>
+<para>
+Definition at line 122 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a3b8c61712359e69280549efacc68f14f"/>    <section>
+    <title>rs_toberb_obj_nr</title>
+<indexterm><primary>rs_toberb_obj_nr</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_toberb_obj_nr</secondary></indexterm>
+<para><computeroutput>uint64_t rs_toberb_obj_nr</computeroutput></para>
+<para><formalpara><title>total to-be-rebuilt objects, it&apos;s non-zero and increase when</title></formalpara>
+</para>
+
+<para>rebuilding in progress, when rs_done is 1 it will not change anymore and should equal to rs_obj_nr. With both rs_toberb_obj_nr and rs_obj_nr the user can know the progress of the rebuilding. </para>
+<para>
+Definition at line 115 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__rebuild__status_1a53402a8db445b6a296e44cc187167783"/>    <section>
+    <title>rs_version</title>
+<indexterm><primary>rs_version</primary><secondary>daos_rebuild_status</secondary></indexterm>
+<indexterm><primary>daos_rebuild_status</primary><secondary>rs_version</secondary></indexterm>
+<para><computeroutput>uint32_t rs_version</computeroutput></para>
+<para>pool map version in rebuilding or last completed rebuild </para>
+<para>
+Definition at line 95 of file daos_pool.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_pool.h</section>
+</section>

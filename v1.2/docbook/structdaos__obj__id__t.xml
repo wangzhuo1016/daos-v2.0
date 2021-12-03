@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__obj__id__t">
+<title>daos_obj_id_t Struct Reference</title>
+<indexterm><primary>daos_obj_id_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_types.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_structdaos__obj__id__t_1a7d5f0296d3bb7765c8d9308942054033"/>uint64_t <emphasis role="strong">lo</emphasis></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__obj__id__t_1a459bcbd0cf45328ef2754c4dab8b8b32"/>uint64_t <emphasis role="strong">hi</emphasis></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>ID of an object, 128 bits The high 32-bit of daos_obj_id_t::hi are reserved for DAOS, the rest is provided by the user and assumed to be unique inside a container.</para>
+
+<para>See <link linkend="_daos__obj_8h_source">daos_obj.h</link> for more details It is put here because it&apos;s almost used by everyone. </para>
+<para>
+Definition at line 205 of file daos_types.h.</para>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_types.h</section>
+</section>

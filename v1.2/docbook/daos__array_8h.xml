@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_daos__array_8h">
+<title>src/include/daos_array.h File Reference</title>
+<indexterm><primary>src/include/daos_array.h</primary></indexterm>
+<simplesect>
+    <title>Data Structures    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdaos__range__t">daos_range_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__array__iod__t">daos_array_iod_t</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><emphasis role="strong">if</emphasis> (add_attr) feat</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1gaeed8064a0c8949b7547660a09404ac8f">daos_array_create</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> cell_size, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> chunk_size, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga309d54604a2e97fddd1b9396ed61cb3d">daos_array_open</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, unsigned int mode, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *cell_size, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *chunk_size, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga9c841c2fb4b79566dfe4edff46a7e1bb">daos_array_open_with_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, unsigned int mode, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> cell_size, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> chunk_size, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga17971d649a2052cb44cfb4a3ddd36e18">daos_array_local2global</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, d_iov_t *glob)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga98d549b722a6164b6c500b9811e2b52d">daos_array_global2local</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, d_iov_t glob, unsigned int mode, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga28fed60c9a468122c8c54dbdb8b8ec0c">daos_array_close</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga036a9c34cb863dba486097576cc45400">daos_array_read</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_structdaos__array__iod__t">daos_array_iod_t</link> *iod, d_sg_list_t *sgl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1gab011b04b0f1cce149f677b07e7295c58">daos_array_write</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_structdaos__array__iod__t">daos_array_iod_t</link> *iod, d_sg_list_t *sgl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga8129cd2cc09b3e6f7fcf6dd9d792a635">daos_array_get_size</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga4b5b648c935a34d9f3e5d0de1e1641d8">daos_array_set_size</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1gad922154fcc6593928cf36005c203d1ec">daos_array_destroy</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1gaa2e69755706bafcf5670a5e55c1900c9">daos_array_punch</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_structdaos__array__iod__t">daos_array_iod_t</link> *iod, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___arrays_1ga3baced5fa05df343d638896b47fb73d6">daos_array_get_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *chunk_size, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *cell_size)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para>static int <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> <emphasis role="strong">cid</emphasis></para>
+</listitem>
+            <listitem><para>static int <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> bool <emphasis role="strong">add_attr</emphasis></para>
+</listitem>
+            <listitem><para>static int <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> bool uint32_t <emphasis role="strong">args</emphasis></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_group___arrays_1ga772bb37caf561d1653d9f9a631e1ba33">hdr</link> = ((uint64_t)<link linkend="_group___object_1gaf6cf07da24f4d1d5d797c8dded3b9183">OID_FMT_VER</link> &lt;&lt; <link linkend="_group___object_1gab8ae2c87877cf92d74d2e98d531f3887">OID_FMT_VER_SHIFT</link>)</para>
+</listitem>
+            <listitem><para><emphasis role="strong">feat</emphasis> = <link linkend="_group___object_1ggadf764cbdea00d65edcd07bb9953ad2b7a87d90ee5b64d199f6c4a2ad3aecac857">DAOS_OF_DKEY_UINT64</link> | <link linkend="_group___object_1ggadf764cbdea00d65edcd07bb9953ad2b7ab1f5f48f233294b9e70d6ab758b3bd9c">DAOS_OF_KV_FLAT</link></para>
+</listitem>
+            <listitem><para>oid <emphasis role="strong">hi</emphasis> = <link linkend="_group___object_1ga33cf9f5c6cd1f55e3c9ab55c25c478be">hdr</link></para>
+</listitem>
+            <listitem><para><emphasis role="strong">return</emphasis></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>DAOS Array</para>
+
+<para>The DAOS Array API provides a 1-D array implementation over the DAOS object data model. </para>
+</section>
+</section>

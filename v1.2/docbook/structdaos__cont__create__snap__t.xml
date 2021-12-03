@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__cont__create__snap__t">
+<title>daos_cont_create_snap_t Struct Reference</title>
+<indexterm><primary>daos_cont_create_snap_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__cont__create__snap__t_1a7fe83fe613282d305d3aeacba805f901">coh</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structdaos__cont__create__snap__t_1a77b4d271ea4dd382d5334921f1cbcae3">opts</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> * <link linkend="_structdaos__cont__create__snap__t_1a627c0d024a3c1a700a06c76783d0630d">epoch</link></para>
+</listitem>
+            <listitem><para>char * <link linkend="_structdaos__cont__create__snap__t_1a5ac083a645d964373f022d03df4849c8">name</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Container snapshot creation args </para>
+<para>
+Definition at line 479 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__cont__create__snap__t_1a7fe83fe613282d305d3aeacba805f901"/>    <section>
+    <title>coh</title>
+<indexterm><primary>coh</primary><secondary>daos_cont_create_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_create_snap_t</primary><secondary>coh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> coh</computeroutput></para>
+<para>Container open handle. </para>
+<para>
+Definition at line 481 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__cont__create__snap__t_1a627c0d024a3c1a700a06c76783d0630d"/>    <section>
+    <title>epoch</title>
+<indexterm><primary>epoch</primary><secondary>daos_cont_create_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_create_snap_t</primary><secondary>epoch</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link>* epoch</computeroutput></para>
+<para>Returned epoch of persistent snapshot taken. </para>
+<para>
+Definition at line 485 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__cont__create__snap__t_1a5ac083a645d964373f022d03df4849c8"/>    <section>
+    <title>name</title>
+<indexterm><primary>name</primary><secondary>daos_cont_create_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_create_snap_t</primary><secondary>name</secondary></indexterm>
+<para><computeroutput>char* name</computeroutput></para>
+<para>Optional null terminated name for snapshot. </para>
+<para>
+Definition at line 487 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__cont__create__snap__t_1a77b4d271ea4dd382d5334921f1cbcae3"/>    <section>
+    <title>opts</title>
+<indexterm><primary>opts</primary><secondary>daos_cont_create_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_create_snap_t</primary><secondary>opts</secondary></indexterm>
+<para><computeroutput>unsigned int opts</computeroutput></para>
+<para>bit flags, see enum daos_snapshot_opts </para>
+<para>
+Definition at line 483 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

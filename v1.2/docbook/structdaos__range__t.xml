@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__range__t">
+<title>daos_range_t Struct Reference</title>
+<indexterm><primary>daos_range_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_array.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>daos_off_t <link linkend="_structdaos__range__t_1a7dea11ba34bc55aa970313cb70702fed">rg_idx</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> <link linkend="_structdaos__range__t_1a040bb23c8c89cc44c12fcf2af2f5123f">rg_len</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Range of contiguous records </para>
+<para>
+Definition at line 26 of file daos_array.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__range__t_1a7dea11ba34bc55aa970313cb70702fed"/>    <section>
+    <title>rg_idx</title>
+<indexterm><primary>rg_idx</primary><secondary>daos_range_t</secondary></indexterm>
+<indexterm><primary>daos_range_t</primary><secondary>rg_idx</secondary></indexterm>
+<para><computeroutput>daos_off_t rg_idx</computeroutput></para>
+<para>Index of the first record in the range </para>
+<para>
+Definition at line 28 of file daos_array.h.</para>
+    </section><anchor xml:id="_structdaos__range__t_1a040bb23c8c89cc44c12fcf2af2f5123f"/>    <section>
+    <title>rg_len</title>
+<indexterm><primary>rg_len</primary><secondary>daos_range_t</secondary></indexterm>
+<indexterm><primary>daos_range_t</primary><secondary>rg_len</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> rg_len</computeroutput></para>
+<para>Number of records in the range </para>
+<para>
+Definition at line 30 of file daos_array.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_array.h</section>
+</section>

@@ -1,0 +1,1479 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+        <link rel="canonical" href="http://daos.io/v1.2/overview/data_integrity/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Introduction - DAOS v1.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#546d78">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CUbuntu+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Ubuntu Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DAOS v1.2" class="md-header__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v1.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DAOS v1.2" class="md-nav__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    DAOS v1.2
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Architecture Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Architecture Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Architecture Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup/" class="md-nav__link">
+        CentOS Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/suse_setup/" class="md-nav__link">
+        openSUSE Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/test_index/" class="md-nav__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/DAOS+IO-500+Instructions" class="md-nav__link">
+        IO500 Setup
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/posix/" class="md-nav__link">
+        POSIX Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/runior/" class="md-nav__link">
+        Run IOR
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/mdtest/" class="md-nav__link">
+        Run mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/datamover/" class="md-nav__link">
+        Datamover test
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v1_2/" class="md-nav__link">
+        Release Notes v1.2
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix/" class="md-nav__link">
+        Support Matrix
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/Roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Mailing list
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://jira.hpdd.intel.com/projects/DAOS" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-requirements" class="md-nav__link">
+    Key Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supportiveadditional-requirements" class="md-nav__link">
+    Supportive/Additional Requirements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/overview/data_integrity.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Arguably, one of the worst things a data storage system can do is to return
+ incorrect data without the requester knowing. While each component in the
+ system (network layer, storage devices) may offer protection against silent
+ data corruption, DAOS provides end-to-end data integrity using checksums to
+ better ensure that user data is not corrupted silently.</p>
+<p>For DAOS, end-to-end means that the client will calculate and verify checksums,
+providing protection for data through the entire I/O stack. During a write or
+update, the DAOS Client library (libdaos.so) calculates a checksum and appends
+it to the RPC message before transferred over the network.
+Depending on the configuration, the DAOS Server may or may not calculate checksums
+to verify the data on receipt. On a fetch, the DAOS Server will send a known
+good checksum with the requested data to the DAOS Client, which will calculate
+checksums on the data received and verify.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<h3 id="key-requirements">Key Requirements<a class="headerlink" href="#key-requirements" title="Permanent link">&para;</a></h3>
+<p>There are two key requirements that DAOS will support.
+1. Detect silent data corruption - Corruption will be detected on the
+ distribution and attribute keys and records within a DAOS object. At a minimum,
+ when corruption is detected, an error will be reported.
+1. Correct data corruption - When data corruption is detected, an attempt will
+ be made to recover the data using data redundancy mechanisms.</p>
+<h3 id="supportiveadditional-requirements">Supportive/Additional Requirements<a class="headerlink" href="#supportiveadditional-requirements" title="Permanent link">&para;</a></h3>
+<p>Additionally, DAOS will support ...
+1. End to End Data Integrity as a Quality of Service Attribute - Container
+ properties are used to enable/disable the use of checksums for data integrity
+ as well as define specific attributes of data integrity feature.  See
+ https://daos-stack.github.io/user/container/#data-integrity for details on
+ configuring a container with checksums enabled.
+1. Minimize Performance Impact - When there is no data corruption, the End to
+ End Data Integrity feature should have minimal performance impacted. If data
+ corruption is detected, performance can be impacted to correct the data.
+ Work is ongoing to minimize performance impact.
+1. Inject Errors - The ability to corrupt data within a specific record, key,
+ or checksum will be necessary for testing purposes. Fault injection is used to
+ simulate corruption over the network and on disk. The DAOS_CSUM_CORRUPT_*
+ flags used for data corruption are defined in src/include/daos/common.h.
+1. Logging - When data corruption is detected, error logs are captured in
+ the client and server logs.</p>
+<p>Up coming features not supported yet
+1. Event Logging - When silent data corruption is discovered, an event should
+ be logged in such a way that it can be retrieved with other system health and
+ diagnostic information.
+1. Proactive background service task - A background task on
+ the server which scans for and detects (audits checksums) silent data
+ corruption and corrects.</p>
+<h1 id="keys-and-value-objects">Keys and Value Objects<a class="headerlink" href="#keys-and-value-objects" title="Permanent link">&para;</a></h1>
+<p>Because DAOS is a key/value store, the data for both keys and values is
+protected, however, the approach for both is slightly different. For the two
+different value types, single and array, the approach is also slightly
+different.</p>
+<h2 id="keys">Keys<a class="headerlink" href="#keys" title="Permanent link">&para;</a></h2>
+<p>On an update and fetch, the client calculates a checksum for the data used
+as the distribution and attribute keys and will send it to the server within the
+RPC. The server verifies the keys with the checksum.
+While enumerating keys, the server will calculate checksums for the keys and
+pack within the RPC message to the client. The client will verify the keys
+received.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Checksums for keys are not stored on the server. A hash of the key is
+calculated and used to index the key in the server tree of the keys
+(see <a href="../../src/vos/README.md#key-array-stores">VOS Key Array Stores</a>).
+It is also expected that keys are stored only in Storage Class Memory which
+has reliable data integrity protection.</p>
+</div>
+<h2 id="values">Values<a class="headerlink" href="#values" title="Permanent link">&para;</a></h2>
+<p>On an update, the client will calculate a checksum for the data of the value and
+will send it to the server within the RPC. If "server verify" is enabled, the
+server will calculate a new checksum for the value and compare with the checksum
+received from the client to verify the integrity of the value. If the checksums
+don't match, then data corruption has occurred and an error is returned to the
+client indicating that the client should try the update again. Whether "server
+verify" is enabled or not, the server will store the checksum.
+See <a href="../../src/vos/README.md">VOS</a> for more info about checksum management and
+storage in VOS.</p>
+<p>On a fetch, the server will return the stored checksum to the client with the
+values fetched so the client can verify the values received. If the checksums
+don't match, then the client will fetch from another replica if available in
+an attempt to get uncorrupted data.</p>
+<p>There are some slight variations to this approach for the two different types
+of values. The following diagram illustrates a basic example.
+ (See <a href="../storage/">Storage Model</a> for more details about the single value
+ and array value types)</p>
+<p><img alt="" src="../../graph/data_integrity/basic_checksum_flow.png" /></p>
+<h3 id="single-value">Single Value<a class="headerlink" href="#single-value" title="Permanent link">&para;</a></h3>
+<p>A Single Value is an atomic value, meaning that writes to a single value will
+update the entire value and reads retrieve the entire value. Other DAOS features
+such as Erasure Codes might split a Single Value into multiple shards to be
+distributed among multiple storage nodes. Either the whole Single Value (if
+going to a single node) or each shard (if distributed) will have a checksum
+calculated, sent to the server, and stored on the server.</p>
+<p>Note that it is possible for a single value, or shard of a single value, to
+be smaller than the checksum derived from it. It is advised that if an
+application needs many small single values to use an Array Type instead.</p>
+<h3 id="array-values">Array Values<a class="headerlink" href="#array-values" title="Permanent link">&para;</a></h3>
+<p>Unlike Single Values, Array Values can be updated and fetched at any part of
+an array. In addition, updates to an array are versioned, so a fetch can include
+parts from multiple versions of the array. Each of these versioned parts of an
+array are called extents. The following diagrams illustrate a couple examples
+(also see <a href="../../src/vos/README.md#key-array-stores">VOS Key Array Stores</a> for
+more information):</p>
+<div>
+A single extent update (blue line) from index 2-13. A fetched extent (orange
+line) from index 2-6. The fetch is only part of the original extent written.
+
+![](../graph/data_integrity/array_example_1.png)
+</div>
+
+<div>
+Many extent updates and different epochs. A fetch from index 2-13 requires parts
+from each extent.
+
+![Array Example 2](../graph/data_integrity/array_example_2.png)
+
+</div>
+
+<p>The nature of the array type requires that a more sophisticated approach to
+creating checksums is used. DAOS uses a "chunking" approach where each extent
+will be broken up into "chunks" with a predetermined "chunk size." Checksums
+will be derived from these chunks. Chunks are aligned with an absolute offset
+(starting at 0), not an I/O offset. The following diagram illustrates a chunk
+size configured to be 4 (units is arbitrary in this example). Though not all
+chunks have a full size of 4, an  absolute offset alignment is maintained.
+The gray boxes around the extents represent the chunks.</p>
+<p><img src="../graph/data_integrity/array_with_chunks.png" width="700" /></p>
+<p>(See <a href="../../src/object/README.md">Object Layer</a> for more details about the
+checksum process on object update and fetch)</p>
+<h1 id="checksum-calculations">Checksum calculations<a class="headerlink" href="#checksum-calculations" title="Permanent link">&para;</a></h1>
+<p>The actual checksum calculations are done by the
+ <a href="https://github.com/intel/isa-l">isa-l</a>
+and <a href="https://github.com/intel/isa-l_crypto">isa-l_crypto</a> libraries. However,
+these libraries are abstracted away from much of DAOS and a common checksum
+library is used with appropriate adapters to the actual isa-l implementations.
+<a href="../../src/common/README.md#checksum">common checksum library</a></p>
+<h1 id="performance-impact">Performance Impact<a class="headerlink" href="#performance-impact" title="Permanent link">&para;</a></h1>
+<p>Calculating checksums can be CPU intensive and will impact performance. To
+ mitigate performance impact, checksum types with hardware acceleration should
+ be chosen. For example, CRC32C is supported by recent Intel CPUs, and many are
+ accelerated via SIMD.</p>
+<h1 id="quality">Quality<a class="headerlink" href="#quality" title="Permanent link">&para;</a></h1>
+<p>Unit and functional testing is performed at many layers.</p>
+<table>
+<thead>
+<tr>
+<th>Test executable</th>
+<th>What's tested</th>
+<th>Key test files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>common_test</td>
+<td>daos_csummer, utility functions to help with chunk alignment</td>
+<td>src/common/tests/checksum_tests.c</td>
+</tr>
+<tr>
+<td>vos_test</td>
+<td>vos_obj_update/fetch apis with checksum params to ensure updating and fetching checksums</td>
+<td>src/vos/tests/vts_checksum.c</td>
+</tr>
+<tr>
+<td>srv_checksum_tests</td>
+<td>Server side logic for adding fetched checksums to an array request. Checksums are appropriately copied or created depending on extent layout.</td>
+<td>src/object/tests/srv_checksum_tests.c</td>
+</tr>
+<tr>
+<td>daos_test</td>
+<td>daos_obj_update/fetch with checksums enabled. The -z flag can be used for specific checksum tests. Also --csum_type flag can be used to enable  checksums with any of the other daos_tests</td>
+<td>src/tests/suite/daos_checksum.c</td>
+</tr>
+</tbody>
+</table>
+<h2 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
+<p><strong>With daos_server not running</strong></p>
+<pre><code>./commont_test
+./vos_test -z
+./srv_checksum_tests
+</code></pre>
+
+<p><strong>With daos_server running</strong></p>
+<pre><code>export DAOS_CSUM_TEST_ALL_TYPE=1
+./daos_server -z
+./daos_server -i --csum_type crc64
+</code></pre>
+
+<h1 id="life-of-a-checksum-wip">Life of a checksum (WIP)<a class="headerlink" href="#life-of-a-checksum-wip" title="Permanent link">&para;</a></h1>
+<h2 id="rebuild">Rebuild<a class="headerlink" href="#rebuild" title="Permanent link">&para;</a></h2>
+<p>In order for rebuild/migrate process to get checksums so it doesn't have to
+recalculate them, the object list and object fetch task api's provide a checksum
+iov parameter. If memory is allocated for the iov, then the daos client will
+pack the checksums into the it. If insufficient memory is allocated in the
+buffer, the iov_len will be set to the required capacity and the checksums
+packed into the buffer is truncated.</p>
+<h3 id="client-task-api-touch-points">Client Task API Touch Points<a class="headerlink" href="#client-task-api-touch-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>dc_obj_fetch_task_create</strong>: sets csum iov to daos_obj_fetch_t args. These
+  args are set to the rw_cb_args.shard_args.api_args and accessed through an
+  accessor function (rw_args2csum_iov) in cli_shard.c so that rw_args_store_csum
+  can easily access it. This function, called from dc_rw_cb_csum_verify, will
+  pack the data checksums received from the server into the iov.</li>
+<li><strong>dc_obj_list_obj_task_create</strong>: sets csum iov to daos_obj_list_obj_t args.
+  args.csum is then copied to obj_enum_args.csum in dc_obj_shard_list(). On enum
+  callback (dc_enumerate_cb()) the packed csum buffer is copied from the rpc
+  args to obj_enum_args.csum (which points to the same buffer as the caller's)</li>
+</ul>
+<h3 id="rebuild-touch-points">Rebuild Touch Points<a class="headerlink" href="#rebuild-touch-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li>migrate_fetch_update_(inline|single|bulk) - the rebuild/migrate functions that
+  write to vos locally must ensure that the checksum is also written. These must
+  use the csum iov param for fetch to get the checksum, then unpack the csums
+  into iod_csum.</li>
+<li>obj_enum.c is relied on for enumerating the objects to be rebuilt. Because the
+  fetch_update functions will unpack the csums from fetch, it will also unpack
+  the csums for enum, so the unpacking process in obj_enum.c will simply copy
+  the csum_iov to the io (dss_enum_unpack_io) structure in
+  <strong>enum_unpack_recxs()</strong> and then deep copy to the mrone (migrate_one)
+  structure in <strong>migrate_one_insert()</strong>.</li>
+</ul>
+<h3 id="packingunpacking-checksums">Packing/unpacking checksums<a class="headerlink" href="#packingunpacking-checksums" title="Permanent link">&para;</a></h3>
+<p>When checksums are packed (either for fetch or object list) only the data
+checksums are included. For object list, only checksums for data that is inlined
+is included. During a rebuild, if the data is not inlined, then the rebuild
+process will fetch the rest of the data and also get the checksums.</p>
+<ul>
+<li>ci_serialize() - "packs" checksums by appending the struct to an iov and then
+  appending the checksum info buffer to the iov. This puts the actual checksum
+  just after the checksum structure that describes the checksum.</li>
+<li>ci_cast() - "unpacks" the checksum and describing structure. It does this by
+  casting an iov's buffer to a dcs_csum_info struct and setting the csum_info's
+  checksum pointer to point to the memory just after the structure. It does not
+  copy anything, but really just "casts". To get all dcs_csum_infos, a caller
+  would cast the iov, copy the csum_info to a destination, then move to the next
+  csum_info(ci_move_next_iov) in the iov. Because this process modifies the iov
+  structure it is best to use a copy of the iov as a temp structure.</li>
+</ul>
+<h2 id="vos">VOS<a class="headerlink" href="#vos" title="Permanent link">&para;</a></h2>
+<ul>
+<li>akey_update_begin - determines how much extra space needs to be allocated in
+  SCM to account for the checksum</li>
+</ul>
+<h3 id="arrays">Arrays<a class="headerlink" href="#arrays" title="Permanent link">&para;</a></h3>
+<ul>
+<li>evt_root_activate - evtree root is activated. If has a csum them the root csum
+  properties are set (csum_len, csum_type, csum_chunk_size)</li>
+<li><em>evt_desc_csum_fill</em> - if root was activated with a punched record then it
+  won't have had the csum fields set correctly so set them here. Main purpose is
+  to copy the csum to the end of persistent evt record (evt_desc). Enough SCM
+  should have been reserved in akey_update_begin.</li>
+<li><em>evt_entry_csum_fill</em> - Copy the csum from the persistent memory to the
+  evt_entry returned. Also copy the csum fields from the evtree root to complete
+  the csum_info structure in the evt_entry.</li>
+<li>akey_fetch_recx - checksums are saved to the ioc for each found extent. Will
+  be used to be added to to the result later.</li>
+</ul>
+<h3 id="updatefetch-copied-from-vosreadmemd">Update/Fetch (copied from vos/README.md)<a class="headerlink" href="#updatefetch-copied-from-vosreadmemd" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SV Update: vos_update_end -&gt; akey_update_single -&gt; svt_rec_store</li>
+<li>Sv Fetch: vos_fetch_begin -&gt; akey_fetch_single -&gt; svt_rec_load</li>
+<li>EV Update: vos_update_end -&gt; akey_update_recx -&gt; evt_insert</li>
+<li>EV Fetch: vos_fetch_begin -&gt; akey_fetch_recx -&gt; evt_fill_entry</li>
+</ul>
+<h2 id="enumeration">Enumeration<a class="headerlink" href="#enumeration" title="Permanent link">&para;</a></h2>
+<p>For enumeration the csums for the keys and values are packed into an iov
+dedicated to csums.
+- fill_key_csum - Checksum is calcuated for the key and packed into the iov
+- fill_data_csum - pack/serialize the csum_info structure into the iov.</p>
+<h2 id="aggregation">Aggregation<a class="headerlink" href="#aggregation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>srv_csum_recalc.c - the checksum verification and calculations occur here</li>
+</ul>
+<hr />
+<h1 id="checksum-scrubbing-in-development">Checksum Scrubbing (In Development)<a class="headerlink" href="#checksum-scrubbing-in-development" title="Permanent link">&para;</a></h1>
+<p>A background task will scan (when the storage server is idle to limit
+performance impact) the Version Object Store (VOS) trees to verify the data
+integrity with the checksums. Corrective actions can be taken when corruption is
+detected. See <a href="#corrective-actions">Corrective Actions</a></p>
+<h2 id="scanner">Scanner<a class="headerlink" href="#scanner" title="Permanent link">&para;</a></h2>
+<h3 id="goalsrequirements">Goals/Requirements<a class="headerlink" href="#goalsrequirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Detect Silent Data Corruption Proactively</strong> - The whole point of the
+  scrubber is to detect silent data corruption before it is fetched.</li>
+<li><strong>Minimize CPU and I/O Bandwidth</strong> - Checksum scrubbing scanner will impact
+  CPU and the I/O bandwidth because it must iterate the VOS tree (I/O to SCM)
+  fetch data (I/O to SSD) and calculate checksums (CPU intensive). To minimize
+  both of these impacts, the server scheduler must be able to throttled the
+  scrubber's I/O and CPU usage.</li>
+<li><strong>Minimize Media Wear</strong> - The background task will minimize media wear by
+  preventing objects from being scrubbed too frequently. A container
+  config/tunable will be used by an operator to define the minimum number of
+  days that should pass before an object is scanned again.</li>
+<li><strong>Continuous</strong> - The background task will be a continuous processes instead of
+  running on a schedule. Once complete immediately start over. Throttling
+  approaches should prevent from scrubbing same objects too frequently.</li>
+</ul>
+<h3 id="high-level-design">High Level Design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Per Pool ULT (I/O xstream) that will iterate containers. If checksums and
+  scrubber is enabled then iterate the object tree. If a record value (SV or
+  array) is not marked corrupted then scan.<ul>
+<li>Fetch the data.</li>
+<li>Create new ULTs (helper xstream) to calculate checksum for data</li>
+<li>Compare calculated checksum with stored checksum.</li>
+<li>After every checksum is calculated, determine if need to
+  <a href="#sleep-or-yield">sleep or yield</a>.</li>
+<li>If checksums don't match confirm record is still there (not deleted by
+  aggregation) then update record as corrupted</li>
+</ul>
+</li>
+<li>After each object scanned yield to allow the server scheduler to reschedule
+  the next appropriate I/O.</li>
+</ul>
+<h4 id="sleep-or-yield">Sleep or Yield<a class="headerlink" href="#sleep-or-yield" title="Permanent link">&para;</a></h4>
+<p>Sleep for sufficient amount of time to ensure that scanning completes no sooner
+than configured interval (i.e. once a week or month). For example, if the
+interval is 1 week and there are 70 checksums that need to be calculated, then
+at a maximum 10 checksums are calculated a day, spaced roughly every 2.4 hours.
+If it doesn't need to sleep, then it will yield to allow the server scheduler to
+prioritize other jobs.</p>
+<h2 id="corrective-actions">Corrective Actions<a class="headerlink" href="#corrective-actions" title="Permanent link">&para;</a></h2>
+<p>There are two main options for corrective actions when data corruption is
+discovered, in place data repair and SSD eviction.</p>
+<h3 id="in-place-data-repair">In Place Data Repair<a class="headerlink" href="#in-place-data-repair" title="Permanent link">&para;</a></h3>
+<p>If enabled, when corruption is detected, the value identifier (dkey, akey, recx)
+will be placed in a queue. When there are available cycles, the value identifier
+will be used to request the data from a replica if exists and rewrite the data
+locally. This will continue until the SSD Eviction threshold is reached, in
+which case, the SSD is assumed to be bad enough that it isn't worth fixing
+locally and it will be requested to be evicted.</p>
+<h3 id="ssd-eviction">SSD Eviction<a class="headerlink" href="#ssd-eviction" title="Permanent link">&para;</a></h3>
+<p>If enabled, when the SSD Eviction Threshold is reached the SSD will be evicted.
+Current eviction methods are pool and target based so there will need to be a
+mapping and mechanism in place to evict an SSD. When an SSD is evicted, the
+rebuild protocol will be invoked.</p>
+<p>Also, once the SSD Eviction Threshold is reached, the scanner should quit
+scanning anything on that SSD.</p>
+<h2 id="additional-checksum-properties-docusercontainermd-docuserpoolmd">Additional Checksum Properties &gt; doc/user/container.md / doc/user/pool.md?<a class="headerlink" href="#additional-checksum-properties-docusercontainermd-docuserpoolmd" title="Permanent link">&para;</a></h2>
+<p>These properties are provided when a container or pool is created, but should
+also be able to update them. When updated, they should be active right away.
+- Scanner Interval - Minimum number of days scanning will take. Could take
+  longer, but if only a few records will pad so takes longer. (Pool property)
+- Disable scrubbing - at container level &amp; pool level
+- Threshold for when to evict SSD (number of corruption events)
+- In Place Correction - If the number checksum errors is below the Eviction
+  Threshold, DAOS will attempt to repair the corrupted data using replicas if
+  they exist.</p>
+<h2 id="design-details-implementation">Design Details &amp; Implementation<a class="headerlink" href="#design-details-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pool-ult">Pool ULT<a class="headerlink" href="#pool-ult" title="Permanent link">&para;</a></h3>
+<p>The code for the pool ULT is found in <code>srv_pool_scrub.c</code>. It can be a bit
+difficult to follow because there are several layers of callback functions due
+to the nature of how ULTs and the vos_iterator work, but the file is organized
+such that functions typically call the function above it (either directly or
+indirectly as a callback). For example (~&gt; is an indirect call, -&gt; is a direct
+call):</p>
+<pre><code>ds_start_scrubbing_ult ~&gt; scrubbing_ult -&gt; scrub_pool ~&gt; cont_iter_scrub_cb -&gt;
+    scrub_cont ~&gt; obj_iter_scrub_cb ...
+</code></pre>
+
+<h4 id="silent-data-corruption-detection-todo">Silent Data Corruption Detection (TODO)<a class="headerlink" href="#silent-data-corruption-detection-todo" title="Permanent link">&para;</a></h4>
+<p>::Still todo::</p>
+<pre><code class="c">obj_iter_scrub(coh, epr, csummer, pool_uuid, event_handlers, entry, type)
+{
+        build_iod
+        vos_obj_fetch(coh, oid, epoch, dkey, iod, sgl);
+        // for single value
+        csum = calc_checksum(type, csummer, iod, sgl)
+        compare(csum, entry.csum)
+        // for recx
+        for each chunk calc csum and compare
+}
+
+</code></pre>
+
+<h3 id="vos-layer">VOS Layer<a class="headerlink" href="#vos-layer" title="Permanent link">&para;</a></h3>
+<ul>
+<li>In order to mark data as corrupted a flag field is added to bio_addr_t which
+  includes a CORRUPTED bit.</li>
+<li>The vos update api already accepts a flag, so a CORRUPTED flag is added and
+  handled during an update so that, if set, the bio address will be updated to
+  be corrupted.</li>
+<li>On fetch, if a value is already marked corrupted, return -DER_CSUM</li>
+</ul>
+<h3 id="object-layer">Object Layer<a class="headerlink" href="#object-layer" title="Permanent link">&para;</a></h3>
+<ul>
+<li>When corruption is detected on the server during a fetch, aggregation, or
+  rebuild the server calls VOS to update value as corrupted.</li>
+<li>(TBD) Add Server Side Verifying on fetch so can know if media or network
+  corruption (note: need something so extents aren't double verified?)</li>
+</ul>
+<h2 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h2>
+<ul>
+<li>In the server.yml configuration file set the following env_vars</li>
+</ul>
+<pre><code>- D_LOG_MASK=DEBUG
+- DD_SUBSYS=pool
+- DD_MASK=csum
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___security">
+<title>DAOS Security</title>
+<indexterm><primary>DAOS Security</primary></indexterm>
+<simplesect>
+    <title>Data Structures    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdaos__acl">daos_acl</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__ace">daos_ace</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_group___security_1ga5da0db259a08ac52b17b365f8b0ca67e">DAOS_ACL_VERSION</link>   (1)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1gafe5b8675d3b33159e92d7767d86c4191">DAOS_ACL_MAX_PRINCIPAL_LEN</link>   (255)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1gaed312b1fc64331446da1e75b6b71ca55">DAOS_ACL_MAX_PRINCIPAL_BUF_LEN</link>   (<link linkend="_group___security_1gafe5b8675d3b33159e92d7767d86c4191">DAOS_ACL_MAX_PRINCIPAL_LEN</link> + 1)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga89d756235367092de18658e9344e726d">DAOS_ACL_PRINCIPAL_OWNER</link>   &quot;OWNER@&quot;</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___security_1ga9eb004ce8718da155ec3780781770e71"/>#define <emphasis role="strong">DAOS_ACL_PRINCIPAL_OWNER_GRP</emphasis>   &quot;GROUP@&quot;</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___security_1ga93ac7b5a8f083e57252091b0e845f0f2"/>#define <emphasis role="strong">DAOS_ACL_PRINCIPAL_EVERYONE</emphasis>   &quot;EVERYONE@&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga258ac58ab5e7c2aed7aa9067aeb47fd4">DAOS_ACL_MAX_ACE_LEN</link>   (65536)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga4e3501843b74f883181f7add3c704447">DAOS_ACL_MAX_ACE_STR_LEN</link>   (<link linkend="_group___security_1gafe5b8675d3b33159e92d7767d86c4191">DAOS_ACL_MAX_PRINCIPAL_LEN</link> + 64)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga2ce310fbd02127e74701e966af800767">DAOS_ACL_ACCESS_ALL</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga9755d10df17bcd4937163bbfccfc06cc">DAOS_ACL_FLAG_ALL</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga821041c70bd1e5747c7002c9bdf5e049">DAOS_ACL_PERM_POOL_ALL</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1gab8bc9560561bacf657a4688630f9ce06">DAOS_ACL_PERM_CONT_ALL</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___security_1ga4889aa9cbb4272bcf3c976e5aea57f0a">DAOS_ACL_PERM_ALL</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> { 
+<emphasis role="strong">DAOS_ACL_OWNER</emphasis>, 
+<link linkend="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a5e696a76f25d5790d49fa55e77355688">DAOS_ACL_USER</link>, 
+<link linkend="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a93c4f1353b40f93966d1c44b9a6e131b">DAOS_ACL_OWNER_GROUP</link>, 
+<link linkend="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a54bc3b253e4d94a69f91600be47bc78a">DAOS_ACL_GROUP</link>, 
+
+<link linkend="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a319db666ecaeae397f2bb03c7b60c9b3">DAOS_ACL_EVERYONE</link>, 
+<link linkend="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a33315345cf23522a485de080732d5a0e">NUM_DAOS_ACL_TYPES</link>
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___security_1ga29ea0eb0de30a30bdfb08e77e2fb146f">daos_acl_access_type</link> { <emphasis role="strong">DAOS_ACL_ACCESS_ALLOW</emphasis> = (1U &lt;&lt; 0), 
+<link linkend="_group___security_1gga29ea0eb0de30a30bdfb08e77e2fb146fa0887afb8bf2491547c80cedccc605c52">DAOS_ACL_ACCESS_AUDIT</link> = (1U &lt;&lt; 1), 
+<link linkend="_group___security_1gga29ea0eb0de30a30bdfb08e77e2fb146fa0cffd4fe9a1a9071b3b3576e1e078349">DAOS_ACL_ACCESS_ALARM</link> = (1U &lt;&lt; 2)
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___security_1ga08ce0e314a139201d03d8b965bbc4220">daos_acl_flags</link> { <link linkend="_group___security_1gga08ce0e314a139201d03d8b965bbc4220ac6f8e131b96eae6e58757508ed40c647">DAOS_ACL_FLAG_GROUP</link> = (1U &lt;&lt; 0), 
+<link linkend="_group___security_1gga08ce0e314a139201d03d8b965bbc4220a6afea58b87d20c96ced6e001c44a7b16">DAOS_ACL_FLAG_POOL_INHERIT</link> = (1U &lt;&lt; 1), 
+<link linkend="_group___security_1gga08ce0e314a139201d03d8b965bbc4220ad4293cf91e0df2ba6d5f19ba8f55a0aa">DAOS_ACL_FLAG_ACCESS_FAIL</link> = (1U &lt;&lt; 2), 
+<link linkend="_group___security_1gga08ce0e314a139201d03d8b965bbc4220a52b44bebdf7059d6ab53ba0d2cea309a">DAOS_ACL_FLAG_ACCESS_SUCCESS</link> = (1U &lt;&lt; 3)
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___security_1gaad2be72f90918d6084c5ee81ddb7d673">daos_acl_perm</link> { 
+<emphasis role="strong">DAOS_ACL_PERM_READ</emphasis> = (1U &lt;&lt; 0), 
+<emphasis role="strong">DAOS_ACL_PERM_WRITE</emphasis> = (1U &lt;&lt; 1), 
+<emphasis role="strong">DAOS_ACL_PERM_CREATE_CONT</emphasis> = (1U &lt;&lt; 2), 
+<emphasis role="strong">DAOS_ACL_PERM_DEL_CONT</emphasis> = (1U &lt;&lt; 3), 
+
+<emphasis role="strong">DAOS_ACL_PERM_GET_PROP</emphasis> = (1U &lt;&lt; 4), 
+<emphasis role="strong">DAOS_ACL_PERM_SET_PROP</emphasis> = (1U &lt;&lt; 5), 
+<emphasis role="strong">DAOS_ACL_PERM_GET_ACL</emphasis> = (1U &lt;&lt; 6), 
+<emphasis role="strong">DAOS_ACL_PERM_SET_ACL</emphasis> = (1U &lt;&lt; 7), 
+
+<emphasis role="strong">DAOS_ACL_PERM_SET_OWNER</emphasis> = (1U &lt;&lt; 8)
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdaos__acl">daos_acl</link> * <link linkend="_group___security_1ga5d3b61a8844c341e30ca715c59737392">daos_acl_create</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *aces[], uint16_t num_aces)</para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__acl">daos_acl</link> * <link linkend="_group___security_1gaa35a8ae543a617d30b6b9a7ff27448e1">daos_acl_dup</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>void <link linkend="_group___security_1ga4276e217b1049243377ce7c804e7211f">daos_acl_free</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>ssize_t <link linkend="_group___security_1ga367e84cda2dec200159fe95f943c4aa5">daos_acl_get_size</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__ace">daos_ace</link> * <link linkend="_group___security_1ga68ac4a8308f3bb0636f7223f22f7e4af">daos_acl_get_next_ace</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl, struct <link linkend="_structdaos__ace">daos_ace</link> *current_ace)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga8fc34a954cee197ac396b6345ba6087f">daos_acl_get_ace_for_principal</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char *principal, struct <link linkend="_structdaos__ace">daos_ace</link> **ace)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga60b1b32405026adc249c9c1e8a52e1d7">daos_acl_add_ace</link> (struct <link linkend="_structdaos__acl">daos_acl</link> **acl, struct <link linkend="_structdaos__ace">daos_ace</link> *new_ace)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gae9ef8ca19b32a2ed1f1e7672a48fc23e">daos_acl_remove_ace</link> (struct <link linkend="_structdaos__acl">daos_acl</link> **acl, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char *principal_name)</para>
+</listitem>
+            <listitem><para>void <link linkend="_group___security_1ga5a32d140365259a4100b6bae1817d7ed">daos_acl_dump</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gad0a9f2f679dc7f937eef33816ab2c4d8">daos_acl_validate</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga3c30d175b713367e31af5d65829f93a8">daos_acl_pool_validate</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gac39258dfda7a3bbbfc988cd379121ff5">daos_acl_cont_validate</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl)</para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__ace">daos_ace</link> * <link linkend="_group___security_1ga6f89d6661bf74cdf3a1f40792d150d8c">daos_ace_create</link> (enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char *principal_name)</para>
+</listitem>
+            <listitem><para>void <link linkend="_group___security_1gaf1d36ab6389b11add5a24cb730117545">daos_ace_free</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace)</para>
+</listitem>
+            <listitem><para>ssize_t <link linkend="_group___security_1ga7668eaba7a5e973848ec16f6082d4a19">daos_ace_get_size</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace)</para>
+</listitem>
+            <listitem><para>void <link linkend="_group___security_1gaa1eae86ec6a162502522e8d7acae10ad">daos_ace_dump</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace, uint32_t tabs)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_group___security_1gabfa3de7205474b0c1061487530d3eb60">daos_ace_is_valid</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_group___security_1gaa6b4923d9ced6259614f2de9fd9a15e8">daos_acl_principal_is_valid</link> (const char *name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gad5232b83868adb948710d14af46bfebe">daos_acl_uid_to_principal</link> (uid_t uid, char **name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gae3ba90f0b6d573714048b8d0b003fc77">daos_acl_gid_to_principal</link> (gid_t gid, char **name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga2983d9e3ecb4b9cde346578cafb175d5">daos_acl_principal_to_uid</link> (const char *principal, uid_t *uid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga1dc782b2cccdee7c433d0a7bdc6fba0b">daos_acl_principal_to_gid</link> (const char *principal, gid_t *gid)</para>
+</listitem>
+            <listitem><para>const char * <link linkend="_group___security_1gac3dd75e331368a7317c460c25a0ba243">daos_ace_get_principal_str</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gaee7383e3ce49555847fe95db67fdf6ec">daos_ace_from_str</link> (const char *str, struct <link linkend="_structdaos__ace">daos_ace</link> **ace)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga3308818651306031c08d48db55098607">daos_ace_to_str</link> (struct <link linkend="_structdaos__ace">daos_ace</link> *ace, char *buf, size_t buf_len)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga4df14d2c8388b4051fb27bd4a770847d">daos_ace_str_get_verbose</link> (const char *ace_str, char *buf, size_t buf_len)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga000737cd36d5efc1269f96438c1d77c6">daos_acl_from_strs</link> (const char **ace_strs, size_t ace_nr, struct <link linkend="_structdaos__acl">daos_acl</link> **acl)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1gadad0544d69586cc7cdf3149de5712bfe">daos_acl_to_strs</link> (struct <link linkend="_structdaos__acl">daos_acl</link> *acl, char ***ace_strs, size_t *ace_nr)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga66cc34336ce6a828108223c131f7fc33">daos_acl_principal_from_str</link> (const char *principal_str, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> *type, char **name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___security_1ga53f87fb1bd0efe76b7a5e68f6c6d0c33">daos_acl_to_stream</link> (FILE *stream, struct <link linkend="_structdaos__acl">daos_acl</link> *acl, bool verbose)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_group___security_1ga2ce310fbd02127e74701e966af800767"/>    <section>
+    <title>DAOS_ACL_ACCESS_ALL</title>
+<indexterm><primary>DAOS_ACL_ACCESS_ALL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_ACCESS_ALL</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_ACCESS_ALL</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(DAOS_ACL_ACCESS_ALLOW&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_ACCESS_AUDIT&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_ACCESS_ALARM)
+</programlisting>
+<para>Mask of all valid access bits </para>
+<para>
+Definition at line 103 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga9755d10df17bcd4937163bbfccfc06cc"/>    <section>
+    <title>DAOS_ACL_FLAG_ALL</title>
+<indexterm><primary>DAOS_ACL_FLAG_ALL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_FLAG_ALL</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_FLAG_ALL</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<link linkend="_group___security_1gga08ce0e314a139201d03d8b965bbc4220ac6f8e131b96eae6e58757508ed40c647">DAOS_ACL_FLAG_GROUP</link>&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_FLAG_POOL_INHERIT&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_FLAG_ACCESS_FAIL&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_FLAG_ACCESS_SUCCESS)
+</programlisting>
+<para>Mask of all valid flag bits </para>
+<para>
+Definition at line 124 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga258ac58ab5e7c2aed7aa9067aeb47fd4"/>    <section>
+    <title>DAOS_ACL_MAX_ACE_LEN</title>
+<indexterm><primary>DAOS_ACL_MAX_ACE_LEN</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_MAX_ACE_LEN</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_MAX_ACE_LEN   (65536)</computeroutput></para>
+<para>Maximum length of <link linkend="_structdaos__acl_1a763291a8e16a29a4a0020bfb925700b0">daos_acl::dal_ace</link> (dal_len&apos;s value). </para>
+<para>
+Definition at line 51 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga4e3501843b74f883181f7add3c704447"/>    <section>
+    <title>DAOS_ACL_MAX_ACE_STR_LEN</title>
+<indexterm><primary>DAOS_ACL_MAX_ACE_STR_LEN</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_MAX_ACE_STR_LEN</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_MAX_ACE_STR_LEN   (<link linkend="_group___security_1gafe5b8675d3b33159e92d7767d86c4191">DAOS_ACL_MAX_PRINCIPAL_LEN</link> + 64)</computeroutput></para>
+<para>Maximum length of an ACE provided in string format: &lt;access&gt;:&lt;flags&gt;:&lt;principal&gt;:&lt;perms&gt; </para>
+<para>
+Definition at line 57 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1gaed312b1fc64331446da1e75b6b71ca55"/>    <section>
+    <title>DAOS_ACL_MAX_PRINCIPAL_BUF_LEN</title>
+<indexterm><primary>DAOS_ACL_MAX_PRINCIPAL_BUF_LEN</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_MAX_PRINCIPAL_BUF_LEN</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_MAX_PRINCIPAL_BUF_LEN   (<link linkend="_group___security_1gafe5b8675d3b33159e92d7767d86c4191">DAOS_ACL_MAX_PRINCIPAL_LEN</link> + 1)</computeroutput></para>
+<para>DAOS_ACL_MAX_PRINCIPAL_LEN including NULL terminator </para>
+<para>
+Definition at line 39 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1gafe5b8675d3b33159e92d7767d86c4191"/>    <section>
+    <title>DAOS_ACL_MAX_PRINCIPAL_LEN</title>
+<indexterm><primary>DAOS_ACL_MAX_PRINCIPAL_LEN</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_MAX_PRINCIPAL_LEN</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_MAX_PRINCIPAL_LEN   (255)</computeroutput></para>
+<para>Maximum length of the user@domain principal string, not including null terminator. </para>
+<para>
+Definition at line 37 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga4889aa9cbb4272bcf3c976e5aea57f0a"/>    <section>
+    <title>DAOS_ACL_PERM_ALL</title>
+<indexterm><primary>DAOS_ACL_PERM_ALL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_PERM_ALL</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_PERM_ALL</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<link linkend="_group___security_1ga821041c70bd1e5747c7002c9bdf5e049">DAOS_ACL_PERM_POOL_ALL</link>&#32;|&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_CONT_ALL)
+</programlisting>
+<para>Mask of all valid permission bits in DAOS </para>
+<para>
+Definition at line 168 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1gab8bc9560561bacf657a4688630f9ce06"/>    <section>
+    <title>DAOS_ACL_PERM_CONT_ALL</title>
+<indexterm><primary>DAOS_ACL_PERM_CONT_ALL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_PERM_CONT_ALL</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_PERM_CONT_ALL</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(DAOS_ACL_PERM_READ&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_WRITE&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_DEL_CONT&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_GET_PROP&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_SET_PROP&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_GET_ACL&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_SET_ACL&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_SET_OWNER)
+</programlisting>
+<para>Mask of all valid permissions for DAOS containers </para>
+<para>
+Definition at line 156 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga821041c70bd1e5747c7002c9bdf5e049"/>    <section>
+    <title>DAOS_ACL_PERM_POOL_ALL</title>
+<indexterm><primary>DAOS_ACL_PERM_POOL_ALL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_PERM_POOL_ALL</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_PERM_POOL_ALL</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(DAOS_ACL_PERM_READ&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_GET_PROP&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_WRITE&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_CREATE_CONT&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DAOS_ACL_PERM_DEL_CONT)
+</programlisting>
+<para>Mask of all valid permissions for DAOS pools </para>
+<para>
+Definition at line 147 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga89d756235367092de18658e9344e726d"/>    <section>
+    <title>DAOS_ACL_PRINCIPAL_OWNER</title>
+<indexterm><primary>DAOS_ACL_PRINCIPAL_OWNER</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_PRINCIPAL_OWNER</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_PRINCIPAL_OWNER   &quot;OWNER@&quot;</computeroutput></para>
+<para>String values for the special principal types </para>
+<para>
+Definition at line 44 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga5da0db259a08ac52b17b365f8b0ca67e"/>    <section>
+    <title>DAOS_ACL_VERSION</title>
+<indexterm><primary>DAOS_ACL_VERSION</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_VERSION</secondary></indexterm>
+<para><computeroutput>#define DAOS_ACL_VERSION   (1)</computeroutput></para>
+<para>Version of the ACL structure format </para>
+<para>
+Definition at line 31 of file daos_security.h.</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_group___security_1ga29ea0eb0de30a30bdfb08e77e2fb146f"/>    <section>
+    <title>daos_acl_access_type</title>
+<indexterm><primary>daos_acl_access_type</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_access_type</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___security_1ga29ea0eb0de30a30bdfb08e77e2fb146f">daos_acl_access_type</link></computeroutput></para>
+<para>Bits representing access types to set permissions for </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DAOS_ACL_ACCESS_AUDIT</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_ACCESS_AUDIT</secondary></indexterm>
+<anchor xml:id="_group___security_1gga29ea0eb0de30a30bdfb08e77e2fb146fa0887afb8bf2491547c80cedccc605c52"/>DAOS_ACL_ACCESS_AUDIT</entry><entry>
+<para>allow access </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_ACCESS_ALARM</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_ACCESS_ALARM</secondary></indexterm>
+<anchor xml:id="_group___security_1gga29ea0eb0de30a30bdfb08e77e2fb146fa0cffd4fe9a1a9071b3b3576e1e078349"/>DAOS_ACL_ACCESS_ALARM</entry><entry>
+<para>log the access for review </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 94 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1ga08ce0e314a139201d03d8b965bbc4220"/>    <section>
+    <title>daos_acl_flags</title>
+<indexterm><primary>daos_acl_flags</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_flags</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___security_1ga08ce0e314a139201d03d8b965bbc4220">daos_acl_flags</link></computeroutput></para>
+<para>Bits representing access flags </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DAOS_ACL_FLAG_GROUP</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_FLAG_GROUP</secondary></indexterm>
+<anchor xml:id="_group___security_1gga08ce0e314a139201d03d8b965bbc4220ac6f8e131b96eae6e58757508ed40c647"/>DAOS_ACL_FLAG_GROUP</entry><entry>
+<para>This represents a group, not a user </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_FLAG_POOL_INHERIT</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_FLAG_POOL_INHERIT</secondary></indexterm>
+<anchor xml:id="_group___security_1gga08ce0e314a139201d03d8b965bbc4220a6afea58b87d20c96ced6e001c44a7b16"/>DAOS_ACL_FLAG_POOL_INHERIT</entry><entry>
+<para>Containers should inherit access controls from this pool </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_FLAG_ACCESS_FAIL</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_FLAG_ACCESS_FAIL</secondary></indexterm>
+<anchor xml:id="_group___security_1gga08ce0e314a139201d03d8b965bbc4220ad4293cf91e0df2ba6d5f19ba8f55a0aa"/>DAOS_ACL_FLAG_ACCESS_FAIL</entry><entry>
+<para>Audit/alarm should occur on failed access </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_FLAG_ACCESS_SUCCESS</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_FLAG_ACCESS_SUCCESS</secondary></indexterm>
+<anchor xml:id="_group___security_1gga08ce0e314a139201d03d8b965bbc4220a52b44bebdf7059d6ab53ba0d2cea309a"/>DAOS_ACL_FLAG_ACCESS_SUCCESS</entry><entry>
+<para>Audit/alarm should occur on successful access </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 110 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1gaad2be72f90918d6084c5ee81ddb7d673"/>    <section>
+    <title>daos_acl_perm</title>
+<indexterm><primary>daos_acl_perm</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_perm</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___security_1gaad2be72f90918d6084c5ee81ddb7d673">daos_acl_perm</link></computeroutput></para>
+<para>Bits representing the specific permissions that may be set </para>
+<para>
+Definition at line 132 of file daos_security.h.</para>
+    </section><anchor xml:id="_group___security_1gae5134a9b969724c62e7c10e294f50db0"/>    <section>
+    <title>daos_acl_principal_type</title>
+<indexterm><primary>daos_acl_principal_type</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_principal_type</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link></computeroutput></para>
+<para>Type of principal for the Access Control Entry. OWNER, OWNER_GROUP, and EVERYONE are special principals that do not need a principal name string. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DAOS_ACL_USER</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_USER</secondary></indexterm>
+<anchor xml:id="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a5e696a76f25d5790d49fa55e77355688"/>DAOS_ACL_USER</entry><entry>
+<para>Owner of the object </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_OWNER_GROUP</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_OWNER_GROUP</secondary></indexterm>
+<anchor xml:id="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a93c4f1353b40f93966d1c44b9a6e131b"/>DAOS_ACL_OWNER_GROUP</entry><entry>
+<para>Individual user </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_GROUP</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_GROUP</secondary></indexterm>
+<anchor xml:id="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a54bc3b253e4d94a69f91600be47bc78a"/>DAOS_ACL_GROUP</entry><entry>
+<para>Owning group </para>
+</entry></row><row><entry><indexterm><primary>DAOS_ACL_EVERYONE</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>DAOS_ACL_EVERYONE</secondary></indexterm>
+<anchor xml:id="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a319db666ecaeae397f2bb03c7b60c9b3"/>DAOS_ACL_EVERYONE</entry><entry>
+<para>Group </para>
+</entry></row><row><entry><indexterm><primary>NUM_DAOS_ACL_TYPES</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>NUM_DAOS_ACL_TYPES</secondary></indexterm>
+<anchor xml:id="_group___security_1ggae5134a9b969724c62e7c10e294f50db0a33315345cf23522a485de080732d5a0e"/>NUM_DAOS_ACL_TYPES</entry><entry>
+<para>Anyone else Must be last </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 81 of file daos_security.h.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___security_1ga6f89d6661bf74cdf3a1f40792d150d8c"/>    <section>
+    <title>daos_ace_create()</title>
+<indexterm><primary>daos_ace_create</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_create</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__ace">daos_ace</link>* daos_ace_create (enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char * principal_name)</computeroutput></para>
+<para>Allocate a new Access Control Entry with an appropriately aligned principal name, if applicable.</para>
+
+<para>Only User and Group types use principal name.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>type</entry>
+                                <entry>
+<para>Type of principal for the ACE </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal_name</entry>
+                                <entry>
+<para>Principal name will be added to the end of the structure. For types that don&apos;t use it, it is ignored. OK to pass NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>New ACE structure with an appropriately packed principal name, length, and type set. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gaa1eae86ec6a162502522e8d7acae10ad"/>    <section>
+    <title>daos_ace_dump()</title>
+<indexterm><primary>daos_ace_dump</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_dump</secondary></indexterm>
+<para><computeroutput>void daos_ace_dump (struct <link linkend="_structdaos__ace">daos_ace</link> * ace, uint32_t tabs)</computeroutput></para>
+<para>Print the Access Control Entry to stdout in a verbose human-readable format.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>ace</entry>
+                                <entry>
+<para>Access Control Entry to print </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>tabs</entry>
+                                <entry>
+<para>Number of tabs to indent at top level </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___security_1gaf1d36ab6389b11add5a24cb730117545"/>    <section>
+    <title>daos_ace_free()</title>
+<indexterm><primary>daos_ace_free</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_free</secondary></indexterm>
+<para><computeroutput>void daos_ace_free (struct <link linkend="_structdaos__ace">daos_ace</link> * ace)</computeroutput></para>
+<para>Free an Access Control Entry allocated by daos_ace_alloc().</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>ACE to be freed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___security_1gaee7383e3ce49555847fe95db67fdf6ec"/>    <section>
+    <title>daos_ace_from_str()</title>
+<indexterm><primary>daos_ace_from_str</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_from_str</secondary></indexterm>
+<para><computeroutput>int daos_ace_from_str (const char * str, struct <link linkend="_structdaos__ace">daos_ace</link> ** ace)</computeroutput></para>
+<para>Convert an Access Control Entry formatted as a string to a <link linkend="_structdaos__ace">daos_ace</link> structure.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>str</entry>
+                                <entry>
+<para>String defining an ACE </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>Newly allocated ACE structure</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gac3dd75e331368a7317c460c25a0ba243"/>    <section>
+    <title>daos_ace_get_principal_str()</title>
+<indexterm><primary>daos_ace_get_principal_str</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_get_principal_str</secondary></indexterm>
+<para><computeroutput>const char* daos_ace_get_principal_str (struct <link linkend="_structdaos__ace">daos_ace</link> * ace)</computeroutput></para>
+<para>Get the principal name string from an Access Control Entry.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>Access Control Entry</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Either the string from the principal name field, or one of the special principal names: OWNER@, GROUP@, EVERYONE@ </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga7668eaba7a5e973848ec16f6082d4a19"/>    <section>
+    <title>daos_ace_get_size()</title>
+<indexterm><primary>daos_ace_get_size</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_get_size</secondary></indexterm>
+<para><computeroutput>ssize_t daos_ace_get_size (struct <link linkend="_structdaos__ace">daos_ace</link> * ace)</computeroutput></para>
+<para>Get the length in bytes of an Access Control Entry. The entries have variable length.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>ACE to get the size of</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Size of ACE in bytes -DER_INVAL Invalid input </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gabfa3de7205474b0c1061487530d3eb60"/>    <section>
+    <title>daos_ace_is_valid()</title>
+<indexterm><primary>daos_ace_is_valid</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_is_valid</secondary></indexterm>
+<para><computeroutput>bool daos_ace_is_valid (struct <link linkend="_structdaos__ace">daos_ace</link> * ace)</computeroutput></para>
+<para>Sanity check the Access Control Entry structure for valid values and internal consistency.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>ace</entry>
+                                <entry>
+<para>Access Control Entry to be checked</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>True if the ACE is valid, false otherwise </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga4df14d2c8388b4051fb27bd4a770847d"/>    <section>
+    <title>daos_ace_str_get_verbose()</title>
+<indexterm><primary>daos_ace_str_get_verbose</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_str_get_verbose</secondary></indexterm>
+<para><computeroutput>int daos_ace_str_get_verbose (const char * ace_str, char * buf, size_t buf_len)</computeroutput></para>
+<para>Convert an Access Control Entry string to a verbose string.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace_str</entry>
+                                <entry>
+<para>ACE string </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buf</entry>
+                                <entry>
+<para>Output buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>buf_len</entry>
+                                <entry>
+<para>Length of output buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input string -DER_TRUNC Output didn&apos;t fit in buffer </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga3308818651306031c08d48db55098607"/>    <section>
+    <title>daos_ace_to_str()</title>
+<indexterm><primary>daos_ace_to_str</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_ace_to_str</secondary></indexterm>
+<para><computeroutput>int daos_ace_to_str (struct <link linkend="_structdaos__ace">daos_ace</link> * ace, char * buf, size_t buf_len)</computeroutput></para>
+<para>Convert an Access Control Entry in the form of a <link linkend="_structdaos__ace">daos_ace</link> structure to a compact string.</para>
+
+<para>Limitation: A valid ACE with different permissions for different access types cannot be formatted as a single string, and will be rejected as invalid.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>ACE structure </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buf</entry>
+                                <entry>
+<para>Buffer to write the string </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buf_len</entry>
+                                <entry>
+<para>Size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga60b1b32405026adc249c9c1e8a52e1d7"/>    <section>
+    <title>daos_acl_add_ace()</title>
+<indexterm><primary>daos_acl_add_ace</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_add_ace</secondary></indexterm>
+<para><computeroutput>int daos_acl_add_ace (struct <link linkend="_structdaos__acl">daos_acl</link> ** acl, struct <link linkend="_structdaos__ace">daos_ace</link> * new_ace)</computeroutput></para>
+<para>Insert an Access Control Entry in the appropriate location in the ACE list. The expected order is: Owner, Users, Owner-Group, Groups, Everyone.</para>
+
+<para>The ACL structure may be reallocated to make room for the new ACE. If so the old structure will be freed.</para>
+
+<para>If the new ACE is an update of an existing entry, it will replace the old entry.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL to modify </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>new_ace</entry>
+                                <entry>
+<para>ACE to be added</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Failed to allocate required memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gac39258dfda7a3bbbfc988cd379121ff5"/>    <section>
+    <title>daos_acl_cont_validate()</title>
+<indexterm><primary>daos_acl_cont_validate</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_cont_validate</secondary></indexterm>
+<para><computeroutput>int daos_acl_cont_validate (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Check that the Access Control List is valid for use with a DAOS container.</para>
+
+<para>This includes the checks in <link linkend="_group___security_1gad0a9f2f679dc7f937eef33816ab2c4d8">daos_acl_validate()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>acl</entry>
+                                <entry>
+<para>Access Control List to sanity check</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 ACL is valid -DER_INVAL ACL is not valid -DER_NOMEM Ran out of memory while checking </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga5d3b61a8844c341e30ca715c59737392"/>    <section>
+    <title>daos_acl_create()</title>
+<indexterm><primary>daos_acl_create</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_create</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__acl">daos_acl</link>* daos_acl_create (struct <link linkend="_structdaos__ace">daos_ace</link> * aces[], uint16_t num_aces)</computeroutput></para>
+<para>Allocate an DAOS Access Control List.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>aces</entry>
+                                <entry>
+<para>Array of pointers to ACEs to be put in the ACL. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>num_aces</entry>
+                                <entry>
+<para>Number of ACEs in array</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>allocated <link linkend="_structdaos__acl">daos_acl</link> pointer, NULL if failed </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga5a32d140365259a4100b6bae1817d7ed"/>    <section>
+    <title>daos_acl_dump()</title>
+<indexterm><primary>daos_acl_dump</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_dump</secondary></indexterm>
+<para><computeroutput>void daos_acl_dump (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Print the Access Control List to stdout in a detailed human-readable format, for debug purposes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>acl</entry>
+                                <entry>
+<para>Access Control List to print </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___security_1gaa35a8ae543a617d30b6b9a7ff27448e1"/>    <section>
+    <title>daos_acl_dup()</title>
+<indexterm><primary>daos_acl_dup</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_dup</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__acl">daos_acl</link>* daos_acl_dup (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Allocate a new copy of a DAOS Access Control List.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL structure to be copied</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Newly allocated copy of the ACL, or NULL if the ACL can&apos;t be allocated </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga4276e217b1049243377ce7c804e7211f"/>    <section>
+    <title>daos_acl_free()</title>
+<indexterm><primary>daos_acl_free</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_free</secondary></indexterm>
+<para><computeroutput>void daos_acl_free (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Free a DAOS Access Control List.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL pointer to be freed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___security_1ga000737cd36d5efc1269f96438c1d77c6"/>    <section>
+    <title>daos_acl_from_strs()</title>
+<indexterm><primary>daos_acl_from_strs</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_from_strs</secondary></indexterm>
+<para><computeroutput>int daos_acl_from_strs (const char ** ace_strs, size_t ace_nr, struct <link linkend="_structdaos__acl">daos_acl</link> ** acl)</computeroutput></para>
+<para>Convert a list of Access Control Entries formatted as strings to a <link linkend="_structdaos__acl">daos_acl</link> structure.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace_strs</entry>
+                                <entry>
+<para>Array of strings defining ACEs </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ace_nr</entry>
+                                <entry>
+<para>Length of ace_strs </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>Newly allocated ACL structure</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga8fc34a954cee197ac396b6345ba6087f"/>    <section>
+    <title>daos_acl_get_ace_for_principal()</title>
+<indexterm><primary>daos_acl_get_ace_for_principal</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_get_ace_for_principal</secondary></indexterm>
+<para><computeroutput>int daos_acl_get_ace_for_principal (struct <link linkend="_structdaos__acl">daos_acl</link> * acl, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char * principal, struct <link linkend="_structdaos__ace">daos_ace</link> ** ace)</computeroutput></para>
+<para>Search the Access Control List for an Access Control Entry for a specific principal.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL to search </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>type</entry>
+                                <entry>
+<para>Principal type to search for </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal</entry>
+                                <entry>
+<para>Principal name, if type is USER or GROUP. NULL otherwise. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>ace</entry>
+                                <entry>
+<para>Pointer to matching ACE within ACL (not a copy)</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NONEXIST Matching ACE not found </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga68ac4a8308f3bb0636f7223f22f7e4af"/>    <section>
+    <title>daos_acl_get_next_ace()</title>
+<indexterm><primary>daos_acl_get_next_ace</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_get_next_ace</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__ace">daos_ace</link>* daos_acl_get_next_ace (struct <link linkend="_structdaos__acl">daos_acl</link> * acl, struct <link linkend="_structdaos__ace">daos_ace</link> * current_ace)</computeroutput></para>
+<para>Get the next Access Control Entry in the Access Control List, for iterating over the list.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL to traverse </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>current_ace</entry>
+                                <entry>
+<para>Current ACE, to determine the next one, or NULL for the first ACE</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Pointer to the next ACE in the ACL, or NULL if at the end </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga367e84cda2dec200159fe95f943c4aa5"/>    <section>
+    <title>daos_acl_get_size()</title>
+<indexterm><primary>daos_acl_get_size</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_get_size</secondary></indexterm>
+<para><computeroutput>ssize_t daos_acl_get_size (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Get the total size of the DAOS Access Control List in bytes. This includes the size of the header as well as the ACE list.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL to get the size of</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Size of ACL in bytes -DER_INVAL Invalid input </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gae3ba90f0b6d573714048b8d0b003fc77"/>    <section>
+    <title>daos_acl_gid_to_principal()</title>
+<indexterm><primary>daos_acl_gid_to_principal</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_gid_to_principal</secondary></indexterm>
+<para><computeroutput>int daos_acl_gid_to_principal (gid_t gid, char ** name)</computeroutput></para>
+<para>Convert a local gid to a properly-formatted principal name for use with the Access Control List API.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>gid</entry>
+                                <entry>
+<para>GID to convert </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Newly allocated null-terminated string containing the formatted principal name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NONEXIST GID not found -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga3c30d175b713367e31af5d65829f93a8"/>    <section>
+    <title>daos_acl_pool_validate()</title>
+<indexterm><primary>daos_acl_pool_validate</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_pool_validate</secondary></indexterm>
+<para><computeroutput>int daos_acl_pool_validate (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Check that the Access Control List is valid for use with a DAOS pool.</para>
+
+<para>This includes the checks in <link linkend="_group___security_1gad0a9f2f679dc7f937eef33816ab2c4d8">daos_acl_validate()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>acl</entry>
+                                <entry>
+<para>Access Control List to sanity check</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 ACL is valid -DER_INVAL ACL is not valid -DER_NOMEM Ran out of memory while checking </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga66cc34336ce6a828108223c131f7fc33"/>    <section>
+    <title>daos_acl_principal_from_str()</title>
+<indexterm><primary>daos_acl_principal_from_str</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_principal_from_str</secondary></indexterm>
+<para><computeroutput>int daos_acl_principal_from_str (const char * principal_str, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> * type, char ** name)</computeroutput></para>
+<para>Convert a formatted principal string to an ACL principal type and name suitable for creating or looking up an Access Control Entry.</para>
+
+<para>The format of the input string is:<itemizedlist>
+<listitem>
+<para>For named user: &quot;u:username@&quot;</para>
+</listitem><listitem>
+<para>For named group: &quot;g:groupname@&quot;</para>
+</listitem><listitem>
+<para>For special types: &quot;OWNER@&quot;, &quot;GROUP@&quot;, or &quot;EVERYONE@&quot;</para>
+</listitem></itemizedlist>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal_str</entry>
+                                <entry>
+<para>Formatted principal string </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>type</entry>
+                                <entry>
+<para>Type determined from the string </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Newly-allocated name string. Caller is responsible for freeing. Result may be NULL if the principal is one of the special types.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gaa6b4923d9ced6259614f2de9fd9a15e8"/>    <section>
+    <title>daos_acl_principal_is_valid()</title>
+<indexterm><primary>daos_acl_principal_is_valid</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_principal_is_valid</secondary></indexterm>
+<para><computeroutput>bool daos_acl_principal_is_valid (const char * name)</computeroutput></para>
+<para>Sanity check that the principal is a properly-formatted name string for use in an Access Control List.</para>
+
+<para>The check is not very strict. It verifies that the name is in the name@[domain] format, but does not make assumptions about legal characters in the name or verify that the principal actually exists</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>Principal name to be validated</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>true if the name is properly formatted false otherwise </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga1dc782b2cccdee7c433d0a7bdc6fba0b"/>    <section>
+    <title>daos_acl_principal_to_gid()</title>
+<indexterm><primary>daos_acl_principal_to_gid</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_principal_to_gid</secondary></indexterm>
+<para><computeroutput>int daos_acl_principal_to_gid (const char * principal, gid_t * gid)</computeroutput></para>
+<para>Convert the name of a group principal from an Access Control List to its corresponding local GID.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal</entry>
+                                <entry>
+<para>Principal name </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>gid</entry>
+                                <entry>
+<para>GID of the principal</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NONEXIST Group not found -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga2983d9e3ecb4b9cde346578cafb175d5"/>    <section>
+    <title>daos_acl_principal_to_uid()</title>
+<indexterm><primary>daos_acl_principal_to_uid</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_principal_to_uid</secondary></indexterm>
+<para><computeroutput>int daos_acl_principal_to_uid (const char * principal, uid_t * uid)</computeroutput></para>
+<para>Convert the name of a user principal from an Access Control List to its corresponding local UID.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal</entry>
+                                <entry>
+<para>Principal name </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>uid</entry>
+                                <entry>
+<para>UID of the principal</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NONEXIST User not found -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gae9ef8ca19b32a2ed1f1e7672a48fc23e"/>    <section>
+    <title>daos_acl_remove_ace()</title>
+<indexterm><primary>daos_acl_remove_ace</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_remove_ace</secondary></indexterm>
+<para><computeroutput>int daos_acl_remove_ace (struct <link linkend="_structdaos__acl">daos_acl</link> ** acl, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, const char * principal_name)</computeroutput></para>
+<para>Remove an Access Control Entry from the list.</para>
+
+<para>When the entry is removed, the ACL is reallocated, and the old structure is freed.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>Original ACL </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>type</entry>
+                                <entry>
+<para>Principal type of the ACE to remove </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>principal_name</entry>
+                                <entry>
+<para>Principal name of the ACE to remove (NULL if type isn&apos;t user/group)</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Failed to allocate required memory -DER_NONEXIST Requested ACE was not in the ACL </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1ga53f87fb1bd0efe76b7a5e68f6c6d0c33"/>    <section>
+    <title>daos_acl_to_stream()</title>
+<indexterm><primary>daos_acl_to_stream</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_to_stream</secondary></indexterm>
+<para><computeroutput>int daos_acl_to_stream (FILE * stream, struct <link linkend="_structdaos__acl">daos_acl</link> * acl, bool verbose)</computeroutput></para>
+<para>Print the Access Control List to a stream in the ACL file format.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>stream</entry>
+                                <entry>
+<para>Open stream to which the ACL should be printed </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>Access Control List to print </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>verbose</entry>
+                                <entry>
+<para>Include verbose comment for each ACE in output</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Could not allocate memory -DER_IO Failed to write to stream </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gadad0544d69586cc7cdf3149de5712bfe"/>    <section>
+    <title>daos_acl_to_strs()</title>
+<indexterm><primary>daos_acl_to_strs</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_to_strs</secondary></indexterm>
+<para><computeroutput>int daos_acl_to_strs (struct <link linkend="_structdaos__acl">daos_acl</link> * acl, char *** ace_strs, size_t * ace_nr)</computeroutput></para>
+<para>Convert an Access Control List (<link linkend="_structdaos__acl">daos_acl</link>) to a list of Access Control Entries formatted as strings.</para>
+
+<para>Each entry in ace_strs is dynamically allocated. So is the array itself. It is the caller&apos;s responsibility to free all of them.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>DAOS ACL </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>ace_strs</entry>
+                                <entry>
+<para>Newly allocated array of strings </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>ace_nr</entry>
+                                <entry>
+<para>Length of ace_strs</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gad5232b83868adb948710d14af46bfebe"/>    <section>
+    <title>daos_acl_uid_to_principal()</title>
+<indexterm><primary>daos_acl_uid_to_principal</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_uid_to_principal</secondary></indexterm>
+<para><computeroutput>int daos_acl_uid_to_principal (uid_t uid, char ** name)</computeroutput></para>
+<para>Convert a local uid to a properly-formatted principal name for use with the Access Control List API.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>uid</entry>
+                                <entry>
+<para>UID to convert </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Newly allocated null-terminated string containing the formatted principal name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_INVAL Invalid input -DER_NONEXIST UID not found -DER_NOMEM Could not allocate memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___security_1gad0a9f2f679dc7f937eef33816ab2c4d8"/>    <section>
+    <title>daos_acl_validate()</title>
+<indexterm><primary>daos_acl_validate</primary><secondary>DAOS Security</secondary></indexterm>
+<indexterm><primary>DAOS Security</primary><secondary>daos_acl_validate</secondary></indexterm>
+<para><computeroutput>int daos_acl_validate (struct <link linkend="_structdaos__acl">daos_acl</link> * acl)</computeroutput></para>
+<para>Parse and sanity check the entire Access Control List for valid values and internal consistency.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>acl</entry>
+                                <entry>
+<para>Access Control List to sanity check</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 ACL is valid -DER_INVAL ACL is not valid -DER_NOMEM Ran out of memory while checking </para>
+</formalpara>
+</para>
+</section>
+</section>
+</section>

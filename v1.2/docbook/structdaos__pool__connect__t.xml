@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__pool__connect__t">
+<title>daos_pool_connect_t Struct Reference</title>
+<indexterm><primary>daos_pool_connect_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uuid_t <link linkend="_structdaos__pool__connect__t_1a0c9cfc131b27ae3b98b1533bba4c58ef">uuid</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structdaos__pool__connect__t_1aafb4e47bc006722deb58fd5e17531de3">grp</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structdaos__pool__connect__t_1ac92588540e8c1d014a08cd8a45462b19">flags</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> * <link linkend="_structdaos__pool__connect__t_1ab12b4c1b5d0fa473ea78d3bd89131589">poh</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> * <link linkend="_structdaos__pool__connect__t_1ac8da9aadb56674709f5cf11ea3c24507">info</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structdaos__pool__connect__t_1a8cae7709f27921f9baa6a1437a59581f">pool</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>pool connect by UUID args </para>
+<para>
+Definition at line 142 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__pool__connect__t_1ac92588540e8c1d014a08cd8a45462b19"/>    <section>
+    <title>flags</title>
+<indexterm><primary>flags</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>flags</secondary></indexterm>
+<para><computeroutput>unsigned int flags</computeroutput></para>
+<para>Connect mode represented by the DAOS_PC_ bits. </para>
+<para>
+Definition at line 151 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__connect__t_1aafb4e47bc006722deb58fd5e17531de3"/>    <section>
+    <title>grp</title>
+<indexterm><primary>grp</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>grp</secondary></indexterm>
+<para><computeroutput>const char* grp</computeroutput></para>
+<para>Process set name of the DAOS servers managing the pool. </para>
+<para>
+Definition at line 149 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__connect__t_1ac8da9aadb56674709f5cf11ea3c24507"/>    <section>
+    <title>info</title>
+<indexterm><primary>info</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>info</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__pool__info__t">daos_pool_info_t</link>* info</computeroutput></para>
+<para>Optional, returned pool information. </para>
+<para>
+Definition at line 155 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__connect__t_1ab12b4c1b5d0fa473ea78d3bd89131589"/>    <section>
+    <title>poh</title>
+<indexterm><primary>poh</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>poh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link>* poh</computeroutput></para>
+<para>Returned open handle. </para>
+<para>
+Definition at line 153 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__connect__t_1a8cae7709f27921f9baa6a1437a59581f"/>    <section>
+    <title>pool</title>
+<indexterm><primary>pool</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>pool</secondary></indexterm>
+<para><computeroutput>const char* pool</computeroutput></para>
+<para>Pool&apos;s label or UUID string to connect to, API v1.3.0 </para>
+<para>
+Definition at line 157 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__connect__t_1a0c9cfc131b27ae3b98b1533bba4c58ef"/>    <section>
+    <title>uuid</title>
+<indexterm><primary>uuid</primary><secondary>daos_pool_connect_t</secondary></indexterm>
+<indexterm><primary>daos_pool_connect_t</primary><secondary>uuid</secondary></indexterm>
+<para><computeroutput>uuid_t uuid</computeroutput></para>
+<para>Deprecated, please pass the Pool label or UUID string via the pool arg at the end of this structure </para>
+<para>
+Definition at line 147 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

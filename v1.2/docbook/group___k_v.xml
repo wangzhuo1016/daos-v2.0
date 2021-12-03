@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___k_v">
+<title>DAOS Key Value Store</title>
+<indexterm><primary>DAOS Key Value Store</primary></indexterm>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_group___k_v_1ga0c3739abb79f2f6d630010c72b1769ca"/>#define <emphasis role="strong">DAOS_COND_KEY_INSERT</emphasis>   DAOS_COND_DKEY_INSERT</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___k_v_1ga28790aa071e2f975324089c87b077d94"/>#define <emphasis role="strong">DAOS_COND_KEY_UPDATE</emphasis>   DAOS_COND_DKEY_UPDATE</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___k_v_1gacb714e87cf7b9fcea1f294c0750bdb26"/>#define <emphasis role="strong">DAOS_COND_KEY_GET</emphasis>   DAOS_COND_DKEY_FETCH</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___k_v_1ga80ab508926fb5ab4c10f8aca275316a6"/>#define <emphasis role="strong">DAOS_COND_KEY_REMOVE</emphasis>   DAOS_COND_PUNCH</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_group___k_v_1gad05d00c41c670cd91e2e3fc8ca69f7bd">daos_kv_open</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, unsigned int mode, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gaf0bebe7eb7bf3c618b4fb71e8a39c71d">daos_kv_close</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gada5a9ad798e7b54fcf6b8bbe674bbf36">daos_kv_destroy</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga3f3cd19cee87b92e19b860b42458f848">daos_kv_put</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, const void *buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga23cae3d831736069a32833f64f5f5cc7">daos_kv_get</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size, void *buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gafc6948a98b48daa2129054f4c47e55b1">daos_kv_remove</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga6fe2aa213fc2aab3840f20436cc9a6ae">daos_kv_list</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint32_t *nr, <link linkend="_structdaos__key__desc__t">daos_key_desc_t</link> *kds, d_sg_list_t *sgl, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___k_v_1gaf0bebe7eb7bf3c618b4fb71e8a39c71d"/>    <section>
+    <title>daos_kv_close()</title>
+<indexterm><primary>daos_kv_close</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_close</secondary></indexterm>
+<para><computeroutput>int daos_kv_close (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Close an opened KV object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>KV object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1gada5a9ad798e7b54fcf6b8bbe674bbf36"/>    <section>
+    <title>daos_kv_destroy()</title>
+<indexterm><primary>daos_kv_destroy</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_destroy</secondary></indexterm>
+<para><computeroutput>int daos_kv_destroy (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Destroy the kV object by punching all data (keys) in the kv object. <link linkend="_group___object_1ga908f76eaa33ae21cd835ab585804eca9">daos_obj_punch()</link> is called underneath. The oh still needs to be closed with a call to <link linkend="_group___k_v_1gaf0bebe7eb7bf3c618b4fb71e8a39c71d">daos_kv_close()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>KV object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>th</entry>
+                                <entry>
+<para>Transaction handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle -DER_INVAL Invalid parameter </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1ga23cae3d831736069a32833f64f5f5cc7"/>    <section>
+    <title>daos_kv_get()</title>
+<indexterm><primary>daos_kv_get</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_get</secondary></indexterm>
+<para><computeroutput>int daos_kv_get (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char * key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * size, void * buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Fetch value of a key.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>Object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>th</entry>
+                                <entry>
+<para>Transaction handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Fetch flags. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>key</entry>
+                                <entry>
+<para>key associated with the update operation. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Size of the user buf. if the size is unknown, set to DAOS_REC_ANY). [out]: The actual size of the value. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buf</entry>
+                                <entry>
+<para>Pointer to user buffer. If NULL, only size is returned. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_REC2BIG Record does not fit in buffer -DER_EP_RO Epoch is read-only </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1ga6fe2aa213fc2aab3840f20436cc9a6ae"/>    <section>
+    <title>daos_kv_list()</title>
+<indexterm><primary>daos_kv_list</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_list</secondary></indexterm>
+<para><computeroutput>int daos_kv_list (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint32_t * nr, <link linkend="_structdaos__key__desc__t">daos_key_desc_t</link> * kds, d_sg_list_t * sgl, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchor, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>List/enumerate all keys in an object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>Object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>th</entry>
+                                <entry>
+<para>Transaction handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>nr</entry>
+                                <entry>
+<para>[in]: number of key descriptors in <emphasis>kds</emphasis>. [out]: number of returned key descriptors. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>kds</entry>
+                                <entry>
+<para>[in]: preallocated array of <emphasis>nr</emphasis> key descriptors. [out]: size of each individual key. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sgl</entry>
+                                <entry>
+<para>Scatter/gather list to store the dkey list. All keys are written contiguously, with actual boundaries that can be calculated using <emphasis>kds</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>anchor</entry>
+                                <entry>
+<para>Hash anchor for the next call, it should be set to zeroes for the first call, it should not be changed by caller between calls. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_EP_RO Epoch is read-only </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1gad05d00c41c670cd91e2e3fc8ca69f7bd"/>    <section>
+    <title>daos_kv_open()</title>
+<indexterm><primary>daos_kv_open</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_open</secondary></indexterm>
+<para><computeroutput>int daos_kv_open (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, unsigned int mode, <link linkend="_structdaos__handle__t">daos_handle_t</link> * oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Open a KV object. This is a local operation (no RPC involved). The feat bits in the oid must set DAOS_OF_KV_FLAT.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oid</entry>
+                                <entry>
+<para>Object ID. It is required that the feat for dkey type be set to DAOS_OF_KV_FLAT. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>Open mode: DAOS_OO_RO/RW </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>Returned kv object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid container handle -DER_INVAL Invalid parameter </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1ga3f3cd19cee87b92e19b860b42458f848"/>    <section>
+    <title>daos_kv_put()</title>
+<indexterm><primary>daos_kv_put</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_put</secondary></indexterm>
+<para><computeroutput>int daos_kv_put (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char * key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, const void * buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Insert or update a single object KV pair. If a value existed before it will be overwritten (punched first if not previously an atomic value) with the new atomic value described by the sgl.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>Object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>th</entry>
+                                <entry>
+<para>Transaction handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Update flags. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>key</entry>
+                                <entry>
+<para>Key associated with the update operation. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>Size of the buffer to be inserted as an atomic val. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>buf</entry>
+                                <entry>
+<para>Pointer to user buffer of the atomic value. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_EP_RO Epoch is read-only </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___k_v_1gafc6948a98b48daa2129054f4c47e55b1"/>    <section>
+    <title>daos_kv_remove()</title>
+<indexterm><primary>daos_kv_remove</primary><secondary>DAOS Key Value Store</secondary></indexterm>
+<indexterm><primary>DAOS Key Value Store</primary><secondary>daos_kv_remove</secondary></indexterm>
+<para><computeroutput>int daos_kv_remove (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char * key, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Remove a Key and it&apos;s value from the KV store</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>Object open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>th</entry>
+                                <entry>
+<para>Transaction handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Remove flags. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>key</entry>
+                                <entry>
+<para>Key to be punched/removed. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid object open handle -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_EP_RO Epoch is read-only </para>
+</formalpara>
+</para>
+</section>
+</section>
+</section>

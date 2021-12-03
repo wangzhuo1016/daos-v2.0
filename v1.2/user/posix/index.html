@@ -1,0 +1,1480 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+        <link rel="canonical" href="http://daos.io/v1.2/user/posix/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>POSIX Namespace - DAOS v1.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#546d78">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CUbuntu+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Ubuntu Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#posix-namespace" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DAOS v1.2" class="md-header__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v1.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              POSIX Namespace
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DAOS v1.2" class="md-nav__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    DAOS v1.2
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Architecture Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Architecture Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Architecture Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup/" class="md-nav__link">
+        CentOS Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/suse_setup/" class="md-nav__link">
+        openSUSE Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/test_index/" class="md-nav__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/DAOS+IO-500+Instructions" class="md-nav__link">
+        IO500 Setup
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      <label class="md-nav__link" for="__nav_5">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          POSIX Namespace
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        POSIX Namespace
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#libdfs" class="md-nav__link">
+    libdfs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dfuse" class="md-nav__link">
+    DFuse
+  </a>
+  
+    <nav class="md-nav" aria-label="DFuse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dfuse-daemon" class="md-nav__link">
+    DFuse Daemon
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restrictions" class="md-nav__link">
+    Restrictions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launching" class="md-nav__link">
+    Launching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poolcontainer-paths" class="md-nav__link">
+    Pool/Container Paths
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#links-into-other-containers" class="md-nav__link">
+    Links into other Containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-caching" class="md-nav__link">
+    Enabling Caching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stopping-dfuse" class="md-nav__link">
+    Stopping DFuse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interception-library" class="md-nav__link">
+    Interception Library
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/runior/" class="md-nav__link">
+        Run IOR
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/mdtest/" class="md-nav__link">
+        Run mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/datamover/" class="md-nav__link">
+        Datamover test
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v1_2/" class="md-nav__link">
+        Release Notes v1.2
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix/" class="md-nav__link">
+        Support Matrix
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/Roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Mailing list
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://jira.hpdd.intel.com/projects/DAOS" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#libdfs" class="md-nav__link">
+    libdfs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dfuse" class="md-nav__link">
+    DFuse
+  </a>
+  
+    <nav class="md-nav" aria-label="DFuse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dfuse-daemon" class="md-nav__link">
+    DFuse Daemon
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restrictions" class="md-nav__link">
+    Restrictions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launching" class="md-nav__link">
+    Launching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poolcontainer-paths" class="md-nav__link">
+    Pool/Container Paths
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#links-into-other-containers" class="md-nav__link">
+    Links into other Containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-caching" class="md-nav__link">
+    Enabling Caching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stopping-dfuse" class="md-nav__link">
+    Stopping DFuse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interception-library" class="md-nav__link">
+    Interception Library
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/user/posix.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="posix-namespace">POSIX Namespace<a class="headerlink" href="#posix-namespace" title="Permanent link">&para;</a></h1>
+<p>A regular POSIX namespace can be encapsulated into a DAOS container.  This
+capability is provided by the <code>libdfs</code> library that implements the file and
+directory abstractions over the native <code>libdaos</code> library. The POSIX emulation can
+be exposed directly to applications or I/O frameworks (e.g., for
+frameworks like Spark or TensorFlow, or benchmarks like IOR or mdtest that support
+different storage backend plugins). 
+It can also be exposed transparently via a FUSE daemon, combined
+optionally with an interception library to address some of the FUSE performance
+bottlenecks by delivering full OS bypass for POSIX read/write operations.</p>
+<p><img alt="../graph/posix.png" src="../../graph/posix.png" title="POSIX I/O Support" /></p>
+<h2 id="libdfs">libdfs<a class="headerlink" href="#libdfs" title="Permanent link">&para;</a></h2>
+<p>The DAOS File System (DFS) is implemented in the <code>libdfs</code> library, 
+and allows a DAOS container to be accessed as a hierarchical POSIX namespace.
+<code>libdfs</code> supports files, directories, and symbolic links, but not hard links. 
+Access permissions are inherited from
+the parent pool and are not implemented on a per-file or per-directory basis.
+<code>setuid()</code> and <code>setgid()</code> programs, as well as supplementary groups, 
+are currently not supported.</p>
+<p>It is possible to use <code>libdfs</code> in a parallel application from multiple nodes.
+When the same POSIX container is mounted concurrently by multiple
+processes, a few limitations exist in DAOS v1.0. In particular:</p>
+<ul>
+<li>Unlinking a file in one process while another process has the same file
+  open: This may or may not cause an I/O error on the open file.</li>
+<li>The atomicity of rename operations is not guaranteed.</li>
+</ul>
+<p>These corner cases will be addressed in a future DAOS release. </p>
+<h2 id="dfuse">DFuse<a class="headerlink" href="#dfuse" title="Permanent link">&para;</a></h2>
+<p>DFuse provides DAOS File System access through the standard libc/kernel/VFS
+POSIX infrastructure.  This allows existing applications to use DAOS without
+modification, and provides a path to upgrade those applications to native DAOS
+support.  Additionally, DFuse provides an Interception Library <code>libioil</code> to transparently
+allow POSIX clients to talk directly to DAOS servers, providing OS-Bypass for
+I/O without modifying or recompiling of the application.</p>
+<p>DFuse builds heavily on DFS. Data written via DFuse can be accessed by DFS and
+vice versa.</p>
+<h3 id="dfuse-daemon">DFuse Daemon<a class="headerlink" href="#dfuse-daemon" title="Permanent link">&para;</a></h3>
+<p>The <code>dfuse</code> daemon runs a single instance per node to provide a user POSIX access
+to DAOS. It should be run with the credentials of the user, and typically will
+be started and stopped on each compute node as part of the prolog and epilog
+scripts of any resource manager or scheduler in use.  One DFuse daemon per node
+can process requests for multiple clients.</p>
+<p>A single DFuse instance can provide access to multiple pools and containers
+concurrently, or can be limited to a single pool, or a single container.</p>
+<h3 id="restrictions">Restrictions<a class="headerlink" href="#restrictions" title="Permanent link">&para;</a></h3>
+<p>DFuse is limited to a single user. Access to the filesystem from other users,
+including root, will not be honored. As a consequence of this, the <code>chown</code>
+and <code>chgrp</code> calls are not supported.  Hard links and special device files, except
+symbolic links, are not supported, nor are any ACLs.</p>
+<p>DFuse can run in the foreground, keeping the terminal window open, or it can
+daemonize to run like a system daemon. 
+However, to do this and still be
+able to access DAOS it needs to daemonize before calling <code>daos_init()</code>. 
+This in turns means it cannot report some kinds of startup errors either on
+stdout/stderr or via its return code.<br />
+When initially starting with DFuse it is recommended to run in foreground mode 
+(<code>--foreground</code>) to better observe any failures.</p>
+<p>Inodes are managed on the local node by DFuse. So while inode numbers
+will be consistent on a node for the duration of the session, they are not
+guaranteed to be consistent across restarts of DFuse or across nodes.</p>
+<p>It is not possible to see pool/container listings through DFuse. 
+So if <code>readdir</code>, <code>ls</code> or others are used, DFuse will return <code>ENOTSUP</code>.</p>
+<h3 id="launching">Launching<a class="headerlink" href="#launching" title="Permanent link">&para;</a></h3>
+<p>DFuse should be run with the credentials (user/group) of the user who will
+be accessing it, and who owns any pools that will be used.</p>
+<p>There are two mandatory command-line options, these are:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command-line Option</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--mountpoint=&lt;path></td>
+<td>path to mount dfuse</td>
+</tr>
+</tbody>
+</table>
+<p>The mount point specified should be an empty directory on the local node that
+is owned by the user.</p>
+<p>Additionally, there are several optional command-line options:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Command-line Option</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--pool=&lt;uuid></td>
+<td>pool uuid to connect to</td>
+</tr>
+<tr>
+<td>--container=&lt;uuid></td>
+<td>container uuid to open</td>
+</tr>
+<tr>
+<td>--sys-name=&lt;name></td>
+<td>DAOS system name</td>
+</tr>
+<tr>
+<td>--foreground</td>
+<td>run in foreground</td>
+</tr>
+<tr>
+<td>--singlethreaded</td>
+<td>run single threaded</td>
+</tr>
+</tbody>
+</table>
+<p>When DFuse starts, it will register a single mount with the kernel, at the
+location specified by the <code>--mountpoint</code> option. This mount will be
+visible in <code>/proc/mounts</code>, and possibly in the output of <code>df</code>.<br />
+The contents of multiple pools/containers will be accessible via this 
+single kernel mountpoint.</p>
+<h3 id="poolcontainer-paths">Pool/Container Paths<a class="headerlink" href="#poolcontainer-paths" title="Permanent link">&para;</a></h3>
+<p>DFuse will only create one kernel level mount point regardless of how it is
+launched. How POSIX containers are represented within that mount point varies 
+depending on the DFuse command-line options:</p>
+<p>If both a pool uuid and a container uuid are specified on the command line, then 
+the mount point will map to the root of the container itself. Files can be
+accessed by simply concatenating the mount point and the name of the file,
+relative to the root of the container.</p>
+<p>If neither a pool or container is specified, then pools and container can be
+accessed by the path <code>&lt;mount point&gt;/&lt;pool uuid&gt;/&lt;container uuid&gt;</code>. However it
+should be noted that <code>readdir()</code> and therefore <code>ls</code> do not work on either mount
+points or directories representing pools here. So the pool and container uuids
+will have to be provided from an external source.</p>
+<p>If a pool uuid is specified but not a container uuid, then the containers can be
+accessed by the path <code>&lt;mount point&gt;/&lt;container uuid&gt;</code>. The container uuid
+will have to be provided from an external source.</p>
+<p>It is anticipated that in most cases, both pool uuid and container uuid will be
+used, so the mount point itself will map directly onto a POSIX container.</p>
+<h3 id="links-into-other-containers">Links into other Containers<a class="headerlink" href="#links-into-other-containers" title="Permanent link">&para;</a></h3>
+<p>It is possible to link to other containers in DFuse, where subdirectories
+within a container resolve not to regular directories, but rather to
+the root of entirely different POSIX containers.</p>
+<p>To create a new container and link it into the namespace of an existing one,
+use the following command.</p>
+<pre><code class="bash">$ daos container create --type POSIX --pool &lt;pool uuid&gt; --path &lt;path to entry point&gt;
+</code></pre>
+
+<p>The pool uuid should already exist, and the path should specify a location
+somewhere within a DFuse mount point that resolves to a POSIX container.
+Once a link is created, it can be accessed through the new path. Following
+the link is virtually transparent.  No container uuid is required. If one is
+not supplied, it will be created.</p>
+<p>To destroy a container again, the following command should be used.</p>
+<pre><code class="bash">$ daos container destroy --path &lt;path to entry point&gt;
+</code></pre>
+
+<p>This will both remove the link between the containers and remove the container
+that was linked to.</p>
+<p>There is no support for adding links to already existing containers or removing
+links to containers without also removing the container itself.</p>
+<p>Information about a container, for example, the presence of an entry point between
+containers, or the pool and container uuids of the container linked to can be
+read with the following command.</p>
+<pre><code class="bash">$ daos container info --path &lt;path to entry point&gt;
+</code></pre>
+
+<h3 id="enabling-caching">Enabling Caching<a class="headerlink" href="#enabling-caching" title="Permanent link">&para;</a></h3>
+<p>DFuse in normal mode simply provides a communication path between the kernel and
+DAOS. However, this can come with a performance impact. To help alleviate this
+it is possible to turn on caching, both within dfuse itself and by allowing the
+kernel to cache certain data.  Where and when data is cached, there is no attempt
+made to invalidate the caches based on changes to DAOS, other than simple timeouts.</p>
+<p>Enabling this option will turn on the following features:</p>
+<ul>
+<li>Kernel caching of dentries</li>
+<li>Kernel caching of negative dentries</li>
+<li>Kernel caching of inodes (file sizes, permissions etc)</li>
+<li>Kernel caching of file contents</li>
+<li>Readahead in dfuse and inserting data into kernel cache</li>
+<li>MMAP write optimization</li>
+</ul>
+<p>To turn on caching use the <code>--enable-caching</code> command-line option for dfuse. This
+will enable the feature for all accessed containers.  When this option is used,
+the containers accessed should only be accessed from one node, so it may
+be necessary to create a container per node in this model.</p>
+<h3 id="stopping-dfuse">Stopping DFuse<a class="headerlink" href="#stopping-dfuse" title="Permanent link">&para;</a></h3>
+<p>When done, the file system can be unmounted via fusermount:</p>
+<pre><code class="bash">$ fusermount3 -u /tmp/daos
+</code></pre>
+
+<p>When this is done, the local DFuse daemon should shut down the mount point,
+disconnect from the DAOS servers, and exit.  You can also verify that the
+mount point is no longer listed in <code>/proc/mounts</code>.</p>
+<h3 id="interception-library">Interception Library<a class="headerlink" href="#interception-library" title="Permanent link">&para;</a></h3>
+<p>An interception library called <code>libioil</code> is available to work with DFuse. This
+library works in conjunction with DFuse and allows the interception of POSIX I/O
+calls and issue the I/O operations directly from the application context through
+<code>libdaos</code> without any application changes.  This provides kernel-bypass for I/O data,
+leading to improved performance.
+To use this, set <code>LD_PRELOAD</code> to point to the shared library in the DAOS install
+directory:</p>
+<pre><code>LD_PRELOAD=/path/to/daos/install/lib/libioil.so
+LD_PRELOAD=/usr/lib64/libioil.so # when installed from RPMs
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../interface/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Native Programming Interface" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Native Programming Interface
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../mpi-io/" class="md-footer__link md-footer__link--next" aria-label="Next: MPI-IO Support" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              MPI-IO Support
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

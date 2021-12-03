@@ -1,0 +1,2798 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___filesystem">
+<title>DAOS Filesystem</title>
+<indexterm><primary>DAOS Filesystem</primary></indexterm>
+<simplesect>
+    <title>Data Structures    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdfs__attr__t">dfs_attr_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdfs__iod__t">dfs_iod_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdfs__obj__info__t">dfs_obj_info_t</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_group___filesystem_1gaf385ad5434afb0770e2090c374a31295">DFS_MAX_NAME</link>   NAME_MAX</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga62a51da77a8bf6bd2173c9f6664abf36">DFS_MAX_PATH</link>   PATH_MAX</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga00f036421a8ac257185d0718ddeaece4">DFS_MAX_FSIZE</link>   (~0ULL)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga1d3dac39e196483d5f51192b0d5098b2">DFS_MAX_XATTR_NAME</link>   255</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1gaadd5bbc62d9cd31cdb5ea63c43ab6ded">DFS_MAX_XATTR_LEN</link>   65536</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1ga186f6e178c99d4e413a1975174fa28d2"/>#define <emphasis role="strong">DFS_BALANCED</emphasis>   4 /** DFS operations using a DTX */</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1ga2bf57a7b53f7bf21791ae6de8377ab53"/>#define <emphasis role="strong">DFS_RELAXED</emphasis>   0 /** DFS operations do not use a DTX (default mode). */</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1ga1c6ee0f987ed453c206ac0451d01a340"/>#define <emphasis role="strong">DFS_RDONLY</emphasis>   O_RDONLY</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1gac80d29e744635ec998fbfc058e0fa4b0"/>#define <emphasis role="strong">DFS_RDWR</emphasis>   O_RDWR</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga22ab22da8c7b88fc3b57fa6731607175">DFS_SET_ATTR_MODE</link>   (1 &lt;&lt; 0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1gaa762f57131bb9ec80a27facc6d926bfe">DFS_SET_ATTR_ATIME</link>   (1 &lt;&lt; 1)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga5aa953ddadc24beb0242887c7bb994bf">DFS_SET_ATTR_MTIME</link>   (1 &lt;&lt; 2)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga00459d072fafa9a920629053095ddd1a">DFS_SET_ATTR_SIZE</link>   (1 &lt;&lt; 3)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___filesystem_1ga0a266fc0611a7dfa7c742557d0221911">dfs_cont_create</link>(poh,  co, ...)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef struct dfs_obj <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link></para>
+</listitem>
+            <listitem><para>typedef struct dfs <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link></para>
+</listitem>
+            <listitem><para>typedef int(* <link linkend="_group___filesystem_1gabb7a47ee95057b7a41b3f8f0fd0c43e0">dfs_filler_cb_t</link>) (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, const char name[], void *arg)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_group___filesystem_1ga047a1e96259adb332e22cbeb005b87b8">dfs_cont_create</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t *uuid, <link linkend="_structdfs__attr__t">dfs_attr_t</link> *attr, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga5355410a0b5547152ef06418845058b5">dfs_cont_create_with_label</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *label, <link linkend="_structdfs__attr__t">dfs_attr_t</link> *attr, uuid_t *uuid, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga4df6382671f7d7803a440dca57885668">dfs_mount</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int flags, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gadae8b520eca7d1a4f020c5505d1acc79">dfs_umount</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga7ab5ef3406cec0657eb614491b93db72">dfs_query</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_structdfs__attr__t">dfs_attr_t</link> *attr)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaf1f78b4ccd59d75929f9925f03ff2f33">dfs_local2global</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, d_iov_t *glob)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gae0c92f37e9c1d8b889016b7bf4b32230">dfs_global2local</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int flags, d_iov_t glob, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga208f16f7183e9eeaefdbdb851ccc747e">dfs_set_prefix</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, const char *prefix)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga9bc7cbbf60d1e47964d1423cfed31151">dfs_obj2id</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> *oid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gac9545c72f174f1d64d8533fc1f50ac00">dfs_lookup</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, const char *path, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> **obj, mode_t *mode, struct stat *stbuf)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga17a88c52335a5564470a85d63731c8be">dfs_lookup_rel</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> **obj, mode_t *mode, struct stat *stbuf)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga43eee0ce15ae1ab80a4b83a06d494bd5">dfs_open</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, mode_t mode, int flags, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> chunk_size, const char *value, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> **obj)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaaea10fe5a325092f81734d66512008bb">dfs_dup</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> **new_obj)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga9c525bd5a23582a8ead2d446362444c7">dfs_obj_local2global</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, d_iov_t *glob)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaaef818c617008ecfc074c8fa4d3d187b">dfs_obj_global2local</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, int flags, d_iov_t glob, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> **obj)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gab4b6be160170ad080e424eb09e9eeb53">dfs_read</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, d_sg_list_t *sgl, daos_off_t off, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *read_size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga89c401c372b949678c9a85a1977da9b5">dfs_readx</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdfs__iod__t">dfs_iod_t</link> *iod, d_sg_list_t *sgl, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *read_size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaca8d8aa052bd7b7cae79a4e4e634889f">dfs_write</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, d_sg_list_t *sgl, daos_off_t off, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga057440757b2e420b362f646f32505091">dfs_writex</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdfs__iod__t">dfs_iod_t</link> *iod, d_sg_list_t *sgl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga9ba9f6ae30d0ba6cb53418950ac0a5ff">dfs_get_size</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaae348e42a1fca083a53f884c0a725a54">dfs_punch</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, daos_off_t offset, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> len)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gadb4ba70e262cfc93051ce23a1b31ce84">dfs_readdir</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor, uint32_t *nr, struct dirent *dirs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gad1e9e057b7be0af8abde9751de6a5d4a">dfs_iterate</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor, uint32_t *nr, size_t size, <link linkend="_group___filesystem_1gabb7a47ee95057b7a41b3f8f0fd0c43e0">dfs_filler_cb_t</link> op, void *arg)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaf77af4a335a88dc8fc4fb9b608ff248d">dfs_obj_anchor_split</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, uint32_t *nr, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchors)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga158200a32fbb8f23766f4eed69ccc4c4">dfs_obj_anchor_set</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, uint32_t index, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaea80aad002519a8f2606a09e50353968">dfs_mkdir</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, mode_t mode, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga1e049abc4666778f326b604c6f4b3c36">dfs_remove</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, bool force, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> *oid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga054f1a57950e4bd35e22dbe68a3cd859">dfs_move</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, char *name, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *new_parent, char *new_name, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> *oid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaa3c8518e00b90e38822f9d506491392f">dfs_exchange</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent1, char *name1, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent2, char *name2)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga18fcbc5b7692f444fffc2c553b432d09">dfs_get_mode</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, mode_t *mode)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga09283ee716eef2188bbf42ed63b1673e">dfs_obj_get_info</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdfs__obj__info__t">dfs_obj_info_t</link> *info)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gab34f8d825c3fa3bbb35244dabfede778">dfs_obj_set_oclass</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, int flags, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaab3c7f029fea34fbc2b040d6447ae346">dfs_obj_set_chunk_size</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, int flags, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> csize)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga450cfe1742662f471eb1485dddbcc4d5">dfs_get_file_oh</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaa811fee7902929800ee96a9a5ded6dc8">dfs_get_chunk_size</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *chunk_size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga911de1ce30bc7a6c810137d047888243">dfs_get_symlink_value</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, char *buf, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga883c4df60bcaf52273e2f096c4e0ddc8">dfs_update_parent</link> (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *src_obj, const char *name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga7f55f6356c88a84ff54db804da745a2d">dfs_stat</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, struct stat *stbuf)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaf34c0ae9ff73c65d4472feb20015e640">dfs_ostat</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, struct stat *stbuf)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga7649bef0218dbc40c9dc69a4a114ea72">dfs_osetattr</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, struct stat *stbuf, int flags)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gac21def5311d89db750c68673a06372e4">dfs_access</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, int mask)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gab0ec66e439b43c39be0760e3fe699b95">dfs_chmod</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *parent, const char *name, mode_t mode)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaf895c18266b07bed6e71654e7a302888">dfs_sync</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga42279dceaa061070b8b0a74017d992e9">dfs_setxattr</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, const char *name, const void *value, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, int flags)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga5bf7c83df00d76441569881ee71739f0">dfs_getxattr</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, const char *name, void *value, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1gaa96ea44fc5cd8b3c678ff4de2769432c">dfs_removexattr</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, const char *name)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___filesystem_1ga59a8280f33a55f1c1203c130720efbdb">dfs_listxattr</link> (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, char *list, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1ga974f3ede5ceca6299c8115642140b819"/>int <emphasis role="strong">dfs_cont_create2</emphasis> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t *cuuid, <link linkend="_structdfs__attr__t">dfs_attr_t</link> *attr, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___filesystem_1ga7103c615801d6d86c49f6b75ee4c0c3d"/>int <emphasis role="strong">dfs_cont_create1</emphasis> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const uuid_t cuuid, <link linkend="_structdfs__attr__t">dfs_attr_t</link> *attr, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> **dfs)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_group___filesystem_1ga0a266fc0611a7dfa7c742557d0221911"/>    <section>
+    <title>dfs_cont_create</title>
+<indexterm><primary>dfs_cont_create</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_cont_create</secondary></indexterm>
+<para><computeroutput>#define dfs_cont_create( poh,  co,  ...)</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;({&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuid_t&#32;*_u;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(d_is_uuid(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_u&#32;=&#32;(uuid_t&#32;*)((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co));&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___filesystem_1ga0a266fc0611a7dfa7c742557d0221911">dfs_cont_create</link>((poh),&#32;_u,&#32;__VA_ARGS__);&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_u&#32;=&#32;(uuid_t&#32;*)(co);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;dfs_cont_create2((poh),&#32;_u,&#32;__VA_ARGS__);&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;})
+</programlisting>
+<para>for backward compatility, support old api where a const uuid_t was required to be passed in for the container to be created. </para>
+<para>
+Definition at line 929 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga00f036421a8ac257185d0718ddeaece4"/>    <section>
+    <title>DFS_MAX_FSIZE</title>
+<indexterm><primary>DFS_MAX_FSIZE</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_MAX_FSIZE</secondary></indexterm>
+<para><computeroutput>#define DFS_MAX_FSIZE   (~0ULL)</computeroutput></para>
+<para>Maximum file size </para>
+<para>
+Definition at line 34 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1gaf385ad5434afb0770e2090c374a31295"/>    <section>
+    <title>DFS_MAX_NAME</title>
+<indexterm><primary>DFS_MAX_NAME</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_MAX_NAME</secondary></indexterm>
+<para><computeroutput>#define DFS_MAX_NAME   NAME_MAX</computeroutput></para>
+<para>Maximum Name length </para>
+<para>
+Definition at line 30 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga62a51da77a8bf6bd2173c9f6664abf36"/>    <section>
+    <title>DFS_MAX_PATH</title>
+<indexterm><primary>DFS_MAX_PATH</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_MAX_PATH</secondary></indexterm>
+<para><computeroutput>#define DFS_MAX_PATH   PATH_MAX</computeroutput></para>
+<para>Maximum PATH length </para>
+<para>
+Definition at line 32 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1gaadd5bbc62d9cd31cdb5ea63c43ab6ded"/>    <section>
+    <title>DFS_MAX_XATTR_LEN</title>
+<indexterm><primary>DFS_MAX_XATTR_LEN</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_MAX_XATTR_LEN</secondary></indexterm>
+<para><computeroutput>#define DFS_MAX_XATTR_LEN   65536</computeroutput></para>
+<para>Maximum xattr value </para>
+<para>
+Definition at line 39 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga1d3dac39e196483d5f51192b0d5098b2"/>    <section>
+    <title>DFS_MAX_XATTR_NAME</title>
+<indexterm><primary>DFS_MAX_XATTR_NAME</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_MAX_XATTR_NAME</secondary></indexterm>
+<para><computeroutput>#define DFS_MAX_XATTR_NAME   255</computeroutput></para>
+<para>Maximum xattr name </para>
+<para>
+Definition at line 37 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1gaa762f57131bb9ec80a27facc6d926bfe"/>    <section>
+    <title>DFS_SET_ATTR_ATIME</title>
+<indexterm><primary>DFS_SET_ATTR_ATIME</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_SET_ATTR_ATIME</secondary></indexterm>
+<para><computeroutput>#define DFS_SET_ATTR_ATIME   (1 &lt;&lt; 1)</computeroutput></para>
+<para>Option to set the access time on an entry </para>
+<para>
+Definition at line 765 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga22ab22da8c7b88fc3b57fa6731607175"/>    <section>
+    <title>DFS_SET_ATTR_MODE</title>
+<indexterm><primary>DFS_SET_ATTR_MODE</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_SET_ATTR_MODE</secondary></indexterm>
+<para><computeroutput>#define DFS_SET_ATTR_MODE   (1 &lt;&lt; 0)</computeroutput></para>
+<para>Option to set the mode_t on an entry </para>
+<para>
+Definition at line 763 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga5aa953ddadc24beb0242887c7bb994bf"/>    <section>
+    <title>DFS_SET_ATTR_MTIME</title>
+<indexterm><primary>DFS_SET_ATTR_MTIME</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_SET_ATTR_MTIME</secondary></indexterm>
+<para><computeroutput>#define DFS_SET_ATTR_MTIME   (1 &lt;&lt; 2)</computeroutput></para>
+<para>Option to set the modify time on an entry </para>
+<para>
+Definition at line 767 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga00459d072fafa9a920629053095ddd1a"/>    <section>
+    <title>DFS_SET_ATTR_SIZE</title>
+<indexterm><primary>DFS_SET_ATTR_SIZE</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>DFS_SET_ATTR_SIZE</secondary></indexterm>
+<para><computeroutput>#define DFS_SET_ATTR_SIZE   (1 &lt;&lt; 3)</computeroutput></para>
+<para>Option to set size of a file </para>
+<para>
+Definition at line 769 of file daos_fs.h.</para>
+</section>
+</section>
+<section>
+<title>Typedef Documentation</title>
+<anchor xml:id="_group___filesystem_1gabb7a47ee95057b7a41b3f8f0fd0c43e0"/>    <section>
+    <title>dfs_filler_cb_t</title>
+<indexterm><primary>dfs_filler_cb_t</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_filler_cb_t</secondary></indexterm>
+<para><computeroutput>typedef int(* dfs_filler_cb_t) (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> *dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> *obj, const char name[], void *arg)</computeroutput></para>
+<para>User callback defined for dfs_readdir_size. </para>
+<para>
+Definition at line 475 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2"/>    <section>
+    <title>dfs_obj_t</title>
+<indexterm><primary>dfs_obj_t</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_t</secondary></indexterm>
+<para><computeroutput>typedef struct dfs_obj <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link></computeroutput></para>
+<para>File/Directory/Symlink object handle struct </para>
+<para>
+Definition at line 42 of file daos_fs.h.</para>
+    </section><anchor xml:id="_group___filesystem_1gafc65ec05277f052daed166445bf3c828"/>    <section>
+    <title>dfs_t</title>
+<indexterm><primary>dfs_t</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_t</secondary></indexterm>
+<para><computeroutput>typedef struct dfs <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link></computeroutput></para>
+<para>DFS mount handle struct </para>
+<para>
+Definition at line 44 of file daos_fs.h.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___filesystem_1gac21def5311d89db750c68673a06372e4"/>    <section>
+    <title>dfs_access()</title>
+<indexterm><primary>dfs_access</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_access</secondary></indexterm>
+<para><computeroutput>int dfs_access (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, int mask)</computeroutput></para>
+<para>Check access permissions on an object. Similar to Linux access(2). Symlinks are dereferenced.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of the object. Can be NULL if parent is root, which means operation will be on root object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>mask</entry>
+                                <entry>
+<para>accessibility check(s) to be performed. It should be either the value F_OK, or a mask with bitwise OR of one or more of R_OK, W_OK, and X_OK.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gab0ec66e439b43c39be0760e3fe699b95"/>    <section>
+    <title>dfs_chmod()</title>
+<indexterm><primary>dfs_chmod</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_chmod</secondary></indexterm>
+<para><computeroutput>int dfs_chmod (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, mode_t mode)</computeroutput></para>
+<para>Change permission access bits. Symlinks are dereferenced.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of the object. Can be NULL if parent is root, which means operation will be on root object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>New permission access modes. For now, we don&apos;t support the sticky bit, setuid, and setgid.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga047a1e96259adb332e22cbeb005b87b8"/>    <section>
+    <title>dfs_cont_create()</title>
+<indexterm><primary>dfs_cont_create</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_cont_create</secondary></indexterm>
+<para><computeroutput>int dfs_cont_create (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t * uuid, <link linkend="_structdfs__attr__t">dfs_attr_t</link> * attr, <link linkend="_structdaos__handle__t">daos_handle_t</link> * coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> ** dfs)</computeroutput></para>
+<para>Create a DFS container with the POSIX property layout set. Optionally set attributes for hints on the container.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>uuid</entry>
+                                <entry>
+<para>Pointer to uuid_t to hold the implementation-generated container UUID. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>attr</entry>
+                                <entry>
+<para>Optional set of properties and attributes to set on the container. Pass NULL if none. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Optionally leave the container open and return its hdl. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Optionally mount DFS on the container and return the dfs handle.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga5355410a0b5547152ef06418845058b5"/>    <section>
+    <title>dfs_cont_create_with_label()</title>
+<indexterm><primary>dfs_cont_create_with_label</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_cont_create_with_label</secondary></indexterm>
+<para><computeroutput>int dfs_cont_create_with_label (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * label, <link linkend="_structdfs__attr__t">dfs_attr_t</link> * attr, uuid_t * uuid, <link linkend="_structdaos__handle__t">daos_handle_t</link> * coh, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> ** dfs)</computeroutput></para>
+<para>Create a DFS container with label <emphasis>label</emphasis>. This is the same as dfs_container_create() with the label property set in <emphasis>attr-&gt;da_props</emphasis>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>label</entry>
+                                <entry>
+<para>Required, label property of the new container. Supersedes any label specified in <emphasis>cont_prop</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>attr</entry>
+                                <entry>
+<para>Optional set of properties and attributes to set on the container. Pass NULL if none. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>uuid</entry>
+                                <entry>
+<para>Optional pointer to uuid_t to hold the implementation-generated container UUID. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Optionally leave the container open and return its hdl. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Optionally mount DFS on the container and return the dfs handle.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaaea10fe5a325092f81734d66512008bb"/>    <section>
+    <title>dfs_dup()</title>
+<indexterm><primary>dfs_dup</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_dup</secondary></indexterm>
+<para><computeroutput>int dfs_dup (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> ** new_obj)</computeroutput></para>
+<para>Duplicate the DFS object without any RPCs (locally) by using the existing open handles. This is used mostly for low-level fuse to avoid re-opening. The duplicated object must be released with <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Object to dup. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Access flags to open with (O_RDONLY or O_RDWR). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>new_obj</entry>
+                                <entry>
+<para>DFS object that is duplicated/opened.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaa3c8518e00b90e38822f9d506491392f"/>    <section>
+    <title>dfs_exchange()</title>
+<indexterm><primary>dfs_exchange</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_exchange</secondary></indexterm>
+<para><computeroutput>int dfs_exchange (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent1, char * name1, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent2, char * name2)</computeroutput></para>
+<para>Exchange two objects.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent1</entry>
+                                <entry>
+<para>Parent directory object of name1. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name1</entry>
+                                <entry>
+<para>Link name of first object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent2</entry>
+                                <entry>
+<para>Parent directory object of name2. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name2</entry>
+                                <entry>
+<para>link name of second object.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaa811fee7902929800ee96a9a5ded6dc8"/>    <section>
+    <title>dfs_get_chunk_size()</title>
+<indexterm><primary>dfs_get_chunk_size</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_get_chunk_size</secondary></indexterm>
+<para><computeroutput>int dfs_get_chunk_size (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * chunk_size)</computeroutput></para>
+<para>Retrieve the chunk size of a DFS file object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>chunk_size</entry>
+                                <entry>
+<para>Chunk size of array object.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga450cfe1742662f471eb1485dddbcc4d5"/>    <section>
+    <title>dfs_get_file_oh()</title>
+<indexterm><primary>dfs_get_file_oh</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_get_file_oh</secondary></indexterm>
+<para><computeroutput>int dfs_get_file_oh (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdaos__handle__t">daos_handle_t</link> * oh)</computeroutput></para>
+<para>Retrieve the DAOS open handle of a DFS file object. User should not close this handle. This is used in cases like MPI-IO where 1 rank creates the file with dfs, but wants to access the file with the array API directly rather than the DFS API.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>oh</entry>
+                                <entry>
+<para>DAOS object open handle.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga18fcbc5b7692f444fffc2c553b432d09"/>    <section>
+    <title>dfs_get_mode()</title>
+<indexterm><primary>dfs_get_mode</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_get_mode</secondary></indexterm>
+<para><computeroutput>int dfs_get_mode (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, mode_t * mode)</computeroutput></para>
+<para>Retrieve mode of an open object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object to query. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>mode_t (permissions + type).</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga9ba9f6ae30d0ba6cb53418950ac0a5ff"/>    <section>
+    <title>dfs_get_size()</title>
+<indexterm><primary>dfs_get_size</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_get_size</secondary></indexterm>
+<para><computeroutput>int dfs_get_size (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * size)</computeroutput></para>
+<para>Query size of file data.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>Size of file.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga911de1ce30bc7a6c810137d047888243"/>    <section>
+    <title>dfs_get_symlink_value()</title>
+<indexterm><primary>dfs_get_symlink_value</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_get_symlink_value</secondary></indexterm>
+<para><computeroutput>int dfs_get_symlink_value (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, char * buf, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * size)</computeroutput></para>
+<para>Retrieve Symlink value of object if it&apos;s a symlink. If the buffer size passed in is not large enough, we copy up to size of the buffer, and update the size to actual value size. The size returned includes the null terminator.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object to query. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>buf</entry>
+                                <entry>
+<para>user buffer to copy the symlink value in. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Size of buffer passed in. [out]: Actual size of value.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga5bf7c83df00d76441569881ee71739f0"/>    <section>
+    <title>dfs_getxattr()</title>
+<indexterm><primary>dfs_getxattr</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_getxattr</secondary></indexterm>
+<para><computeroutput>int dfs_getxattr (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, const char * name, void * value, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * size)</computeroutput></para>
+<para>Get extended attribute of an open object. If object is a symlink, the link itself is interogated.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object where xattr is checked. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Name of xattr to get. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>value</entry>
+                                <entry>
+<para>Buffer to place value of xattr. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Size of buffer value. [out]: Actual size of xattr.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gae0c92f37e9c1d8b889016b7bf4b32230"/>    <section>
+    <title>dfs_global2local()</title>
+<indexterm><primary>dfs_global2local</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_global2local</secondary></indexterm>
+<para><computeroutput>int dfs_global2local (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int flags, d_iov_t glob, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> ** dfs)</computeroutput></para>
+<para>Create a dfs mount from global representation data. This has to be closed with <link linkend="_group___filesystem_1gadae8b520eca7d1a4f020c5505d1acc79">dfs_umount()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Mount flags (O_RDONLY or O_RDWR). If 0, inherit flags of serialized DFS handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>Global (shared) representation of a collective handle to be extracted </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Returned dfs mount</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gad1e9e057b7be0af8abde9751de6a5d4a"/>    <section>
+    <title>dfs_iterate()</title>
+<indexterm><primary>dfs_iterate</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_iterate</secondary></indexterm>
+<para><computeroutput>int dfs_iterate (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchor, uint32_t * nr, size_t size, <link linkend="_group___filesystem_1gabb7a47ee95057b7a41b3f8f0fd0c43e0">dfs_filler_cb_t</link> op, void * arg)</computeroutput></para>
+<para>Same as dfs_readdir, but this also adds a buffer size limitation when enumerating. On every entry, it issues a user defined callback. If size limitation is reached, function returns E2BIG</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened directory object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>anchor</entry>
+                                <entry>
+<para>Hash anchor for the next call, it should be set to zeroes for the first call, it should not be changed by caller between calls. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>nr</entry>
+                                <entry>
+<para>[in]: MAX number of entries to enumerate. [out]: Actual number of entries enumerated. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>Max buffer size to be used internally before breaking. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>op</entry>
+                                <entry>
+<para>Optional callback to be issued on every entry. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>arg</entry>
+                                <entry>
+<para>Pointer to user data to be passed to <emphasis>op</emphasis>.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga59a8280f33a55f1c1203c130720efbdb"/>    <section>
+    <title>dfs_listxattr()</title>
+<indexterm><primary>dfs_listxattr</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_listxattr</secondary></indexterm>
+<para><computeroutput>int dfs_listxattr (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, char * list, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * size)</computeroutput></para>
+<para>list extended attributes of an open object and place them all in a buffer NULL terminated one after the other. If object is a symlink, the link itself is interogated.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object where xattrs will be listed. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>list</entry>
+                                <entry>
+<para>[in]: Allocated buffer for all xattr names. [out]: Names placed after each other (null terminated). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Size of list. [out]: Actual size of list.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaf1f78b4ccd59d75929f9925f03ff2f33"/>    <section>
+    <title>dfs_local2global()</title>
+<indexterm><primary>dfs_local2global</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_local2global</secondary></indexterm>
+<para><computeroutput>int dfs_local2global (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, d_iov_t * glob)</computeroutput></para>
+<para>Convert a local dfs mount to global representation data which can be shared with peer processes. If glob-&gt;iov_buf is set to NULL, the actual size of the global handle is returned through glob-&gt;iov_buf_len. This function does not involve any communication and does not block.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>valid dfs mount to be shared </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>pointer to iov of the buffer to store mount information</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gac9545c72f174f1d64d8533fc1f50ac00"/>    <section>
+    <title>dfs_lookup()</title>
+<indexterm><primary>dfs_lookup</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_lookup</secondary></indexterm>
+<para><computeroutput>int dfs_lookup (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, const char * path, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> ** obj, mode_t * mode, struct stat * stbuf)</computeroutput></para>
+<para>Lookup a path in the DFS and return the associated open object and mode. The object must be released with <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>path</entry>
+                                <entry>
+<para>Path to lookup. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Access flags to open with (O_RDONLY or O_RDWR). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Pointer to the object looked up. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>Optional mode_t of object looked up. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>stbuf</entry>
+                                <entry>
+<para>Optional stat struct of object looked up.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga17a88c52335a5564470a85d63731c8be"/>    <section>
+    <title>dfs_lookup_rel()</title>
+<indexterm><primary>dfs_lookup_rel</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_lookup_rel</secondary></indexterm>
+<para><computeroutput>int dfs_lookup_rel (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, int flags, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> ** obj, mode_t * mode, struct stat * stbuf)</computeroutput></para>
+<para>Lookup an entry in the parent object and return the associated open object and mode of that entry. If the entry is a symlink, the symlink value is not resolved and the user can decide what to do to further resolve the value of the symlink. The object must be released with <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. This is useful in cases where the creator/opener is working in a flat namespace and doesn&apos;t need to lookup/release the root object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of the object to create/open. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Access flags to open with (O_RDONLY or O_RDWR). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Pointer to the object looked up. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>Optional mode_t of object looked up. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>stbuf</entry>
+                                <entry>
+<para>Optional stat struct of object looked up.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaea80aad002519a8f2606a09e50353968"/>    <section>
+    <title>dfs_mkdir()</title>
+<indexterm><primary>dfs_mkdir</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_mkdir</secondary></indexterm>
+<para><computeroutput>int dfs_mkdir (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, mode_t mode, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid)</computeroutput></para>
+<para>Create a directory.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of new dir. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>mkdir mode. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cid</entry>
+                                <entry>
+<para>DAOS object class id (pass 0 for default MAX_RW).</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga4df6382671f7d7803a440dca57885668"/>    <section>
+    <title>dfs_mount()</title>
+<indexterm><primary>dfs_mount</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_mount</secondary></indexterm>
+<para><computeroutput>int dfs_mount (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int flags, <link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> ** dfs)</computeroutput></para>
+<para>Mount a file system over DAOS. The pool and container handle must remain connected/open until after <link linkend="_group___filesystem_1gadae8b520eca7d1a4f020c5505d1acc79">dfs_umount()</link> is called; otherwise access to the dfs namespace will fail.</para>
+
+<para>The mount will create a root directory (DAOS object) for the file system. The user will associate the dfs object returned with a mount point.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Mount flags (O_RDONLY or O_RDWR). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the file system object created.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga054f1a57950e4bd35e22dbe68a3cd859"/>    <section>
+    <title>dfs_move()</title>
+<indexterm><primary>dfs_move</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_move</secondary></indexterm>
+<para><computeroutput>int dfs_move (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, char * name, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * new_parent, char * new_name, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> * oid)</computeroutput></para>
+<para>Move/rename an object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Source parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>new_parent</entry>
+                                <entry>
+<para>Target parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>new_name</entry>
+                                <entry>
+<para>New link name of object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oid</entry>
+                                <entry>
+<para>Optionally return the DAOS Object ID of a removed obj as a result of a rename.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga9bc7cbbf60d1e47964d1423cfed31151"/>    <section>
+    <title>dfs_obj2id()</title>
+<indexterm><primary>dfs_obj2id</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj2id</secondary></indexterm>
+<para><computeroutput>int dfs_obj2id (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> * oid)</computeroutput></para>
+<para>Convert from a dfs_obj_t to a <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Object to convert </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>oid</entry>
+                                <entry>
+<para>Daos object ID.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga158200a32fbb8f23766f4eed69ccc4c4"/>    <section>
+    <title>dfs_obj_anchor_set()</title>
+<indexterm><primary>dfs_obj_anchor_set</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_anchor_set</secondary></indexterm>
+<para><computeroutput>int dfs_obj_anchor_set (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, uint32_t index, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchor)</computeroutput></para>
+<para>Set an anchor with an index based on split done with dfs_obj_anchor_split. The anchor passed will be re-intialized and set to start and finish iteration based on the specified index.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Dir object to split anchor for. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>index</entry>
+                                <entry>
+<para>Index of set this anchor for iteration. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>anchor</entry>
+                                <entry>
+<para>Hash anchor to set.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaf77af4a335a88dc8fc4fb9b608ff248d"/>    <section>
+    <title>dfs_obj_anchor_split()</title>
+<indexterm><primary>dfs_obj_anchor_split</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_anchor_split</secondary></indexterm>
+<para><computeroutput>int dfs_obj_anchor_split (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, uint32_t * nr, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchors)</computeroutput></para>
+<para>Provide a function for large directories to split an anchor to be able to execute a parallel readdir or iterate. This routine suggests the optimal number of anchors to use instead of just 1 and optionally returns all those anchors. The user would allocate the array of anchors after querying the number of anchors needed. Alternatively, user does not provide an array and can call <link linkend="_group___filesystem_1ga158200a32fbb8f23766f4eed69ccc4c4">dfs_obj_anchor_set()</link> for every anchor to set.</para>
+
+<para>The user could suggest how many anchors to split the iteration over. This feature is not supported yet.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Dir object to split anchor for. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>nr</entry>
+                                <entry>
+<para>[in]: Number of anchors requested and allocated in <emphasis>anchors</emphasis>. Pass 0 for DAOS to recommend split num. [out]: Number of anchors recommended if 0 is passed in. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>anchors</entry>
+                                <entry>
+<para>Optional array of anchors that are split.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga09283ee716eef2188bbf42ed63b1673e"/>    <section>
+    <title>dfs_obj_get_info()</title>
+<indexterm><primary>dfs_obj_get_info</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_get_info</secondary></indexterm>
+<para><computeroutput>int dfs_obj_get_info (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdfs__obj__info__t">dfs_obj_info_t</link> * info)</computeroutput></para>
+<para>Retrieve some attributes of DFS object. Those include the object class and the chunk size.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object handle to query. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>info object container object class, chunks size, etc.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaaef818c617008ecfc074c8fa4d3d187b"/>    <section>
+    <title>dfs_obj_global2local()</title>
+<indexterm><primary>dfs_obj_global2local</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_global2local</secondary></indexterm>
+<para><computeroutput>int dfs_obj_global2local (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, int flags, d_iov_t glob, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> ** obj)</computeroutput></para>
+<para>Create a dfs object from global representation data. This has to be closed with <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Access flags (O_RDONLY/O_RDWR/O_WRONLY). If 0, inherit flags of serialized object handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>Global (shared) representation of a collective handle to be extracted </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Returned open object handle</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga9c525bd5a23582a8ead2d446362444c7"/>    <section>
+    <title>dfs_obj_local2global()</title>
+<indexterm><primary>dfs_obj_local2global</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_local2global</secondary></indexterm>
+<para><computeroutput>int dfs_obj_local2global (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, d_iov_t * glob)</computeroutput></para>
+<para>Convert a local DFS object to global representation data which can be shared with peer processes. If glob-&gt;iov_buf is set to NULL, the actual size of the global handle is returned through glob-&gt;iov_buf_len. This function does not involve any communication and does not block.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>DFS Object to serialize </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>pointer to iov of the buffer to store obj information</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaab3c7f029fea34fbc2b040d6447ae346"/>    <section>
+    <title>dfs_obj_set_chunk_size()</title>
+<indexterm><primary>dfs_obj_set_chunk_size</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_set_chunk_size</secondary></indexterm>
+<para><computeroutput>int dfs_obj_set_chunk_size (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, int flags, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> csize)</computeroutput></para>
+<para>Set the chunk size on a directory for new files or sub-dirs that are created in that dir. This does not change the chunk size for existing files or dirs in that directory. Note that this is only supported on directories and will fail if called on non-directory objects.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object handle to access. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Flags for setting chunk size (currently ignored) </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>csize</entry>
+                                <entry>
+<para>Chunk size to set object to.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gab34f8d825c3fa3bbb35244dabfede778"/>    <section>
+    <title>dfs_obj_set_oclass()</title>
+<indexterm><primary>dfs_obj_set_oclass</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_obj_set_oclass</secondary></indexterm>
+<para><computeroutput>int dfs_obj_set_oclass (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, int flags, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid)</computeroutput></para>
+<para>Set the object class on a directory for new files or sub-dirs that are created in that dir. This does not change the chunk size for existing files or dirs in that directory, nor it does change the object class of the directory itself. Note that this is only supported on directories and will fail if called on non-directory objects.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object handle to access. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Flags for setting oclass (currently ignored) </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cid</entry>
+                                <entry>
+<para>object class.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga43eee0ce15ae1ab80a4b83a06d494bd5"/>    <section>
+    <title>dfs_open()</title>
+<indexterm><primary>dfs_open</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_open</secondary></indexterm>
+<para><computeroutput>int dfs_open (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, mode_t mode, int flags, <link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> cid, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> chunk_size, const char * value, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> ** obj)</computeroutput></para>
+<para>Create/Open a directory, file, or Symlink. The object must be released with <link linkend="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1">dfs_release()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. This is useful in cases where the creator/opener is working in a flat namespace and doesn&apos;t need to lookup/release the root object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of the object to create/open. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>mode</entry>
+                                <entry>
+<para>mode_t (permissions + type). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Access flags (handles: O_RDONLY, O_RDWR, O_EXCL, O_CREAT, O_TRUNC). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cid</entry>
+                                <entry>
+<para>DAOS object class id (pass 0 for default MAX_RW). Valid on create only; ignored otherwise. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>chunk_size</entry>
+                                <entry>
+<para>Chunk size of the array object to be created. (pass 0 for default 1 MiB chunk size). Valid on file create only; ignored otherwise. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>value</entry>
+                                <entry>
+<para>Symlink value (NULL if not syml). </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Pointer to object opened.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga7649bef0218dbc40c9dc69a4a114ea72"/>    <section>
+    <title>dfs_osetattr()</title>
+<indexterm><primary>dfs_osetattr</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_osetattr</secondary></indexterm>
+<para><computeroutput>int dfs_osetattr (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, struct stat * stbuf, int flags)</computeroutput></para>
+<para>set stat attributes for a file and fetch new values. If the object is a symlink the link itself is modified. See <link linkend="_group___filesystem_1ga7f55f6356c88a84ff54db804da745a2d">dfs_stat()</link> for which entries are filled.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object (File, dir or syml) to modify. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>stbuf</entry>
+                                <entry>
+<para>[in]: Stat struct with the members set. [out]: Stat struct with all valid members filled. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Bitmask of flags to set</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on Success. errno code on Failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaf34c0ae9ff73c65d4472feb20015e640"/>    <section>
+    <title>dfs_ostat()</title>
+<indexterm><primary>dfs_ostat</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_ostat</secondary></indexterm>
+<para><computeroutput>int dfs_ostat (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, struct stat * stbuf)</computeroutput></para>
+<para>Same as dfs_stat but works directly on an open object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object (File, dir or syml) to stat. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>stbuf</entry>
+                                <entry>
+<para>Stat struct with the members above filled.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaae348e42a1fca083a53f884c0a725a54"/>    <section>
+    <title>dfs_punch()</title>
+<indexterm><primary>dfs_punch</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_punch</secondary></indexterm>
+<para><computeroutput>int dfs_punch (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, daos_off_t offset, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> len)</computeroutput></para>
+<para>Punch a hole in the file starting at offset to len. If len is set to DFS_MAX_FSIZE, this will be equivalent to a truncate operation to shrink or extend the file to <emphasis>offset</emphasis> bytes depending on the file size.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>offset</entry>
+                                <entry>
+<para>offset of file to punch at. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>len</entry>
+                                <entry>
+<para>number of bytes to punch.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga7ab5ef3406cec0657eb614491b93db72"/>    <section>
+    <title>dfs_query()</title>
+<indexterm><primary>dfs_query</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_query</secondary></indexterm>
+<para><computeroutput>int dfs_query (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_structdfs__attr__t">dfs_attr_t</link> * attr)</computeroutput></para>
+<para>Query attributes of a DFS mount.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>attr</entry>
+                                <entry>
+<para>Attributes on the DFS container.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gab4b6be160170ad080e424eb09e9eeb53"/>    <section>
+    <title>dfs_read()</title>
+<indexterm><primary>dfs_read</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_read</secondary></indexterm>
+<para><computeroutput>int dfs_read (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, d_sg_list_t * sgl, daos_off_t off, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * read_size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Read data from the file object, and return actual data read.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sgl</entry>
+                                <entry>
+<para>Scatter/Gather list for data buffer. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>off</entry>
+                                <entry>
+<para>Offset into the file to read from. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>read_size</entry>
+                                <entry>
+<para>How much data is actually read. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gadb4ba70e262cfc93051ce23a1b31ce84"/>    <section>
+    <title>dfs_readdir()</title>
+<indexterm><primary>dfs_readdir</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_readdir</secondary></indexterm>
+<para><computeroutput>int dfs_readdir (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchor, uint32_t * nr, struct dirent * dirs)</computeroutput></para>
+<para>directory readdir.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened directory object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>anchor</entry>
+                                <entry>
+<para>Hash anchor for the next call, it should be set to zeroes for the first call, it should not be changed by caller between calls. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>nr</entry>
+                                <entry>
+<para>[in]: number of dirents allocated in <emphasis>dirs</emphasis>. [out]: number of returned dirents. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>dirs</entry>
+                                <entry>
+<para>[in] preallocated array of dirents. [out]: dirents returned with d_name filled only.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga89c401c372b949678c9a85a1977da9b5"/>    <section>
+    <title>dfs_readx()</title>
+<indexterm><primary>dfs_readx</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_readx</secondary></indexterm>
+<para><computeroutput>int dfs_readx (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdfs__iod__t">dfs_iod_t</link> * iod, d_sg_list_t * sgl, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * read_size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Non-contiguous read interface to a DFS file. Same as dfs_read with the ability to have a segmented file layout to read.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>iod</entry>
+                                <entry>
+<para>IO descriptor for list-io. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sgl</entry>
+                                <entry>
+<para>Scatter/Gather list for data buffer. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>read_size</entry>
+                                <entry>
+<para>How much data is actually read. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga3bcecbd1d0a831609b5f1b7ea8e356d1"/>    <section>
+    <title>dfs_release()</title>
+<indexterm><primary>dfs_release</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_release</secondary></indexterm>
+<para><computeroutput>int dfs_release (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj)</computeroutput></para>
+<para>Close/release open object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Object to release.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga1e049abc4666778f326b604c6f4b3c36"/>    <section>
+    <title>dfs_remove()</title>
+<indexterm><primary>dfs_remove</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_remove</secondary></indexterm>
+<para><computeroutput>int dfs_remove (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, bool force, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> * oid)</computeroutput></para>
+<para>Remove an object from parent directory. If object is a directory and is non-empty; this will fail unless force option is true. If object is a symlink, the symlink is removed.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Name of object to remove in parent dir. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>force</entry>
+                                <entry>
+<para>If true, remove dir even if non-empty. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>oid</entry>
+                                <entry>
+<para>Optionally return the DAOS Object ID of the removed obj.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaa96ea44fc5cd8b3c678ff4de2769432c"/>    <section>
+    <title>dfs_removexattr()</title>
+<indexterm><primary>dfs_removexattr</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_removexattr</secondary></indexterm>
+<para><computeroutput>int dfs_removexattr (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, const char * name)</computeroutput></para>
+<para>Remove extended attribute of an open object. If object is a symlink, the link itself is interogated.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object where xattr will be removed. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Name of xattr to remove.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga208f16f7183e9eeaefdbdb851ccc747e"/>    <section>
+    <title>dfs_set_prefix()</title>
+<indexterm><primary>dfs_set_prefix</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_set_prefix</secondary></indexterm>
+<para><computeroutput>int dfs_set_prefix (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, const char * prefix)</computeroutput></para>
+<para>Optionally set a prefix on the dfs mount where all paths passed to dfs_lookup are trimmed off that prefix. This is helpful when using DFS API with a dfuse mount and the user would like to reference files in the dfuse mount instead of the absolute path from the root of the DFS container.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>prefix</entry>
+                                <entry>
+<para>absolute prefix to trim off path to dfs_lookup. Passing NULL unsets the prefix.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga42279dceaa061070b8b0a74017d992e9"/>    <section>
+    <title>dfs_setxattr()</title>
+<indexterm><primary>dfs_setxattr</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_setxattr</secondary></indexterm>
+<para><computeroutput>int dfs_setxattr (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, const char * name, const void * value, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, int flags)</computeroutput></para>
+<para>Set extended attribute on an open object (File, dir, syml). If object is a symlink, the value is set on the symlink itself.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object where xattr will be added. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Name of xattr to add. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>value</entry>
+                                <entry>
+<para>Value of xattr. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>Size in bytes of the value. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Set flags. passing 0 does not check for xattr existence. XATTR_CREATE: create or fail if xattr exists. XATTR_REPLACE: replace or fail if xattr does not exist.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga7f55f6356c88a84ff54db804da745a2d"/>    <section>
+    <title>dfs_stat()</title>
+<indexterm><primary>dfs_stat</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_stat</secondary></indexterm>
+<para><computeroutput>int dfs_stat (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * parent, const char * name, struct stat * stbuf)</computeroutput></para>
+<para>stat attributes of an entry. If object is a symlink, the link itself is interogated. The following elements of the stat struct are populated (the rest are set to 0): mode_t st_mode; uid_t st_uid; gid_t st_gid; off_t st_size; blkcnt_t st_blocks struct timespec st_atim; struct timespec st_mtim; struct timespec st_ctim;</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>parent</entry>
+                                <entry>
+<para>Opened parent directory object. If NULL, use root obj. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Link name of the object. Can be NULL if parent is root, which means operation will be on root object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>stbuf</entry>
+                                <entry>
+<para>Stat struct with the members above filled.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaf895c18266b07bed6e71654e7a302888"/>    <section>
+    <title>dfs_sync()</title>
+<indexterm><primary>dfs_sync</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_sync</secondary></indexterm>
+<para><computeroutput>int dfs_sync (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs)</computeroutput></para>
+<para>Sync to commit the latest epoch on the container. This applies to the entire namespace and not to a particular file/directory.</para>
+
+<para>TODO: This should take a persistent snapshot at current timestamp.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gadae8b520eca7d1a4f020c5505d1acc79"/>    <section>
+    <title>dfs_umount()</title>
+<indexterm><primary>dfs_umount</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_umount</secondary></indexterm>
+<para><computeroutput>int dfs_umount (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs)</computeroutput></para>
+<para>Unmount a DAOS file system. This closes open handles to the root object and commits the epoch at current timestamp. The internal dfs struct is freed, so further access to that dfs will be invalid.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga883c4df60bcaf52273e2f096c4e0ddc8"/>    <section>
+    <title>dfs_update_parent()</title>
+<indexterm><primary>dfs_update_parent</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_update_parent</secondary></indexterm>
+<para><computeroutput>int dfs_update_parent (<link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * src_obj, const char * name)</computeroutput></para>
+<para>A DFS object open handle has links to its parent (oid) and the entry name of that object in that parent. In some cases a user would want to update the oh of an object in case of a rename. This API would allow modifying an existing open handle of an object to change it&apos;s parent and it&apos;s entry name. Note this is a local operation and doesn&apos;t change anything on the storage.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Open object handle to update. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>src_obj</entry>
+                                <entry>
+<para>Open object handle of the object whose parent will be used as the new parent of <emphasis>obj</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Optional new name of entry in parent. Pass NULL to leave the entry name unchanged.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on Success. errno code on Failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1gaca8d8aa052bd7b7cae79a4e4e634889f"/>    <section>
+    <title>dfs_write()</title>
+<indexterm><primary>dfs_write</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_write</secondary></indexterm>
+<para><computeroutput>int dfs_write (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, d_sg_list_t * sgl, daos_off_t off, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Write data to the file object.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sgl</entry>
+                                <entry>
+<para>Scatter/Gather list for data buffer. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>off</entry>
+                                <entry>
+<para>Offset into the file to write to. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___filesystem_1ga057440757b2e420b362f646f32505091"/>    <section>
+    <title>dfs_writex()</title>
+<indexterm><primary>dfs_writex</primary><secondary>DAOS Filesystem</secondary></indexterm>
+<indexterm><primary>DAOS Filesystem</primary><secondary>dfs_writex</secondary></indexterm>
+<para><computeroutput>int dfs_writex (<link linkend="_group___filesystem_1gafc65ec05277f052daed166445bf3c828">dfs_t</link> * dfs, <link linkend="_group___filesystem_1ga51617a5017d3365ee5faf1452daed4b2">dfs_obj_t</link> * obj, <link linkend="_structdfs__iod__t">dfs_iod_t</link> * iod, d_sg_list_t * sgl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Non-contiguous write interface to a DFS file.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>dfs</entry>
+                                <entry>
+<para>Pointer to the mounted file system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>obj</entry>
+                                <entry>
+<para>Opened file object. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>iod</entry>
+                                <entry>
+<para>IO descriptor of file view. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sgl</entry>
+                                <entry>
+<para>Scatter/Gather list for data buffer. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 on success, errno code on failure. </para>
+</formalpara>
+</para>
+</section>
+</section>
+</section>

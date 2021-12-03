@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__prop__entry">
+<title>daos_prop_entry Struct Reference</title>
+<indexterm><primary>daos_prop_entry</primary></indexterm>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uint32_t <link linkend="_structdaos__prop__entry_1afea8f463f4c91154d5bedb4ed072ed12">dpe_type</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__prop__entry_1a98c2fd18400615b4e04f102eebedbabf">dpe_reserv</link></para>
+</listitem>
+            <listitem><para>union {</para>
+        <itemizedlist>
+            <listitem><para>   uint64_t <emphasis role="strong">dpe_val</emphasis></para>
+</listitem>
+            <listitem><para>   d_string_t <emphasis role="strong">dpe_str</emphasis></para>
+</listitem>
+            <listitem><para>   void * <emphasis role="strong">dpe_val_ptr</emphasis></para>
+</listitem>
+        </itemizedlist>
+</listitem>
+            <listitem><para>}; </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<para>
+Definition at line 346 of file daos_prop.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__prop__entry_1a7bbd6f27866989a8a1c677aafe4dfde5"/>    <section>
+    <title>@21</title>
+<para><computeroutput>union { ... } </computeroutput></para>
+<para>value can be either a uint64_t, or a string, or any other type data such as the struct <link linkend="_structdaos__acl">daos_acl</link> pointer. </para>
+    </section><anchor xml:id="_structdaos__prop__entry_1a98c2fd18400615b4e04f102eebedbabf"/>    <section>
+    <title>dpe_reserv</title>
+<indexterm><primary>dpe_reserv</primary><secondary>daos_prop_entry</secondary></indexterm>
+<indexterm><primary>daos_prop_entry</primary><secondary>dpe_reserv</secondary></indexterm>
+<para><computeroutput>uint32_t dpe_reserv</computeroutput></para>
+<para>reserved for future usage (for 64 bits alignment now) </para>
+<para>
+Definition at line 350 of file daos_prop.h.</para>
+    </section><anchor xml:id="_structdaos__prop__entry_1afea8f463f4c91154d5bedb4ed072ed12"/>    <section>
+    <title>dpe_type</title>
+<indexterm><primary>dpe_type</primary><secondary>daos_prop_entry</secondary></indexterm>
+<indexterm><primary>daos_prop_entry</primary><secondary>dpe_type</secondary></indexterm>
+<para><computeroutput>uint32_t dpe_type</computeroutput></para>
+<para>property type, see enum daos_pool_props/daos_cont_props </para>
+<para>
+Definition at line 348 of file daos_prop.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_prop.h</section>
+</section>

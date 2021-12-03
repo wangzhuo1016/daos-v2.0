@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__space">
+<title>daos_space Struct Reference</title>
+<indexterm><primary>daos_space</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_pool.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_structdaos__space_1a1e3bd06ace2bc099fcf21cedf2981cee"/>uint64_t <emphasis role="strong">s_total</emphasis> [DAOS_MEDIA_MAX]</para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__space_1a531934b771ab500f8c10b20371e6f5ff"/>uint64_t <emphasis role="strong">s_free</emphasis> [DAOS_MEDIA_MAX]</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Pool target space usage information </para>
+<para>
+Definition at line 63 of file daos_pool.h.</para>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_pool.h</section>
+</section>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_daos__kv_8h">
+<title>src/include/daos_kv.h File Reference</title>
+<indexterm><primary>src/include/daos_kv.h</primary></indexterm>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <emphasis role="strong">DAOS_COND_KEY_INSERT</emphasis>   DAOS_COND_DKEY_INSERT</para>
+</listitem>
+            <listitem><para>#define <emphasis role="strong">DAOS_COND_KEY_UPDATE</emphasis>   DAOS_COND_DKEY_UPDATE</para>
+</listitem>
+            <listitem><para>#define <emphasis role="strong">DAOS_COND_KEY_GET</emphasis>   DAOS_COND_DKEY_FETCH</para>
+</listitem>
+            <listitem><para>#define <emphasis role="strong">DAOS_COND_KEY_REMOVE</emphasis>   DAOS_COND_PUNCH</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_group___k_v_1gad05d00c41c670cd91e2e3fc8ca69f7bd">daos_kv_open</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__obj__id__t">daos_obj_id_t</link> oid, unsigned int mode, <link linkend="_structdaos__handle__t">daos_handle_t</link> *oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gaf0bebe7eb7bf3c618b4fb71e8a39c71d">daos_kv_close</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gada5a9ad798e7b54fcf6b8bbe674bbf36">daos_kv_destroy</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga3f3cd19cee87b92e19b860b42458f848">daos_kv_put</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> size, const void *buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga23cae3d831736069a32833f64f5f5cc7">daos_kv_get</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *size, void *buf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1gafc6948a98b48daa2129054f4c47e55b1">daos_kv_remove</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint64_t flags, const char *key, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___k_v_1ga6fe2aa213fc2aab3840f20436cc9a6ae">daos_kv_list</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> oh, <link linkend="_structdaos__handle__t">daos_handle_t</link> th, uint32_t *nr, <link linkend="_structdaos__key__desc__t">daos_key_desc_t</link> *kds, d_sg_list_t *sgl, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>DAOS flat Key-Value Store</para>
+
+<para>The KV API simplify the DAOS 2 key-level object into a simple KV interface for users who are just interested in a traditional KV store API. </para>
+</section>
+</section>

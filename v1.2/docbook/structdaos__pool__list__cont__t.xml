@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__pool__list__cont__t">
+<title>daos_pool_list_cont_t Struct Reference</title>
+<indexterm><primary>daos_pool_list_cont_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__pool__list__cont__t_1af65e0a5ef9986001524f96e09ae666a3">poh</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * <link linkend="_structdaos__pool__list__cont__t_1ad3b6545f4de5c48203bb8dc7e1803c49">ncont</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__pool__cont__info">daos_pool_cont_info</link> * <link linkend="_structdaos__pool__list__cont__t_1a0e990ef4de3168c3cc6cab0dd39112c3">cont_buf</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>pool container list args </para>
+<para>
+Definition at line 203 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__pool__list__cont__t_1a0e990ef4de3168c3cc6cab0dd39112c3"/>    <section>
+    <title>cont_buf</title>
+<indexterm><primary>cont_buf</primary><secondary>daos_pool_list_cont_t</secondary></indexterm>
+<indexterm><primary>daos_pool_list_cont_t</primary><secondary>cont_buf</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__pool__cont__info">daos_pool_cont_info</link>* cont_buf</computeroutput></para>
+<para>Array of container structures. </para>
+<para>
+Definition at line 209 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__list__cont__t_1ad3b6545f4de5c48203bb8dc7e1803c49"/>    <section>
+    <title>ncont</title>
+<indexterm><primary>ncont</primary><secondary>daos_pool_list_cont_t</secondary></indexterm>
+<indexterm><primary>daos_pool_list_cont_t</primary><secondary>ncont</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link>* ncont</computeroutput></para>
+<para>[in] length of <emphasis>cont_buf</emphasis>. [out] num of containers in the pool. </para>
+<para>
+Definition at line 207 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__list__cont__t_1af65e0a5ef9986001524f96e09ae666a3"/>    <section>
+    <title>poh</title>
+<indexterm><primary>poh</primary><secondary>daos_pool_list_cont_t</secondary></indexterm>
+<indexterm><primary>daos_pool_list_cont_t</primary><secondary>poh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> poh</computeroutput></para>
+<para>Pool open handle. </para>
+<para>
+Definition at line 205 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

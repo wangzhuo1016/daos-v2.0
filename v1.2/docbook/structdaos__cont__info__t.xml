@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__cont__info__t">
+<title>daos_cont_info_t Struct Reference</title>
+<indexterm><primary>daos_cont_info_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_cont.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uuid_t <link linkend="_structdaos__cont__info__t_1aa2e9e3cdeff999df9c904624972873b9">ci_uuid</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> <link linkend="_structdaos__cont__info__t_1a54b9828111b663e1e1adc9434a4e9ce9">ci_lsnapshot</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__cont__info__t_1a3f12c45129a5bc4cd72c5844603b7fd6">ci_redun_fac</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__cont__info__t_1ad854e21a2c198d3fea306670bf68e8df">ci_nsnapshots</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__cont__info__t_1a8dea7b1eaca56d5f135e01c56d7f4f2d"/>uint64_t <emphasis role="strong">ci_pad</emphasis> [2]</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Container information </para>
+<para>
+Definition at line 47 of file daos_cont.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__cont__info__t_1a54b9828111b663e1e1adc9434a4e9ce9"/>    <section>
+    <title>ci_lsnapshot</title>
+<indexterm><primary>ci_lsnapshot</primary><secondary>daos_cont_info_t</secondary></indexterm>
+<indexterm><primary>daos_cont_info_t</primary><secondary>ci_lsnapshot</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> ci_lsnapshot</computeroutput></para>
+<para>Epoch of latest persistent snapshot </para>
+<para>
+Definition at line 51 of file daos_cont.h.</para>
+    </section><anchor xml:id="_structdaos__cont__info__t_1ad854e21a2c198d3fea306670bf68e8df"/>    <section>
+    <title>ci_nsnapshots</title>
+<indexterm><primary>ci_nsnapshots</primary><secondary>daos_cont_info_t</secondary></indexterm>
+<indexterm><primary>daos_cont_info_t</primary><secondary>ci_nsnapshots</secondary></indexterm>
+<para><computeroutput>uint32_t ci_nsnapshots</computeroutput></para>
+<para>Number of snapshots </para>
+<para>
+Definition at line 55 of file daos_cont.h.</para>
+    </section><anchor xml:id="_structdaos__cont__info__t_1a3f12c45129a5bc4cd72c5844603b7fd6"/>    <section>
+    <title>ci_redun_fac</title>
+<indexterm><primary>ci_redun_fac</primary><secondary>daos_cont_info_t</secondary></indexterm>
+<indexterm><primary>daos_cont_info_t</primary><secondary>ci_redun_fac</secondary></indexterm>
+<para><computeroutput>uint32_t ci_redun_fac</computeroutput></para>
+<para>Redundancy factor </para>
+<para>
+Definition at line 53 of file daos_cont.h.</para>
+    </section><anchor xml:id="_structdaos__cont__info__t_1aa2e9e3cdeff999df9c904624972873b9"/>    <section>
+    <title>ci_uuid</title>
+<indexterm><primary>ci_uuid</primary><secondary>daos_cont_info_t</secondary></indexterm>
+<indexterm><primary>daos_cont_info_t</primary><secondary>ci_uuid</secondary></indexterm>
+<para><computeroutput>uuid_t ci_uuid</computeroutput></para>
+<para>Container UUID </para>
+<para>
+Definition at line 49 of file daos_cont.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_cont.h</section>
+</section>
