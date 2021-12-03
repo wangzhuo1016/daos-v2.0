@@ -1,0 +1,2595 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+      <link rel="icon" href="../../daos_logo_wh.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>System Deployment - DAOS v2.0</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-deployment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-header__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v2.0
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Intro
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../overview/architecture/" class="md-tabs__link">
+        Overview
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../QSG/setup_centos/" class="md-tabs__link">
+        Installation and Setup
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../hardware/" class="md-tabs__link md-tabs__link--active">
+        Administration Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/autotest/" class="md-tabs__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../user/workflow/" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../release/release_notes_v2_0/" class="md-tabs__link">
+        Releases
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../dev/development/" class="md-tabs__link">
+        Developer Zone
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-nav__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    DAOS v2.0
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Intro
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to DAOS Version 2.0!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Community Roadmap
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Community Mailing list
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://jira.daos.io/" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/data_integrity/" class="md-nav__link">
+        Data Integrity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/use_cases/" class="md-nav__link">
+        Use Cases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_centos/" class="md-nav__link">
+        CentOS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_suse/" class="md-nav__link">
+        openSUSE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/build_from_scratch/" class="md-nav__link">
+        Build from Scratch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          System Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        System Deployment
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#daos-server-setup" class="md-nav__link">
+    DAOS Server Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="DAOS Server Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-rpm-deployment-workflow" class="md-nav__link">
+    Example RPM Deployment Workflow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-configuration-file" class="md-nav__link">
+    Server Configuration File
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-generate-configuration-file" class="md-nav__link">
+    Auto generate configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificate-configuration" class="md-nav__link">
+    Certificate Configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-startup" class="md-nav__link">
+    Server Startup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daos-server-remote-access" class="md-nav__link">
+    DAOS Server Remote Access
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-provisioning" class="md-nav__link">
+    Hardware Provisioning
+  </a>
+  
+    <nav class="md-nav" aria-label="Hardware Provisioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scm-preparation" class="md-nav__link">
+    SCM Preparation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-discovery-and-selection" class="md-nav__link">
+    Storage Discovery and Selection
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Discovery and Selection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discovery" class="md-nav__link">
+    Discovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health" class="md-nav__link">
+    Health
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selection" class="md-nav__link">
+    Selection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-configurations" class="md-nav__link">
+    Example Configurations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    Network Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-scan" class="md-nav__link">
+    Network Scan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-network-providers" class="md-nav__link">
+    Changing Network Providers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provider-testing" class="md-nav__link">
+    Provider Testing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-resources" class="md-nav__link">
+    CPU Resources
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-formatting" class="md-nav__link">
+    Storage Formatting
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Formatting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scm-format" class="md-nav__link">
+    SCM Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nvme-format" class="md-nav__link">
+    NVMe Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-format" class="md-nav__link">
+    Server Format
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-setup" class="md-nav__link">
+    Agent Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent-certificate-generation" class="md-nav__link">
+    Agent Certificate Generation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-configuration-file" class="md-nav__link">
+    Agent Configuration File
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-fabric-interfaces-manually" class="md-nav__link">
+    Defining fabric interfaces manually
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-startup" class="md-nav__link">
+    Agent Startup
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Startup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-agent-cache-optional" class="md-nav__link">
+    Disable Agent Cache (Optional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/ior/" class="md-nav__link">
+        Run IOR and mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/datamover/" class="md-nav__link">
+        Run Datamover test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4873388103/DAOS+IO-500+Instructions" class="md-nav__link">
+        Run IO500
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/workflow/" class="md-nav__link">
+        Workflow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/filesystem/" class="md-nav__link">
+        File System
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/python/" class="md-nav__link">
+        Python Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/datamover/" class="md-nav__link">
+        Data Mover
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v2_0/" class="md-nav__link">
+        Release Notes v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix_v2_0/" class="md-nav__link">
+        Support Matrix v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/index.html" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/admin/deployment.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="system-deployment">System Deployment<a class="headerlink" href="#system-deployment" title="Permanent link">&para;</a></h1>
+<p>The DAOS deployment workflow requires to start the DAOS server instances
+early on to enable administrators to perform remote operations in parallel
+across multiple storage nodes via the dmg management utility. Security is
+guaranteed via the use of certificates.
+The first type of commands run after installation include network and
+storage hardware provisioning and would typically be run from a login
+node.</p>
+<p>After <code>daos_server</code> instances have been started on each storage node for the
+first time, <code>daos_server storage prepare --scm-only</code> will set PMem storage
+into the necessary state for use with DAOS when run on each host.
+Then <code>dmg storage format</code> formats persistent storage devices (specified in the
+server configuration file) on the storage nodes and writes necessary metadata
+before starting DAOS I/O engine processes that will operate across the fabric.</p>
+<p>To sum up, the typical workflow of a DAOS system deployment consists of the
+following steps:</p>
+<ul>
+<li>
+<p>Configure and start the <a href="#daos-server-setup">DAOS server</a>.</p>
+</li>
+<li>
+<p><a href="#hardware-provisioning">Provision Hardware</a> on all the storage nodes via the
+  dmg utility.</p>
+</li>
+<li>
+<p><a href="#storage-formatting">Format</a> the DAOS system</p>
+</li>
+<li>
+<p><a href="#agent-startup">Set up and start the agent</a> on the client nodes</p>
+</li>
+<li>
+<p><a href="#system-validation">Validate</a> that the DAOS system is operational</p>
+</li>
+</ul>
+<p>Note that starting the DAOS server instances can be performed automatically
+on boot if start-up scripts are registered with systemd.</p>
+<p>The following subsections will cover each step in more detail.</p>
+<h2 id="daos-server-setup">DAOS Server Setup<a class="headerlink" href="#daos-server-setup" title="Permanent link">&para;</a></h2>
+<p>First of all, the DAOS server should be started to allow remote administration
+command to be executed via the dmg tool. This section describes the minimal
+DAOS server configuration and how to start it on all the storage nodes.</p>
+<h3 id="example-rpm-deployment-workflow">Example RPM Deployment Workflow<a class="headerlink" href="#example-rpm-deployment-workflow" title="Permanent link">&para;</a></h3>
+<p>A recommended workflow to get up and running is as follows:</p>
+<ul>
+<li>
+<p>Install DAOS Server RPMs - <code>daos_server</code> systemd services will start in
+listening mode which means DAOS I/O engine processes will not be started as the
+server config file (default location at <code>/etc/daos/daos_server.yml</code>) has not
+yet been populated.</p>
+</li>
+<li>
+<p>Run <code>dmg config generate -l &lt;hostset&gt; -a &lt;access_points&gt;</code> across the entire
+hostset (all the storage servers that are now running the <code>daos_server</code> service
+after RPM install).
+The command will only generate a config if hardware setups on all the hosts are
+similar and have been given sensible NUMA mappings.
+Adjust the hostset until you have a set with homogeneous hardware configurations.</p>
+</li>
+<li>
+<p>Once a recommended config file can be generated, copy it to the server config
+file default location (<code>/etc/daos/daos_server.yml</code>) on each DAOS Server host
+and restart all <code>daos_server</code> services.
+An example command to restart the services is
+<code>clush -w machines-[118-121,130-133] "sudo systemctl restart daos_server"</code>.
+The services should prompt for format on restart and after format is triggered
+from <code>dmg</code>, the DAOS I/O engine processes should start.</p>
+</li>
+</ul>
+<h3 id="server-configuration-file">Server Configuration File<a class="headerlink" href="#server-configuration-file" title="Permanent link">&para;</a></h3>
+<p>The <code>daos_server</code> configuration file is parsed when starting the <code>daos_server</code>
+process.
+The configuration file location can be specified on the command line
+(<code>daos_server -h</code> for usage) otherwise it will be read from the default location
+(<code>/etc/daos/daos_server.yml</code>).</p>
+<p>Parameter descriptions are specified in
+<a href="https://github.com/daos-stack/daos/blob/master/utils/config/daos_server.yml"><code>daos_server.yml</code></a>
+and example configuration files in the
+<a href="https://github.com/daos-stack/daos/tree/master/utils/config/examples">examples</a>
+directory.</p>
+<p>Any option supplied to <code>daos_server</code> as a command line option or flag will
+take precedence over equivalent configuration file parameter.</p>
+<p>For convenience, active parsed configuration values are written to a temporary
+file for reference, and the location will be written to the log.</p>
+<h4 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h4>
+<p>The example configuration file lists the default empty configuration, listing
+all the options (living documentation of the config file). Live examples are
+available at
+<a href="https://github.com/daos-stack/daos/tree/master/utils/config/examples">https://github.com/daos-stack/daos/tree/master/utils/config/examples</a></p>
+<p>The location of this configuration file is determined by first checking
+for the path specified through the -o option of the <code>daos_server</code> command
+line, if unspecified then <code>/etc/daos/daos_server.yml</code> is used.</p>
+<p>Refer to the example configuration file (
+<a href="https://github.com/daos-stack/daos/blob/master/utils/config/daos_server.yml"><code>daos_server.yml</code></a>
+) for latest information and examples.</p>
+<p>At this point of the process, the servers: and provider: section of the yaml
+file can be left blank and will be populated in the subsequent sections.</p>
+<h4 id="auto-generate-configuration-file">Auto generate configuration file<a class="headerlink" href="#auto-generate-configuration-file" title="Permanent link">&para;</a></h4>
+<p>DAOS can attempt to produce a server configuration file that makes optimal use
+of hardware on a given set of hosts through the 'dmg config generate' command:</p>
+<pre><code class="bash">$ dmg config generate --help
+ERROR: dmg: Usage:
+  dmg [OPTIONS] config generate [generate-OPTIONS]
+
+Application Options:
+...
+  -l, --host-list=  comma separated list of addresses &lt;ipv4addr/hostname&gt;
+...
+
+[generate command options]
+      -a, --access-points=                                 Comma separated list of access point
+                                                           addresses &lt;ipv4addr/hostname&gt;
+      -e, --num-engines=                                   Set the number of DAOS Engine sections to be
+                                                           populated in the config file output. If unset
+                                                           then the value will be set to the number of
+                                                           NUMA nodes on storage hosts in the DAOS
+                                                           system.
+      -s, --min-ssds=                                      Minimum number of NVMe SSDs required per DAOS
+                                                           Engine (SSDs must reside on the host that is
+                                                           managing the engine). Set to 0 to generate a
+                                                           config with no NVMe. (default: 1)
+      -c, --net-class=[best-available|ethernet|infiniband] Network class preferred (default:
+                                                           best-available)
+</code></pre>
+
+<p>The command will output recommended config file if supplied requirements are
+met. Requirements will be derived based on the number of NUMA nodes present on
+the hosts if '--num-engines' is not specified on the commandline.</p>
+<ul>
+<li>'--num-engines' specifies the number of engine sections to populate in the
+config file output.
+Each section will specify a persistent memory (PMem) block devices that must be
+present on the host in addition to a fabric network interface and SSDs all
+bound to the same NUMA node.
+If not set explicitly on the commandline, default is the number of NUMA nodes
+detected on the host.</li>
+<li>'--min-ssds' specifies the minimum number of NVMe SSDs per-engine that need
+to be present on each host.
+For each engine entry in the generated config, at least this number of SSDs
+must be bound to the NUMA node that matches the affinity of the PMem device
+and fabric network interface associated with the engine.
+If not set on the commandline, default is "1".
+If set to "0" NVMe SSDs will not be added to the generated config and SSD
+validation will be disabled.</li>
+<li>'--net-class' specifies preference for network interface class, options are
+'ethernet', 'infiband' or 'best-available'.
+'best-available' will attempt to choose the most performant (as judged by
+libfabric) sets of interfaces and supported provider that match the number and
+NUMA affinity of PMem devices.
+If not set on the commandline, default is "best-available".</li>
+</ul>
+<p>The configuration file that is generated by the command and output to stdout
+can be copied to a file and used on the relevant hosts and used as server
+config to determine the starting environment for 'daos_server' instances.</p>
+<p>Config file output will not be generated in the following cases:
+- PMem device count, capacity or NUMA mappings differ on any of the hosts in the
+hostlist (the hostlist can be specified either in the 'dmg' config file or on
+the commandline).
+- NVMe SSD count, PCI address distribution or NUMA affinity differs on any of
+the hosts in the host list.
+- NUMA node count can't be detected on the hosts or differs on any host in the
+host list.
+- PMem device count or NUMA affinity doesn't meet the 'num-engines' requirement.
+- NVMe device count or NUMA affinity doesn't meet the 'min-ssds' requirement.
+- network device count or NUMA affinity doesn't match the configured PMem
+devices, taking into account any specified network device class preference
+(ethernet or infiniband).</p>
+<p>Some CentOS 7.x kernels from before the 7.9 release were known to have a defect
+that prevented <code>ndctl</code> from being able to report the NUMA affinity for a
+namespace.
+This prevents generation of dual engine configs using <code>dmg config generate</code>
+when running with one of the above-mentioned affected kernels.</p>
+<h4 id="certificate-configuration">Certificate Configuration<a class="headerlink" href="#certificate-configuration" title="Permanent link">&para;</a></h4>
+<p>The DAOS security framework relies on certificates to authenticate
+components and administrators in addition to encrypting DAOS control plane
+communications. A set of certificates for a given DAOS system may be
+generated by running the <code>gen_certificates.sh</code> script provided with the DAOS
+software if there is not an existing TLS certificate infrastructure. The
+<code>gen_certificates.sh</code> script uses the <code>openssl</code> tool to generate all of the
+necessary files. We highly recommend using OpenSSL Version 1.1.1h or higher as
+keys and certificates generated with earlier versions are vulnerable to attack.</p>
+<p>When DAOS is installed from RPMs, this script is provided in the base <code>daos</code> RPM, and
+may be invoked in the directory to which the certificates will be written. As part
+of the generation process, a new local Certificate Authority is created to handle
+certificate signing, and three role certificates are created:</p>
+<pre><code class="bash"># /usr/lib64/daos/certgen/gen_certificates.sh
+Generating Private CA Root Certificate
+Private CA Root Certificate created in ./daosCA
+...
+Generating Server Certificate
+Required Server Certificate Files:
+        ./daosCA/certs/daosCA.crt
+        ./daosCA/certs/server.key
+        ./daosCA/certs/server.crt
+...
+Generating Agent Certificate
+Required Agent Certificate Files:
+        ./daosCA/certs/daosCA.crt
+        ./daosCA/certs/agent.key
+        ./daosCA/certs/agent.crt
+...
+Generating Admin Certificate
+Required Admin Certificate Files:
+        ./daosCA/certs/daosCA.crt
+        ./daosCA/certs/admin.key
+        ./daosCA/certs/admin.crt
+</code></pre>
+
+<p>The files generated under ./daosCA should be protected from unauthorized access and
+preserved for future use.</p>
+<p>The generated keys and certificates must then be securely distributed to all nodes participating
+in the DAOS system (servers, clients, and admin nodes). Permissions for these files should
+be set to prevent unauthorized access to the keys and certificates.</p>
+<p>Client nodes require:
+- CA root cert
+- Agent cert
+- Agent key</p>
+<p>Administrative nodes require:
+- CA root cert
+- Admin cert
+- Admin key</p>
+<p>Server nodes require:
+- CA root cert
+- Server cert
+- Server key
+- All valid agent certs in the DAOS system (in the client cert directory, see
+  config file below)</p>
+<p>After the certificates have been securely distributed, the DAOS configuration files must be
+updated in order to enable authentication and secure communications. These examples assume
+that the configuration and certificate files have been installed under <code>/etc/daos</code>:</p>
+<pre><code class="yaml"># /etc/daos/daos_server.yml (servers)
+
+transport_config:
+  # Location where daos_server will look for Client certificates
+  client_cert_dir: /etc/daos/certs/clients
+  # Custom CA Root certificate for generated certs
+  ca_cert: /etc/daos/certs/daosCA.crt
+  # Server certificate for use in TLS handshakes
+  cert: /etc/daos/certs/server.crt
+  # Key portion of Server Certificate
+  key: /etc/daos/certs/server.key
+</code></pre>
+
+<pre><code class="yaml"># /etc/daos/daos_agent.yml (clients)
+
+transport_config:
+  # Custom CA Root certificate for generated certs
+  ca_cert: /etc/daos/certs/daosCA.crt
+  # Agent certificate for use in TLS handshakes
+  cert: /etc/daos/certs/agent.crt
+  # Key portion of Agent Certificate
+  key: /etc/daos/certs/agent.key
+</code></pre>
+
+<pre><code class="yaml"># /etc/daos/daos_control.yml (dmg/admin)
+
+transport_config:
+  # Custom CA Root certificate for generated certs
+  ca_cert: /etc/daos/certs/daosCA.crt
+  # Admin certificate for use in TLS handshakes
+  cert: /etc/daos/certs/admin.crt
+  # Key portion of Admin Certificate
+  key: /etc/daos/certs/admin.key
+</code></pre>
+
+<h3 id="server-startup">Server Startup<a class="headerlink" href="#server-startup" title="Permanent link">&para;</a></h3>
+<p>The DAOS Server is started as a systemd service. The DAOS Server
+unit file is installed in the correct location when installing from RPMs.
+The DAOS Server will be run as <code>daos-server</code> user which will be created
+during RPM install.</p>
+<p>If you wish to use systemd with a development build, you must copy the service
+file from utils/systemd to <code>/usr/lib/systemd/system</code>. Once the file is copied,
+modify the ExecStart line to point to your <code>daos_server</code> binary.</p>
+<p>After modifying ExecStart, run the following command:</p>
+<pre><code class="bash">$ sudo systemctl daemon-reload
+</code></pre>
+
+<p>Once the service file is installed you can start <code>daos_server</code>
+with the following commands:</p>
+<pre><code class="bash">$ systemctl enable daos_server.service
+$ systemctl start daos_server.service
+</code></pre>
+
+<p>To check the component status use:</p>
+<pre><code class="bash">$ systemctl status daos_server.service
+</code></pre>
+
+<p>If DAOS Server failed to start, check the logs with:</p>
+<pre><code class="bash">$ journalctl --unit daos_server.service
+</code></pre>
+
+<p>After RPM install, <code>daos_server</code> service starts automatically running as user
+"daos". The server config is read from <code>/etc/daos/daos_server.yml</code> and
+certificates are read from <code>/etc/daos/certs</code>.
+With no other admin intervention other than the loading of certificates,
+<code>daos_server</code> will enter a listening state enabling discovery of storage and
+network hardware through the <code>dmg</code> tool without any I/O engines specified in the
+configuration file. After device discovery and provisioning, an updated
+configuration file with a populated per-engine section can be stored in
+<code>/etc/daos/daos_server.yml</code>, and after reestarting the <code>daos_server</code> service
+it is then ready for the storage to be formatted.</p>
+<h2 id="daos-server-remote-access">DAOS Server Remote Access<a class="headerlink" href="#daos-server-remote-access" title="Permanent link">&para;</a></h2>
+<p>Remote tasking of the DAOS system and individual DAOS Server processes can be
+performed via the <code>dmg</code> utility.</p>
+<p>To set the addresses of which DAOS Servers to task, provide either:
+- <code>-l &lt;hostlist&gt;</code> on the commandline when invoking, or
+- <code>hostlist: &lt;hostlist&gt;</code> in the control configuration file
+<a href="https://github.com/daos-stack/daos/blob/master/utils/config/daos_control.yml"><code>daos_control.yml</code></a></p>
+<p>Where <code>&lt;hostlist&gt;</code> represents a slurm-style hostlist string e.g.
+<code>foo-1[28-63],bar[256-511]</code>.
+The first entry in the hostlist (after alphabetic then numeric sorting) will be
+assumed to be the access point as set in the server configuration file.</p>
+<p>Local configuration files stored in the user directory will be used in
+preference to the default location e.g. <code>~/.daos_control.yml</code>.</p>
+<h2 id="hardware-provisioning">Hardware Provisioning<a class="headerlink" href="#hardware-provisioning" title="Permanent link">&para;</a></h2>
+<p>Once the DAOS server started, the storage and network can be configured on the
+storage nodes via the dmg utility.</p>
+<h3 id="scm-preparation">SCM Preparation<a class="headerlink" href="#scm-preparation" title="Permanent link">&para;</a></h3>
+<p>This section addresses how to verify that PMem (Intel(R) Optane(TM) persistent
+memory) modules are correctly installed on the storage nodes and how to
+configure them in interleaved mode to be used by DAOS.
+Instructions for other types of SCM may be covered in the future.</p>
+<p>Provisioning the SCM occurs by configuring PMem modules in interleaved memory
+regions (interleaved mode) in groups of modules local to a specific socket
+(NUMA), and resultant PMem namespaces are defined by a device identifier
+(e.g., /dev/pmem0).</p>
+<p>PMem preparation is required once per DAOS installation.</p>
+<p>This step requires a reboot to enable PMem resource allocation changes to be
+read by BIOS.</p>
+<p>PMem preparation can be performed with <code>daos_server storage prepare --scm-only</code>.</p>
+<p>The first time the command is run, the SCM interleaved regions will be created
+as resource allocations on any available PMem modules (one region per NUMA
+node/socket). The regions are activated after BIOS reads the new resource
+allocations.
+Upon completion, the storage prepare command will prompt the admin to reboot
+the storage node(s) in order for the BIOS to activate the new storage
+allocations.
+The storage prepare command does not initiate the reboot itself.</p>
+<p>After running the command a reboot will be required, the command will then need
+to be run for a second time to expose the namespace device to be used by DAOS.</p>
+<p>Example usage:</p>
+<ul>
+<li>
+<p><code>clush -w wolf-[118-121,130-133] daos_server storage prepare --scm-only</code>
+after running, the user should be prompted for a reboot.</p>
+</li>
+<li>
+<p><code>clush -w wolf-[118-121,130-133] reboot</code></p>
+</li>
+<li>
+<p><code>clush -w wolf-[118-121,130-133] daos_server storage prepare --scm-only</code>
+after running, PMem devices (/dev/pmemX namespaces created on the new SCM
+regions) should be available on each of the hosts.</p>
+</li>
+</ul>
+<p>On the second run, one namespace per region is created, and each namespace may
+take up to a few minutes to create. Details of the pmem devices will be
+displayed in JSON format on command completion.</p>
+<p>Upon successful creation of the pmem devices, the Intel(R) Optane(TM)
+persistent memory is configured and one can move on to the next step.</p>
+<p>If required, the pmem devices can be destroyed with the command
+<code>daos_server storage prepare --scm-only --reset</code>.</p>
+<p>All namespaces are disabled and destroyed. The SCM regions are removed by
+resetting modules into "MemoryMode" through resource allocations.</p>
+<p>Note that undefined behavior may result if the namespaces/pmem kernel
+devices are mounted before running reset (as per the printed warning).</p>
+<p>A subsequent reboot is required for BIOS to read the new resource
+allocations.</p>
+<h3 id="storage-discovery-and-selection">Storage Discovery and Selection<a class="headerlink" href="#storage-discovery-and-selection" title="Permanent link">&para;</a></h3>
+<p>This section covers how to manually detect and select storage devices to be
+used by DAOS.
+The server configuration file gives an administrator the ability to control
+storage selection.</p>
+<h4 id="discovery">Discovery<a class="headerlink" href="#discovery" title="Permanent link">&para;</a></h4>
+<p><code>dmg storage scan</code> can be run to query remote running <code>daos_server</code>
+processes over the management network.</p>
+<p><code>daos_server storage scan</code> can be used to query local <code>daos_server</code> instances
+directly (scans locally-attached SSDs and Intel Persistent Memory Modules usable
+by DAOS).
+NVMe SSDs need to be made accessible first by running
+<code>daos_server storage prepare --nvme-only -u &lt;current_user</code> prior.
+The output will be equivalent running <code>dmg storage scan --verbose</code> remotely.</p>
+<pre><code class="bash">bash-4.2$ dmg storage scan
+Hosts        SCM Total             NVMe Total
+-----        ---------             ----------
+wolf-[71-72] 6.4 TB (2 namespaces) 3.1 TB (3 controllers)
+
+bash-4.2$ dmg storage scan --verbose
+------------
+wolf-[71-72]
+------------
+SCM Namespace Socket ID Capacity
+------------- --------- --------
+pmem0         0         3.2 TB
+pmem1         1         3.2 TB
+
+NVMe PCI     Model                FW Revision Socket ID Capacity
+--------     -----                ----------- --------- --------
+0000:81:00.0 INTEL SSDPED1K750GA  E2010325    1         750 GB
+0000:87:00.0 INTEL SSDPEDMD016T4  8DV10171    1         1.6 TB
+0000:da:00.0 INTEL SSDPED1K750GA  E2010325    1         750 GB
+</code></pre>
+
+<p>The NVMe PCI field above is what should be used in the server
+configuration file to identified NVMe SSDs.</p>
+<p>Devices with the same NUMA node/socket should be used in the same per-engine
+section of the server configuration file for best performance.</p>
+<p>For further info on command usage run <code>dmg storage --help</code>.</p>
+<h4 id="health">Health<a class="headerlink" href="#health" title="Permanent link">&para;</a></h4>
+<p>SSD health state can be verified via <code>dmg storage scan --nvme-health</code>:</p>
+<pre><code class="bash">bash-4.2$ dmg storage scan --nvme-health
+-------
+wolf-71
+-------
+PCI:0000:81:00.0 Model:INTEL SSDPED1K750GA  FW:E2010325 Socket:1 Capacity:750 GB
+  Health Stats:
+    Timestamp:2021-09-13T11:12:34.000+00:00
+    Temperature:318K(44.85C)
+    Controller Busy Time:0s
+    Power Cycles:15
+    Power On Duration:10402h0m0s
+    Unsafe Shutdowns:13
+    Error Count:0
+    Media Errors:0
+    Read Errors:0
+    Write Errors:0
+    Unmap Errors:0
+    Checksum Errors:0
+    Error Log Entries:0
+  Critical Warnings:
+    Temperature: OK
+    Available Spare: OK
+    Device Reliability: OK
+    Read Only: OK
+    Volatile Memory Backup: OK
+  Intel Vendor SMART Attributes:
+    Program Fail Count:
+       Normalized:100%
+       Raw:0
+    Erase Fail Count:
+       Normalized:100%
+       Raw:0
+    Wear Leveling Count:
+       Normalized:100%
+       Min:0
+       Max:9
+       Avg:3
+    End-to-End Error Detection Count:0
+    CRC Error Count:0
+    Timed Workload, Media Wear:65535
+    Timed Workload, Host Read/Write Ratio:65535
+    Timed Workload, Timer:65535
+    Thermal Throttle Status:0%
+    Thermal Throttle Event Count:0
+    Retry Buffer Overflow Counter:0
+    PLL Lock Loss Count:0
+    NAND Bytes Written:222897
+    Host Bytes Written:71
+
+PCI:0000:da:00.0 Model:INTEL SSDPED1K750GA  FW:E2010325 Socket:1 Capacity:750 GB
+  Health Stats:
+    Temperature:320K(46.85C)
+    Controller Busy Time:0s
+    Power Cycles:15
+    Power On Duration:10402h0m0s
+    Unsafe Shutdowns:13
+    Error Count:0
+    Media Errors:0
+    Read Errors:0
+    Write Errors:0
+    Unmap Errors:0
+    Checksum Errors:0
+    Error Log Entries:0
+  Critical Warnings:
+    Temperature: OK
+    Available Spare: OK
+    Device Reliability: OK
+    Read Only: OK
+    Volatile Memory Backup: OK
+  Intel Vendor SMART Attributes:
+    Program Fail Count:
+       Normalized:100%
+       Raw:0
+    Erase Fail Count:
+       Normalized:100%
+       Raw:0
+    Wear Leveling Count:
+       Normalized:100%
+       Min:0
+       Max:9
+       Avg:3
+    End-to-End Error Detection Count:0
+    CRC Error Count:0
+    Timed Workload, Media Wear:65535
+    Timed Workload, Host Read/Write Ratio:65535
+    Timed Workload, Timer:65535
+    Thermal Throttle Status:0%
+    Thermal Throttle Event Count:0
+    Retry Buffer Overflow Counter:0
+    PLL Lock Loss Count:0
+    NAND Bytes Written:222897
+    Host Bytes Written:71
+
+-------
+wolf-72
+-------
+PCI:0000:81:00.0 Model:INTEL SSDPED1K750GA  FW:E2010435 Socket:1 Capacity:750 GB
+  Health Stats:
+    Temperature:316K(42.85C)
+    Controller Busy Time:8m0s
+    Power Cycles:23
+    Power On Duration:10399h0m0s
+    Unsafe Shutdowns:18
+    Error Count:0
+    Media Errors:0
+    Read Errors:0
+    Write Errors:0
+    Unmap Errors:0
+    Checksum Errors:0
+    Error Log Entries:0
+  Critical Warnings:
+    Temperature: OK
+    Available Spare: OK
+    Device Reliability: OK
+    Read Only: OK
+    Volatile Memory Backup: OK
+  Intel Vendor SMART Attributes:
+    Program Fail Count:
+       Normalized:100%
+       Raw:0
+    Erase Fail Count:
+       Normalized:100%
+       Raw:0
+    Wear Leveling Count:
+       Normalized:100%
+       Min:0
+       Max:9
+       Avg:3
+    End-to-End Error Detection Count:0
+    CRC Error Count:0
+    Timed Workload, Media Wear:65535
+    Timed Workload, Host Read/Write Ratio:65535
+    Timed Workload, Timer:65535
+    Thermal Throttle Status:0%
+    Thermal Throttle Event Count:0
+    Retry Buffer Overflow Counter:0
+    PLL Lock Loss Count:0
+    NAND Bytes Written:222897
+    Host Bytes Written:71
+
+PCI:0000:da:00.0 Model:INTEL SSDPED1K750GA  FW:E2010435 Socket:1 Capacity:750 GB
+  Health Stats:
+    Temperature:320K(46.85C)
+    Controller Busy Time:1m0s
+    Power Cycles:23
+    Power On Duration:10399h0m0s
+    Unsafe Shutdowns:19
+    Error Count:0
+    Media Errors:0
+    Read Errors:0
+    Write Errors:0
+    Unmap Errors:0
+    Checksum Errors:0
+    Error Log Entries:0
+  Critical Warnings:
+    Temperature: OK
+    Available Spare: OK
+    Device Reliability: OK
+    Read Only: OK
+    Volatile Memory Backup: OK
+  Intel Vendor SMART Attributes:
+    Program Fail Count:
+       Normalized:100%
+       Raw:0
+    Erase Fail Count:
+       Normalized:100%
+       Raw:0
+    Wear Leveling Count:
+       Normalized:100%
+       Min:0
+       Max:9
+       Avg:3
+    End-to-End Error Detection Count:0
+    CRC Error Count:0
+    Timed Workload, Media Wear:65535
+    Timed Workload, Host Read/Write Ratio:65535
+    Timed Workload, Timer:65535
+    Thermal Throttle Status:0%
+    Thermal Throttle Event Count:0
+    Retry Buffer Overflow Counter:0
+    PLL Lock Loss Count:0
+    NAND Bytes Written:222897
+    Host Bytes Written:71
+
+</code></pre>
+
+<h4 id="selection">Selection<a class="headerlink" href="#selection" title="Permanent link">&para;</a></h4>
+<p>The next step consists of specifying the devices that should be used by DAOS
+in the server configuration YAML file.
+The <code>engines</code> section of the config is a list with details for each DAOS engine
+to be started on the host (one engine will be created for each entry in list).</p>
+<p>Devices with the same NUMA rating/node/socket should be colocated on a single
+DAOS engine where possible.
+See the <a href="#server-configuration-file">server configuration file section</a> for
+more details.</p>
+<p>Storage is specified for each engine in a <code>storage</code> list with each entry in
+the list defining an individual storage tier.</p>
+<p>Each tier has a <code>class</code> parameter which defines the storage type.
+Typical class values are "dcpm" for PMem (Intel(R) Optane(TM) persistent
+memory) and "nvme" for NVMe SSDs.</p>
+<p>For class == "dcpm", the following parameters should be populated:
+- <code>scm_list</code> should should contain PMem interleaved-set namespaces
+(e.g. <code>/dev/pmem1</code>).
+Currently the size of the list is limited to 1.
+- <code>scm_mount</code> gives the desired local directory to be used as the mount point
+for DAOS persistent storage mounted on the specified PMem device specified in
+<code>scm_list</code>.</p>
+<p>For class == "nvme", the following parameters should be populated:
+- <code>bdev_list</code> should be populated with NVMe PCI addresses.</p>
+<h4 id="example-configurations">Example Configurations<a class="headerlink" href="#example-configurations" title="Permanent link">&para;</a></h4>
+<p>To illustrate, assume a cluster with homogeneous hardware configurations that
+returns the following from scan for each host:</p>
+<pre><code class="bash">[daos@wolf-72 daos_m]$ dmg -l wolf-7[1-2] -i storage scan --verbose
+-------
+wolf-7[1-2]
+-------
+SCM Namespace Socket ID Capacity
+------------- --------- --------
+pmem0         0         2.90TB
+pmem1         1         2.90TB
+
+NVMe PCI     Model                FW Revision Socket ID Capacity
+--------     -----                ----------- --------- --------
+0000:81:00.0 INTEL SSDPED1K750GA  E2010325    0         750.00GB
+0000:87:00.0 INTEL SSDPEDMD016T4  8DV10171    0         1.56TB
+0000:da:00.0 INTEL SSDPED1K750GA  E2010325    1         750.00GB
+</code></pre>
+
+<p>In this situation, the configuration file <code>engines</code> section could be populated
+as follows to establish 2-tier storage:</p>
+<pre><code class="yaml">&lt;snip&gt;
+port: 10001
+access_points: [&quot;wolf-71&quot;] # &lt;----- updated
+&lt;snip&gt;
+engines:
+-
+  targets: 16                 # number of I/O service threads per-engine
+  first_core: 0               # offset of the first core to bind service threads
+  nr_xs_helpers: 0            # count of I/O offload threads
+  fabric_iface: eth0          # network interface to use for this engine
+  fabric_iface_port: 31416    # network port
+  log_mask: ERR               # debug level to start with the engine with
+  log_file: /tmp/server1.log  # where to store engine logs
+  storage:
+  -
+    class: dcpm               # type of first storage tier (SCM)
+    scm_list: [/dev/pmem0]    # &lt;----- updated
+    scm_mount: /mnt/daos0     # where to mount SCM
+  -
+    class: nvme               # type of second storage tier (NVMe)
+    bdev_list: [&quot;0000:87:00.0&quot;] # &lt;----- updated
+-
+  targets: 16
+  first_core: 0
+  nr_xs_helpers: 0
+  fabric_iface: eth0
+  fabric_iface_port: 32416
+  log_mask: ERR
+  log_file: /tmp/server2.log
+  storage:
+  -
+    class: dcpm               # type of first storage tier (SCM)
+    scm_list: [/dev/pmem1]    # &lt;----- updated
+    scm_mount: /mnt/daos1     # where to mount SCM
+  -
+    class: nvme               # type of second storage tier (NVMe)
+    bdev_list: [&quot;0000:da:00.0&quot;] # &lt;----- updated
+&lt;end&gt;
+</code></pre>
+
+<p>There are a few optional providers that are not built by default. For detailed
+information, please refer to the <a href="../../dev/development/#building-optional-components" title="Building DAOS for Development">DAOS build documentation</a>.</p>
+<blockquote>
+<p><strong><em>NOTE</em></strong></p>
+<p>DAOS Control Servers will need to be restarted on all hosts after
+updates to the server configuration file.</p>
+<p>Pick one host in the system and set <code>access_points</code> to list of that
+host's hostname or IP address (don't need to specify port).
+This will be the host which bootstraps the DAOS management service
+(MS).</p>
+<p>The support of the optional providers is not guarantee and can be removed
+without further notification.</p>
+</blockquote>
+<h3 id="network-configuration">Network Configuration<a class="headerlink" href="#network-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="network-scan">Network Scan<a class="headerlink" href="#network-scan" title="Permanent link">&para;</a></h4>
+<p>The <code>dmg</code> utility supports the <code>network scan</code> function to display the network
+interfaces, related OFI fabric providers and associated NUMA node for each
+device.
+This information is used to configure the global fabric provider and the unique
+local network interface for each I/O engine on the storage nodes.
+This section will help you determine what to provide for the <code>provider</code>,
+<code>fabric_iface</code> and <code>pinned_numa_node</code> entries in the <code>daos_server.yml</code> file.</p>
+<p>The following commands are typical examples:</p>
+<pre><code class="bash">$ dmg network scan
+$ dmg network scan -p all
+$ dmg network scan -p ofi+sockets
+$ dmg network scan --provider 'ofi+verbs;ofi_rxm'
+</code></pre>
+
+<p>In the early stages when a <code>daos_server</code> has not yet been fully configured and
+lacks a declaration of the system's fabric provider, it may be helpful to view
+an unfiltered list of scan results.</p>
+<p>Use either of these <code>dmg</code> commands in the early stages to accomplish
+this goal:</p>
+<pre><code class="bash">$ dmg network scan
+$ dgm network scan -p all
+</code></pre>
+
+<p>Typical network scan results look as follows:</p>
+<pre><code class="bash">$ dmg network scan
+-------
+wolf-29
+-------
+
+    -------------
+    NUMA Socket 1
+    -------------
+
+        Provider    Interfaces
+        --------    ----------
+        ofi+sockets ib1
+
+---------
+localhost
+---------
+
+    -------------
+    NUMA Socket 0
+    -------------
+
+        Provider    Interfaces
+        --------    ----------
+        ofi+sockets ib0, eth0
+
+    -------------
+    NUMA Socket 1
+    -------------
+
+        Provider    Interfaces
+        --------    ----------
+        ofi+sockets ib1
+</code></pre>
+
+<p>Use one of these providers to configure the <code>provider</code> in the <code>daos_server.yml</code>.
+Only one provider may be specified for the entire DAOS installation.
+Client nodes must be capable of communicating to the <code>daos_server</code> nodes via
+the same provider.
+Therefore, it is helpful to choose network settings for the <code>daos_server</code> that
+are compatible with the expected client node configuration.</p>
+<p>After the <code>daos_server.yml</code> file has been edited and contains a provider,
+subsequent <code>dmg network scan</code> commands will filter the results based on
+that provider.
+If it is desired to view an unfiltered list again, issue <code>dmg network
+scan -p all</code>.</p>
+<p>Regardless of the provider in the <code>daos_server.yml</code> file, the results may be
+filtered to the specified provider with the command <code>dmg network scan
+-p ofi_provider</code> where <code>ofi_provider</code> is one of the available providers from
+the list.</p>
+<p>The results of the network scan may be used to help configure the I/O engines.</p>
+<p>Each I/O engine is configured with a unique <code>fabric_iface</code> and optional
+<code>pinned_numa_node</code>.
+The interfaces and NUMA Sockets listed in the scan results map to the
+<code>daos_server.yml</code> <code>fabric_iface</code> and <code>pinned_numa_node</code> respectively.
+The use of <code>pinned_numa_node</code> is optional, but recommended for best
+performance.
+When specified with the value that matches the network interface, the I/O
+engine will bind itself to that NUMA node and to cores purely within that NUMA
+node.
+This configuration yields the fastest access to that network device.</p>
+<h4 id="changing-network-providers">Changing Network Providers<a class="headerlink" href="#changing-network-providers" title="Permanent link">&para;</a></h4>
+<p>Information about the network configuration is stored as metadata on the DAOS
+storage.</p>
+<p>If, after initial deployment, the provider must be changed, it is necessary to
+reformat the storage devices using <code>dmg storage format</code> after the configuration
+file has been updated with the new provider.</p>
+<h4 id="provider-testing">Provider Testing<a class="headerlink" href="#provider-testing" title="Permanent link">&para;</a></h4>
+<p>Then, the <code>fi_pingpong</code> test can be used to verify that the targeted OFI
+provider works fine:</p>
+<pre><code class="bash">node1$ fi_pingpong -p psm2
+
+node2$ fi_pingpong -p psm2 ${IP_ADDRESS_NODE1}
+
+bytes #sent #ack total time  MB/sec  usec/xfer Mxfers/sec
+64    10    =10  1.2k  0.00s 21.69   2.95      0.34
+256   10    =10  5k    0.00s 116.36  2.20      0.45
+1k    10    =10  20k   0.00s 379.26  2.70      0.37
+4k    10    =10  80k   0.00s 1077.89 3.80      0.26
+64k   10    =10  1.2m  0.00s 2145.20 30.55     0.03
+1m    10    =10  20m   0.00s 8867.45 118.25    0.01
+</code></pre>
+
+<h3 id="cpu-resources">CPU Resources<a class="headerlink" href="#cpu-resources" title="Permanent link">&para;</a></h3>
+<p>The I/O engine is multi-threaded, and the number of I/O service threads
+and helper threads that should be used per engine must be configured
+in the <code>engines:</code> section of the <code>daos_server.yml</code> file.</p>
+<p>The number of I/O service threads is configured with the <code>targets:</code> setting.
+Each storage target manages a fraction of the (interleaved) SCM storage space,
+and a fraction of one of the NVMe SSDs that are managed by this engine.
+The optimal number of storage targets per engine depends on two conditions:</p>
+<ul>
+<li>For optimal balance regarding the NVMe space, the number of targets should be
+an integer multiple of the number of NVMe disks that are configured in the
+<code>bdev_list:</code> of the engine.</li>
+<li>To obtain the maximum SCM performance, a certain number of targets is needed.
+This is device- and workload-dependent, but around 16 targets usually work well.</li>
+</ul>
+<p>While not required, it is recommended to also specify a number of
+I/O offloading threads with the <code>nr_xs_helpers:</code> setting. These threads can
+improve performance by offloading activities like checksum calculation and
+the dispatching of server-side RPCs from the main I/O service threads.</p>
+<p>The server should have sufficiently many physical cores to support the
+number of targets plus the additional service threads.</p>
+<h2 id="storage-formatting">Storage Formatting<a class="headerlink" href="#storage-formatting" title="Permanent link">&para;</a></h2>
+<p>Once the <code>daos_server</code> has been restarted with the correct storage devices,
+network interface, and CPU threads to use, one can move to the format phase.
+When <code>daos_server</code> is started for the first time, it enters "maintenance mode"
+and waits for a <code>dmg storage format</code> call to be issued from the management tool.
+This remote call will trigger the formatting of the locally attached storage on
+the host for use with DAOS using the parameters defined in the server config file.</p>
+<p><code>dmg -i -l &lt;host&gt;[,...] storage format</code> will normally be run on a login
+node specifying a hostlist (<code>-l &lt;host&gt;[,...]</code>) of storage nodes with SCM/PMem
+modules and NVMe SSDs installed and prepared.</p>
+<p>Upon successful format, DAOS Control Servers will start DAOS I/O engines that
+have been specified in the server config file.</p>
+<p>Successful start-up is indicated by the following on stdout:
+<code>DAOS I/O Engine (v0.8.0) process 433456 started on rank 1 with 8 target, 2 helper XS per target, firstcore 0, host wolf-72.wolf.hpdd.intel.com.</code></p>
+<h3 id="scm-format">SCM Format<a class="headerlink" href="#scm-format" title="Permanent link">&para;</a></h3>
+<p>When the command is run, the pmem kernel devices created on SCM/PMem regions are
+formatted and mounted based on the parameters provided in the server config file.</p>
+<ul>
+<li><code>scm_mount</code> specifies the location of the mountpoint to create.</li>
+<li><code>scm_class</code> can be set to <code>ram</code> to use a tmpfs in the situation that no SCM/PMem
+is available (<code>scm_size</code> dictates the size of tmpfs in GB), when set to <code>dcpm</code> the device
+specified under <code>scm_list</code> will be mounted at <code>scm_mount</code> path.</li>
+</ul>
+<h3 id="nvme-format">NVMe Format<a class="headerlink" href="#nvme-format" title="Permanent link">&para;</a></h3>
+<p>When the command is run, NVMe SSDs are formatted and set up to be used by DAOS
+based on the parameters provided in the server config file.</p>
+<p><code>bdev_class</code> can be set to <code>nvme</code> to use actual NVMe devices with SPDK for DAOS
+storage.
+Other <code>bdev_class</code> values can be used for emulation of NVMe storage as specified
+in the server config file.
+<code>bdev_list</code> identifies devices to use with a list of PCI addresses (this can be
+populated after viewing results from <code>storage scan</code> command).</p>
+<p>After the format command is run, the path specified by the server configuration
+file <code>scm_mount</code> parameter should be mounted and should contain a file named
+<code>daos_nvme.conf</code>.
+The file should describe the devices with PCI addresses as listed in the
+<code>bdev_list</code> parameter of the server config file.
+The presence and contents of the file indicate that the specified NVMe SSDs have
+been configured correctly for use with DAOS.</p>
+<p>The contents of the NVMe SSDs listed in the server configuration file <code>bdev_list</code>
+parameter will be reset on format.</p>
+<h3 id="server-format">Server Format<a class="headerlink" href="#server-format" title="Permanent link">&para;</a></h3>
+<p>Before the format command is run, no DAOS metadata should exist under the
+path specified by <code>scm_mount</code> parameter in the server configuration file.</p>
+<p>After the <code>storage format</code> command is run, the path specified by the server
+configuration file <code>scm_mount</code> parameter should be mounted and should contain
+the necessary DAOS metadata indicating that the server has been formatted.</p>
+<p>When starting, <code>daos_server</code> will skip <code>maintenance mode</code> and attempt to start
+I/O engines if valid DAOS metadata is found in <code>scm_mount</code>.</p>
+<h2 id="agent-setup">Agent Setup<a class="headerlink" href="#agent-setup" title="Permanent link">&para;</a></h2>
+<p>This section addresses how to configure the DAOS agents on the storage
+nodes before starting it.</p>
+<h3 id="agent-certificate-generation">Agent Certificate Generation<a class="headerlink" href="#agent-certificate-generation" title="Permanent link">&para;</a></h3>
+<p>The DAOS security framework relies on certificates to authenticate
+administrators. The security infrastructure is currently under
+development and will be delivered in DAOS v1.0. Initial support for certificates
+has been added to DAOS and can be disabled either via the command line or in the
+DAOS Agent configuration file. Currently, the easiest way to disable certificate
+support is to pass the -i flag to <code>daos_agent</code>.</p>
+<h3 id="agent-configuration-file">Agent Configuration File<a class="headerlink" href="#agent-configuration-file" title="Permanent link">&para;</a></h3>
+<p>The <code>daos_agent</code> configuration file is parsed when starting the
+<code>daos_agent</code> process. The configuration file location can be specified
+on the command line (<code>daos_agent -h</code> for usage) or default location
+(<code>install/etc/daos_agent.yml</code>). If installed from rpms the default location is
+(<code>/etc/daos/daos_agent.yml</code>).</p>
+<p>Parameter descriptions are specified in
+<a href="https://github.com/daos-stack/daos/blob/master/utils/config/daos_agent.yml"><code>daos_agent.yml</code></a>.</p>
+<p>Any option supplied to <code>daos_agent</code> as a command line option or flag will take
+precedence over equivalent configuration file parameter.</p>
+<p>For convenience, active parsed config values are written to a temporary file
+for reference, and the location will be written to the log.</p>
+<p>The following section lists the format, options, defaults, and descriptions
+available in the configuration file.</p>
+<p>The example configuration file lists the default empty configuration listing
+all the options (living documentation of the config file).
+Live examples are available
+<a href="https://github.com/daos-stack/daos/tree/master/utils/config">here</a>.</p>
+<p>The location of this configuration file is determined by first checking
+for the path specified through the <code>-o</code> option of the <code>daos_agent</code> command
+line, if not set then <code>/etc/daos/daos_agent.yml</code> is used.</p>
+<p>Refer to the example configuration file (
+<a href="https://github.com/daos-stack/daos/blob/master/utils/config/daos_agent.yml"><code>daos_agent.yml</code></a>
+) for latest information and examples.</p>
+<h4 id="defining-fabric-interfaces-manually">Defining fabric interfaces manually<a class="headerlink" href="#defining-fabric-interfaces-manually" title="Permanent link">&para;</a></h4>
+<p>By default, the DAOS agent automatically detects all fabric interfaces on the
+client node. It selects an appropriate one for DAOS I/O based on the NUMA node
+of the client request and the interface type preferences reported by the DAOS
+management service.</p>
+<p>If the DAOS agent does not detect the fabric interfaces correctly, the
+administrator may define them manually in the agent configuration. They must be
+organized by NUMA node. If using the verbs provider, the interface domain is
+also required.</p>
+<p>Example:</p>
+<pre><code>fabric_ifaces:
+  - numa_node: 0
+    devices:
+    -
+      - iface: ib0
+      - domain: mlx5_0
+    -
+      - iface: ib1
+      - domain: mlx5_1
+  - numa_node: 1
+    devices:
+    -
+      - iface: ib2
+      - domain: mlx5_2
+    -
+      - iface: ib3
+      - domain: mlx5_3
+</code></pre>
+
+<h3 id="agent-startup">Agent Startup<a class="headerlink" href="#agent-startup" title="Permanent link">&para;</a></h3>
+<p>DAOS Agent is a standalone application to be run on each compute node.
+It can be configured to use secure communications (default) or can be allowed
+to communicate with the control plane over unencrypted channels. The following
+example shows <code>daos_agent</code> being configured to operate in insecure mode due to
+incomplete integration of certificate support as of the 0.6 release and
+configured to use a non-default agent configuration file.</p>
+<p>To start the DAOS Agent from the command line, run:</p>
+<pre><code class="bash">$ daos_agent -i -o &lt;'path to agent configuration file/daos_agent.yml'&gt; &amp;
+</code></pre>
+
+<p>Alternatively, the DAOS Agent can be started as a systemd service. The DAOS Agent
+unit file is installed in the correct location when installing from RPMs.
+If you want to run the DAOS Agent without certificates (not recommended in production
+deployments), you need to add the <code>-i</code> option to the systemd <code>ExecStart</code> invocation
+(see below).</p>
+<p>If you wish to use systemd with a development build, you must copy the service
+file from <code>utils/systemd</code> to <code>/usr/lib/systemd/system</code>. Once the file is copied
+modify the ExecStart line to point to your in tree <code>daos_agent</code> binary.</p>
+<p><code>ExecStart=/usr/bin/daos_agent -i -o &lt;'path to agent configuration file/daos_agent.yml'&gt;</code></p>
+<p>Once the service file is installed, you can start <code>daos_agent</code>
+with the following commands:</p>
+<pre><code class="bash">$ sudo systemctl daemon-reload
+$ sudo systemctl enable daos_agent.service
+$ sudo systemctl start daos_agent.service
+</code></pre>
+
+<p>To check the component status use:</p>
+<pre><code class="bash">$ sudo systemctl status daos_agent.service
+</code></pre>
+
+<p>If DAOS Agent failed to start check the logs with:</p>
+<pre><code class="bash">$ sudo journalctl --unit daos_agent.service
+</code></pre>
+
+<h4 id="disable-agent-cache-optional">Disable Agent Cache (Optional)<a class="headerlink" href="#disable-agent-cache-optional" title="Permanent link">&para;</a></h4>
+<p>In certain circumstances (e.g. for DAOS development or system evaluation), it
+may be desirable to disable the DAOS Agent's caching mechanism in order to avoid
+stale system information being retained across reformats of a system. The DAOS
+Agent normally caches a map of rank-&gt;fabric URI lookups as well as client network
+configuration data in order to reduce the number of management RPCs required to
+start an application. When this information becomes stale, the Agent must be
+restarted in order to repopulate the cache with new information. Alternatively,
+the caching mechanism may be disabled, with the tradeoff that each application
+launch will invoke management RPCs in order to obtain system connection
+information.</p>
+<p>To disable the DAOS Agent caching mechanism, set the following environment
+variable before starting the <code>daos_agent</code> process:</p>
+<p><code>DAOS_AGENT_DISABLE_CACHE=true</code></p>
+<p>If running from systemd, add the following to the <code>daos_agent</code> service file in
+the <code>[Service]</code> section before reloading systemd and restarting the
+<code>daos_agent</code> service:</p>
+<p><code>Environment=DAOS_AGENT_DISABLE_CACHE=true</code></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>https://github.com/intel/ipmctl&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>https://github.com/daos-stack/daos/tree/master/utils/config&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://www.open-mpi.org/faq/?category=running#mpirun-hostfile"><em>https://www.open-mpi.org/faq/?category=running#mpirun-hostfile</em></a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>https://github.com/daos-stack/daos/tree/master/src/control/README.md&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>https://github.com/pmem/ndctl/issues/130&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../predeployment_check/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pre-deployment Checklist" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Pre-deployment Checklist
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../administration/" class="md-footer__link md-footer__link--next" aria-label="Next: System Administration" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              System Administration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.top", "navigation.indexes", "toc.integrate", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,20 @@
+Results Appreciate:
+Incorporation of versioning across several releases has been accomplished as discussed in previous insight conversation.
+Craig has met the SLA requirements for update when pull requests have been landed on time.
+
+Results Coach:
+A system that allows better integration of versioning deltas and synchronization with the enablement team's work would provide a greater degree of scalability across the documentation.
+
+Culture Appreciate:
+Craig's focus is always on maintaining a balance between the SME's development/documentation requirements and the customer's requirement for accurate documentation. The primary focus is always on getting the best documentation to customers while still allowing flexibility within the contributing teams.
+
+Culture Coach:
+Craig should develop feedback tools for the customer and ensure that the developers are providing the best material as development progresses.
+
+Learning Appreciate:
+Craig has been investigating and testing various methodologies to increase the quality and reliability of the documentation. These included Mike, Sphinx, XML-base solutions and others
+
+Learning Coach:
+Craig should go forward in the implementation of his findings and demonstrate/sell the need to move to a methodology that provides better integration and control of the documentation, while keeping the current demand on developers at a minimum. .
+
+
