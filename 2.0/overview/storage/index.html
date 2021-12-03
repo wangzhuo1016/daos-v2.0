@@ -1,0 +1,1604 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+      <link rel="icon" href="../../daos_logo_wh.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Storage Model - DAOS v2.0</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#storage-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-header__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v2.0
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Storage Model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Intro
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../architecture/" class="md-tabs__link md-tabs__link--active">
+        Overview
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../QSG/setup_centos/" class="md-tabs__link">
+        Installation and Setup
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../admin/hardware/" class="md-tabs__link">
+        Administration Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/autotest/" class="md-tabs__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../user/workflow/" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../release/release_notes_v2_0/" class="md-tabs__link">
+        Releases
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../dev/development/" class="md-tabs__link">
+        Developer Zone
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-nav__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    DAOS v2.0
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Intro
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to DAOS Version 2.0!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Community Roadmap
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Community Mailing list
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://jira.daos.io/" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Storage Model
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Storage Model
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daos-pool" class="md-nav__link">
+    DAOS Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daos-container" class="md-nav__link">
+    DAOS Container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daos-object" class="md-nav__link">
+    DAOS Object
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_integrity/" class="md-nav__link">
+        Data Integrity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../use_cases/" class="md-nav__link">
+        Use Cases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_centos/" class="md-nav__link">
+        CentOS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_suse/" class="md-nav__link">
+        openSUSE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/build_from_scratch/" class="md-nav__link">
+        Build from Scratch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/ior/" class="md-nav__link">
+        Run IOR and mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/datamover/" class="md-nav__link">
+        Run Datamover test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4873388103/DAOS+IO-500+Instructions" class="md-nav__link">
+        Run IO500
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/workflow/" class="md-nav__link">
+        Workflow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/filesystem/" class="md-nav__link">
+        File System
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/python/" class="md-nav__link">
+        Python Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/datamover/" class="md-nav__link">
+        Data Mover
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v2_0/" class="md-nav__link">
+        Release Notes v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix_v2_0/" class="md-nav__link">
+        Support Matrix v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/index.html" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/overview/storage.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="storage-model">Storage Model<a class="headerlink" href="#storage-model" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The <a href="#f4.1">figure </a> below represents the fundamental abstractions
+of the DAOS storage model.</p>
+<p><a id="f4.1"></a>
+<img alt="../graph/daos_abstractions.png" src="../../graph/daos_abstractions.png" title="DAOS Storage Abstractions" /></p>
+<p>A DAOS <em>pool</em> is a storage reservation distributed across a collection of <em>targets</em>.
+The actual space allocated to the pool on each target is called a <em>pool shard</em>.
+The total space allocated to a pool is decided at creation time. It can be
+expanded over time by resizing all the pool shards (within the limit of the
+storage capacity dedicated to each target), or by spanning more targets
+(adding more pool shards). A pool offers storage virtualization and is
+the unit of provisioning and isolation. DAOS pools cannot span across multiple
+systems.</p>
+<p>A pool can host multiple transactional object stores called DAOS <em>containers</em>.
+Each container is a private object address space, which can be modified
+transactionally and independently of the other containers stored in the
+same pool. A container is the unit of snapshot and data management.
+DAOS objects belonging to a container can be distributed across any target
+of the pool for both performance and resilience and can be accessed through
+different APIs to represent structured, semi-structured and unstructured
+data efficiently</p>
+<p>The table below shows the targeted level of scalability for each DAOS concept.</p>
+<table>
+<thead>
+<tr>
+<th>DAOS Concept</th>
+<th>Scalability (Order of Magnitude)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System</td>
+<td>10<sup>5</sup> Servers (hundreds of thousands) and 10<sup>2</sup> Pools (hundreds)</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>10<sup>1</sup> Targets (tens)</td>
+</tr>
+<tr>
+<td>Pool</td>
+<td>10<sup>2</sup> Containers (hundreds)</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>10<sup>9</sup> Objects (billions)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="daos-pool">DAOS Pool<a class="headerlink" href="#daos-pool" title="Permanent link">&para;</a></h2>
+<p>A pool is identified by a unique <em>pool UUID</em> and maintains target memberships
+in a persistent versioned list called the <em>pool map</em>. The membership is definitive
+and consistent, and membership changes are sequentially numbered.
+The pool map not only records the list of active targets, it also contains
+the storage topology in the form of a tree that is used to identify targets
+sharing common hardware components. For instance, the first level of the tree
+can represent targets sharing the same motherboard, and then the second level
+can represent all motherboards sharing the same rack and finally the third
+level can represent all racks in the same cage. This framework effectively
+represents hierarchical fault domains, which are then used to avoid placing
+redundant data on targets subject to correlated failures. At any point in
+time, new targets can be added to the pool map, and failed targets can be
+excluded. Moreover, the pool map is fully versioned, which effectively
+assigns a unique sequence to each modification of the map, particularly
+for failed node removal.</p>
+<p>A pool shard is a reservation of persistent memory optionally combined with
+a pre-allocated space on NVMe storage on a specific target. It has a fixed
+capacity and fails operations when full. Current space usage can be queried
+at any time and reports the total amount of bytes used by any data type
+stored in the pool shard.</p>
+<p>Upon target failure and exclusion from the pool map, data redundancy inside
+the pool is automatically restored online. This self-healing process is
+known as <em>rebuild</em>. Rebuild progress is recorded regularly in special logs
+in the pool stored in persistent memory to address cascading failures.
+When new targets are added, data is automatically migrated to the newly
+added targets to redistribute space usage equally among all the members.
+This process is known as <em>space rebalancing</em> and uses dedicated persistent
+logs as well to support interruption and restart. A pool is a set of targets
+spread across different storage nodes over which data and metadata are
+distributed to achieve horizontal scalability, and replicated or
+erasure-coded to ensure durability and availability.</p>
+<p>When creating a pool, a set of system properties must be defined to
+configure the different features supported by the pool. Also, users can
+define their attributes that will be stored persistently.</p>
+<p>A pool is only accessible to authenticated and authorized applications.
+Multiple security frameworks could be supported, from NFSv4 access control
+lists to third party-based authentication (such as Kerberos). Security is
+enforced when connecting to the pool. Upon successful connection to the pool,
+a connection context is returned to the application process.</p>
+<p>As detailed previously, a pool stores many different sorts of persistent
+metadata, such as the pool map, authentication and authorization
+information, user attributes, properties, and rebuild logs. Such metadata
+is critical and requires the highest level of resiliency. Therefore,
+the pool metadata is replicated on a few nodes from distinct high-level
+fault domains. For very large configurations with hundreds of thousands of
+storage nodes, only a very small fraction of those nodes (in the order of tens)
+run the <em>pool metadata service</em>. With a limited number of storage nodes, DAOS can
+afford to rely on a consensus algorithm to reach agreement, to guarantee
+consistency in the presence of faults, and to avoid the split-brain syndrome.</p>
+<p>To access a pool, a user process should connect to this pool and pass the
+security checks. Once granted, a pool connection can be shared
+(via <code>local2global()</code> and <code>global2local()</code> operations) with any or all of its
+peer application processes (similar to the <code>openg()</code> POSIX extension).
+This collective connect mechanism helps to avoid metadata request storm
+when a massively distributed job is run on the datacenter.
+A pool connection is revoked when the original process that issued
+the connection request disconnects from the pool.</p>
+<p><a id="4.1.3"></a></p>
+<h2 id="daos-container">DAOS Container<a class="headerlink" href="#daos-container" title="Permanent link">&para;</a></h2>
+<p>A container represents an object address space inside a pool and is
+identified by a <em>container UUID</em>. The diagram below represents how the user
+(I/O middleware, domain-specific data format, big data or AI
+framework, ...) could use the container concept to store related datasets.</p>
+<p><img alt="../graph/containers.png" src="../../graph/containers.png" title="DAOS Container Example" /></p>
+<p>Like pools, containers can store user attributes. A set of properties
+must be passed at container creation time to configure different features
+like checksums.</p>
+<p>To access a container, an application must first connect to the pool and
+then open the container. If the application is authorized to access the
+container, a container handle is returned. This includes capabilities that
+authorize any process in the application to access the container and its
+contents. The opening process may share this handle with any or all of
+its peers. Their capabilities are revoked on container close.</p>
+<p>Objects in a container may have different schemas for data distribution
+and redundancy over targets. Dynamic or static striping, replication,
+or erasure code are some parameters required to define the object schema.
+The object class defines common schema attributes for a set of objects.
+Each object class is assigned a unique identifier and is associated with
+a given schema at the pool level. A new object class can be defined at any
+time with a configurable schema, which is then immutable after creation
+(or at least until all objects belonging to the class have been destroyed).
+For convenience, several object classes that are expected to be the most 
+commonly used will be predefined by default when the pool is created, 
+as shown in the <a href="#t4.2">table</a> below.</p>
+<p><a id="t4.2"></a>
+<strong>Sample of Pre-defined Object Classes</strong></p>
+<table>
+<thead>
+<tr>
+<th>Object Class (RW = read/write, RM = read-mostly</th>
+<th>Redundancy</th>
+<th>Layout (SC = stripe count, RC = replica count, PC = parity count, TGT = target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Small size &amp; RW</td>
+<td>Replication</td>
+<td>static SCxRC, e.g. 1x4</td>
+</tr>
+<tr>
+<td>Small size &amp; RM</td>
+<td>Erasure code</td>
+<td>static SC+PC, e.g. 4+2</td>
+</tr>
+<tr>
+<td>Large size &amp; RW</td>
+<td>Replication</td>
+<td>static SCxRC over max #targets)</td>
+</tr>
+<tr>
+<td>Large size &amp; RM</td>
+<td>Erasure code</td>
+<td>static SCx(SC+PC) w/ max #TGT)</td>
+</tr>
+<tr>
+<td>Unknown size &amp; RW</td>
+<td>Replication</td>
+<td>SCxRC, e.g. 1x4 initially and grows</td>
+</tr>
+<tr>
+<td>Unknown size &amp; RM</td>
+<td>Erasure code</td>
+<td>SC+PC, e.g. 4+2 initially and grows</td>
+</tr>
+</tbody>
+</table>
+<p>As shown below, each object is identified in the container by a unique
+128-bit <em>object address</em>. The high 32 bits of the object address is reserved
+for DAOS to encode internal metadata such as the object class.
+The remaining 96 bits are managed by the user and should be unique inside
+the container. Those bits can be used by upper layers of the stack to encode
+their metadata, as long as unicity is guaranteed. A per-container 64-bit
+scalable object ID allocator is provided in the DAOS API. The object ID to
+be stored by the application is the full 128-bit address, which is for single
+use only and can be associated with only a single object schema.</p>
+<p><strong>DAOS Object ID Structure</strong>
+<pre></p>
+<pre><code>&lt;---------------------------------- 128 bits ----------------------------------&gt;
+--------------------------------------------------------------------------------
+|DAOS Internal Bits|                Unique User Bits                           |
+--------------------------------------------------------------------------------
+&lt;---- 32 bits ----&gt;&lt;------------------------- 96 bits -------------------------&gt;
+</code></pre>
+
+</pre>
+
+<p>A container is the basic unit of transaction and versioning. All object
+operations are implicitly tagged by the DAOS library with a timestamp called
+an <em>epoch</em>. The DAOS transaction API allows to combine multiple object updates
+into a single atomic transaction, with multi-version concurrency control
+based on epoch ordering. All the versioned updates may be periodically
+<em>aggregated</em>, to reclaim space utilized by overlapping writes and to reduce
+metadata complexity. A snapshot is a permanent reference that can be placed
+on a specific epoch to prevent aggregation.</p>
+<p>Container metadata (list of snapshots, container open handles,
+object class, user attributes, properties, and others) are stored in persistent
+memory and maintained by a dedicated container metadata service that either
+uses the same replicated engine as the parent metadata pool service,
+or has its own engine. This is configurable when creating a container.</p>
+<p>Like a pool, access to a container is controlled by the container handle.
+To acquire a valid handle, an application process must open the container
+and pass the security checks. This container handle may then be shared with
+other peer application processes via the container <code>local2global()</code> and
+<code>global2local()</code> operations.</p>
+<p><a id="4.1.4"></a></p>
+<h2 id="daos-object">DAOS Object<a class="headerlink" href="#daos-object" title="Permanent link">&para;</a></h2>
+<p>To avoid scaling problems and overhead common to a traditional storage system,
+DAOS objects are intentionally simple. No default object metadata beyond the
+type and schema is provided. This means that the system does not maintain
+time, size, owner, permissions or even track openers.
+To achieve high availability and horizontal scalability, many object schemas
+(replication/erasure code, static/dynamic striping, and others) are provided.
+The schema framework is flexible and easily expandable to allow for new custom
+schema types in the future. The layout is generated algorithmically on object
+open from the object identifier and the pool map. End-to-end integrity is
+assured by protecting object data with checksums during network transfer
+and storage.</p>
+<p>A DAOS object can be accessed through different APIs:</p>
+<ul>
+<li>
+<p><strong>Multi-level key-array</strong> API is the native object interface with locality
+     feature. The key is split into a distribution (dkey) and an
+     attribute (akey) key. Both the dkey and akey can be of variable
+     length and type (a string, an integer or even a complex data
+     structure). All entries under the same dkey are guaranteed to be
+     collocated on the same target. The value associated with akey can be
+     either a single variable-length value that cannot be partially overwritten,
+     or an array of fixed-length values.
+     Both the akeys and dkeys support enumeration.</p>
+</li>
+<li>
+<p><strong>Key-value</strong> API provides a simple key and variable-length value
+     interface. It supports the traditional put, get, remove and list operations.</p>
+</li>
+<li>
+<p><strong>Array API</strong> implements a one-dimensional array of fixed-size elements
+     addressed by a 64-bit offset. A DAOS array supports arbitrary extent read,
+     write and punch operations.</p>
+</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Architecture" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Architecture
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../transaction/" class="md-footer__link md-footer__link--next" aria-label="Next: Transaction Model" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Transaction Model
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.top", "navigation.indexes", "toc.integrate", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2013 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+      <link rel="icon" href="../../daos_logo_wh.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Pool Operations - DAOS v2.0</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pool-operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-header__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v2.0
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pool Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Intro
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../overview/architecture/" class="md-tabs__link">
+        Overview
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../QSG/setup_centos/" class="md-tabs__link">
+        Installation and Setup
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../hardware/" class="md-tabs__link md-tabs__link--active">
+        Administration Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/autotest/" class="md-tabs__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../user/workflow/" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../release/release_notes_v2_0/" class="md-tabs__link">
+        Releases
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../dev/development/" class="md-tabs__link">
+        Developer Zone
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-nav__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    DAOS v2.0
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Intro
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to DAOS Version 2.0!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Community Roadmap
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Community Mailing list
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://jira.daos.io/" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/data_integrity/" class="md-nav__link">
+        Data Integrity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/use_cases/" class="md-nav__link">
+        Use Cases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_centos/" class="md-nav__link">
+        CentOS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_suse/" class="md-nav__link">
+        openSUSE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/build_from_scratch/" class="md-nav__link">
+        Build from Scratch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Pool Operations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Pool Operations
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pool-basics" class="md-nav__link">
+    Pool Basics
+  </a>
+  
+    <nav class="md-nav" aria-label="Pool Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-pool" class="md-nav__link">
+    Creating a Pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-pools" class="md-nav__link">
+    Listing Pools
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destroying-a-pool" class="md-nav__link">
+    Destroying a Pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#querying-a-pool" class="md-nav__link">
+    Querying a Pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evicting-users" class="md-nav__link">
+    Evicting Users
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pool-properties" class="md-nav__link">
+    Pool Properties
+  </a>
+  
+    <nav class="md-nav" aria-label="Pool Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-management" class="md-nav__link">
+    Properties Management
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reclaim-strategy-reclaim" class="md-nav__link">
+    Reclaim Strategy (reclaim)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self-healing-policy-self_heal" class="md-nav__link">
+    Self-healing Policy (self_heal)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reserve-space-space_rb" class="md-nav__link">
+    Reserve Space (space_rb)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ec-cell-size-ec_cell_sz" class="md-nav__link">
+    EC Cell Size (ec_cell_sz)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-control-lists" class="md-nav__link">
+    Access Control Lists
+  </a>
+  
+    <nav class="md-nav" aria-label="Access Control Lists">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ownership" class="md-nav__link">
+    Ownership
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acl-at-pool-creation" class="md-nav__link">
+    ACL at Pool Creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#displaying-acl" class="md-nav__link">
+    Displaying ACL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-acl" class="md-nav__link">
+    Modifying ACL
+  </a>
+  
+    <nav class="md-nav" aria-label="Modifying ACL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overwriting-acl" class="md-nav__link">
+    Overwriting ACL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-and-updating-aces" class="md-nav__link">
+    Adding and Updating ACEs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-an-ace" class="md-nav__link">
+    Removing an ACE
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pool-modifications" class="md-nav__link">
+    Pool Modifications
+  </a>
+  
+    <nav class="md-nav" aria-label="Pool Modifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exclusion-self-healing" class="md-nav__link">
+    Exclusion &amp; Self-healing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drain" class="md-nav__link">
+    Drain
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reintegration" class="md-nav__link">
+    Reintegration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pool-extension" class="md-nav__link">
+    Pool Extension
+  </a>
+  
+    <nav class="md-nav" aria-label="Pool Extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addition-space-rebalancing" class="md-nav__link">
+    Addition &amp; Space Rebalancing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resize" class="md-nav__link">
+    Resize
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pool-catastrophic-recovery" class="md-nav__link">
+    Pool Catastrophic Recovery
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recovering-container-ownership" class="md-nav__link">
+    Recovering Container Ownership
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/ior/" class="md-nav__link">
+        Run IOR and mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/datamover/" class="md-nav__link">
+        Run Datamover test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4873388103/DAOS+IO-500+Instructions" class="md-nav__link">
+        Run IO500
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/workflow/" class="md-nav__link">
+        Workflow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/filesystem/" class="md-nav__link">
+        File System
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/python/" class="md-nav__link">
+        Python Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/datamover/" class="md-nav__link">
+        Data Mover
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v2_0/" class="md-nav__link">
+        Release Notes v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix_v2_0/" class="md-nav__link">
+        Support Matrix v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/index.html" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/admin/pool_operations.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="pool-operations">Pool Operations<a class="headerlink" href="#pool-operations" title="Permanent link">&para;</a></h1>
+<p>A DAOS pool is a storage reservation that can span any storage nodes and
+is managed by the administrator. The amount of space allocated to a pool
+is decided at creation time and can eventually be expanded through the
+management interface or the <code>dmg</code> utility.</p>
+<h2 id="pool-basics">Pool Basics<a class="headerlink" href="#pool-basics" title="Permanent link">&para;</a></h2>
+<h3 id="creating-a-pool">Creating a Pool<a class="headerlink" href="#creating-a-pool" title="Permanent link">&para;</a></h3>
+<p>A DAOS pool can be created and destroyed through the <code>dmg</code> utility.</p>
+<p>To create a pool labeled <code>tank</code>:</p>
+<pre><code class="bash">$ dmg pool create --size=&lt;N&gt;TB tank
+</code></pre>
+
+<p>This command creates a pool labeled <code>tank</code> distributed across the DAOS servers
+with a target size on each server that is comprised of N TB of NVMe storage
+and N * 0.06 (i.e. 6% of NVMe) of SCM storage. The default SCM:NVMe ratio
+may be adjusted at pool creation time as described below.</p>
+<p>The UUID allocated to the newly created pool is printed to stdout
+as well as the pool service replica ranks.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The --scm-size and --nvme-size options still exist, but should be
+considered deprecated and will likely be removed in a future release.</p>
+</div>
+<p>The label must consist of alphanumeric characters, colon (':'), period ('.'),
+hyphen ('-') or underscore ('_'). The maximum length is set to 127 characters.
+Labels that can be parsed as UUID (e.g. 123e4567-e89b-12d3-a456-426614174000)
+are forbidden.</p>
+<pre><code class="bash">$ dmg pool create --help
+...
+
+[create command options]
+      -g, --group=      DAOS pool to be owned by given group, format name@domain
+      -u, --user=       DAOS pool to be owned by given user, format name@domain
+      -p, --label=      Unique label for pool
+      -P, --properties= Pool properties to be set
+      -a, --acl-file=   Access Control List file path for DAOS pool
+      -z, --size=       Total size of DAOS pool (auto)
+      -t, --tier-ratio= Distribution of pool storage allocation over storage tiers (auto) (default: 6)
+      -k, --nranks=     Number of ranks to use (auto)
+      -v, --nsvc=       Number of pool service replicas
+      -s, --scm-size=   Per-server SCM allocation for DAOS pool (manual)
+      -n, --nvme-size=  Per-server NVMe allocation for DAOS pool (manual)
+      -r, --ranks=      Storage server unique identifiers (ranks) for DAOS pool
+</code></pre>
+
+<p>The typical output of this command is as follows:</p>
+<pre><code class="bash">$ dmg pool create --size 50GB --label tank
+Creating DAOS pool with automatic storage allocation: 50 GB NVMe + 6.00% SCM
+Pool created with 6.00% SCM/NVMe ratio
+-----------------------------------------
+  UUID          : 8a05bf3a-a088-4a77-bb9f-df989fce7cc8
+  Replica Ranks : [1-3]
+  Target Ranks  : [0-15]
+  Size          : 50 GB
+  SCM           : 3.0 GB (188 MB / rank)
+  NVMe          : 47 GB (3.0 GB / rank)
+</code></pre>
+
+<p>This created a pool with UUID 8a05bf3a-a088-4a77-bb9f-df989fce7cc8,
+with redundancy enabled by default (pool service replicas on ranks 1-3).</p>
+<p>If no redundancy is desired, use --nsvc=1 in order to specify that only
+a single pool service replica should be created.</p>
+<p>The -t option allows to define the ration between SCM and NVMe SSD space.
+The default value is 6% which means that the space provided after --size
+will be distributed as follows:
+- 6% is allocated on SCM (i.e. 3GB in the example above)
+- 94% is allocated on NVMe SSD (i.e. 47GB in the example above)</p>
+<h3 id="listing-pools">Listing Pools<a class="headerlink" href="#listing-pools" title="Permanent link">&para;</a></h3>
+<p>To see a list of the pools in your DAOS system:</p>
+<pre><code class="bash">$ dmg pool list
+Pool     Size   Used Imbalance Disabled
+----     ----   ---- --------- --------
+tank     47 GB  0%   0%        0/32
+</code></pre>
+
+<p>This returns a table of pool labels (or UUIDs if no label was specified)
+with the following information for each pool:
+- the total pool size
+- the percentage of used space (i.e. 100 * used space  / total space)
+- the imbalance percentage indicating whether data distribution across
+  the difference storage nodes is well balanced. 0% means that there is
+  no imbalance and 100% means that out-of-space errors might be returned
+  by some storage nodes while space is still available on others.
+- the number of disabled targets (0 here) and the number of targets that
+  the pool was originally configured with (total).</p>
+<p>The --verbose option provides more detailed information including the
+number of service replicate, the full UUIDs and space distribution
+between SCM and NVMe for each pool:</p>
+<pre><code class="bash">$ dmg pool list --verbose
+Label UUID                                 SvcReps SCM Size SCM Used SCM Imbalance NVME Size NVME Used NVME Imbalance Disabled
+----- ----                                 ------- -------- -------- ------------- --------- --------- -------------- --------
+tank  8a05bf3a-a088-4a77-bb9f-df989fce7cc8 1-3      3 GB    10 kB    0%            47 GB     0 B       0%             0/32
+</code></pre>
+
+<h3 id="destroying-a-pool">Destroying a Pool<a class="headerlink" href="#destroying-a-pool" title="Permanent link">&para;</a></h3>
+<p>To destroy a pool labeled <code>tank</code>:</p>
+<pre><code class="bash">$ dmg pool destroy tank
+Pool-destroy command succeeded
+</code></pre>
+
+<p>The label can be replaced with the pool UUID.</p>
+<h3 id="querying-a-pool">Querying a Pool<a class="headerlink" href="#querying-a-pool" title="Permanent link">&para;</a></h3>
+<p>The pool query operation retrieves information (i.e., the number of targets,
+space usage, rebuild status, property list, and more) about a created pool. It
+is integrated into the dmg utility.</p>
+<p>To query a pool labeled <code>tank</code>:</p>
+<pre><code class="bash">$ dmg pool query tank
+</code></pre>
+
+<p>The label can be replaced with the pool UUID.
+Below is the output for a pool created with SCM space only.</p>
+<pre><code class="bash">    pool=47293abe-aa6f-4147-97f6-42a9f796d64a
+    Pool 47293abe-aa6f-4147-97f6-42a9f796d64a, ntarget=64, disabled=8
+    Pool space info:
+    - Target(VOS) count:56
+    - SCM:
+        Total size: 28GB
+        Free: 28GB, min:505MB, max:512MB, mean:512MB
+    - NVMe:
+        Total size: 0
+        Free: 0, min:0, max:0, mean:0
+    Rebuild done, 10 objs, 1026 recs
+</code></pre>
+
+<p>The total and free sizes are the sum across all the targets whereas
+min/max/mean gives information about individual targets. A min value
+close to 0 means that one target is running out of space.</p>
+<p>NB: the Versioning Object Store (VOS) may reserve a portion of the
+SCM and NVMe allocations to mitigate against fragmentation and for background
+operations (e.g., aggregation, garbage collection). The amount of storage
+set aside depends on the size of the target and may take up 2+ GB.
+Therefore, Out of space conditions may occur even while pool query may not
+show min approaching zero.</p>
+<p>The example below shows a rebuild in progress and NVMe space allocated.</p>
+<pre><code class="bash">    pool=95886b8b-7eb8-454d-845c-fc0ae0ba5671
+    Pool 95886b8b-7eb8-454d-845c-fc0ae0ba5671, ntarget=64, disabled=8
+    Pool space info:
+    - Target(VOS) count:56
+    - SCM:
+        Total size: 28GB
+        Free: 28GB, min:470MB, max:512MB, mean:509MB
+    - NVMe:
+        Total size: 56GB
+        Free: 28GB, min:470MB, max:512MB, mean:509MB
+    Rebuild busy, 75 objs, 9722 recs
+</code></pre>
+
+<p>Additional status and telemetry data is planned to be exported through
+management tools and will be documented here once available.</p>
+<h3 id="evicting-users">Evicting Users<a class="headerlink" href="#evicting-users" title="Permanent link">&para;</a></h3>
+<p>To evict handles/connections to a pool labeled <code>tank</code>:</p>
+<pre><code class="bash">$ dmg pool evict tank
+Pool-evict command succeeded
+</code></pre>
+
+<p>The label can be replaced with the pool UUID.</p>
+<h2 id="pool-properties">Pool Properties<a class="headerlink" href="#pool-properties" title="Permanent link">&para;</a></h2>
+<p>Properties are predefined parameters that the administrator can tune to control
+the behavior of a pool.</p>
+<h3 id="properties-management">Properties Management<a class="headerlink" href="#properties-management" title="Permanent link">&para;</a></h3>
+<p>Current properties of an existing pool can be retrieved via the <code>dmg pool
+get-prop</code> command line.</p>
+<pre><code class="bash">$ dmg pool get-prop tank
+Pool 8a05bf3a-a088-4a77-bb9f-df989fce7cc8 properties:
+Name                            Value
+----                            -----
+EC cell size (ec_cell_sz)       1.0 MiB
+Pool label (label)              tank
+Reclaim strategy (reclaim)      lazy
+Self-healing policy (self_heal) exclude
+Rebuild space ratio (space_rb)  0%
+</code></pre>
+
+<p>All properties can be specified when creating the pool.</p>
+<pre><code class="bash">$ dmg pool create --size 50GB --label tank2 --properties reclaim:disabled
+Creating DAOS pool with automatic storage allocation: 50 GB NVMe + 6.00% SCM
+Pool created with 100.00% SCM/NVMe ratio
+-----------------------------------------
+  UUID          : 1f265216-5877-4302-ad29-aa0f90df3f86
+  Service Ranks : 0
+  Storage Ranks : [0-1]
+  Total Size    : 50 GB
+  SCM           : 50 GB (25 GB / rank)
+  NVMe          : 0 B (0 B / rank)
+
+$ dmg pool get-prop tank2
+Pool 1f265216-5877-4302-ad29-aa0f90df3f86 properties:
+Name                            Value
+----                            -----
+EC cell size (ec_cell_sz)       1.0 MiB
+Pool label (label)              tank2
+Reclaim strategy (reclaim)      disabled
+Self-healing policy (self_heal) exclude
+Rebuild space ratio (space_rb)  0%
+</code></pre>
+
+<p>Some properties can be modified after pool creation via the <code>set-prop</code> option.</p>
+<pre><code class="bash">$ dmg pool set-prop tank2 reclaim:lazy
+pool set-prop succeeded
+
+$ dmg pool get-prop tank2 reclaim
+Pool 1f265216-5877-4302-ad29-aa0f90df3f86 properties:
+Name                       Value
+----                       -----
+Reclaim strategy (reclaim) lazy
+</code></pre>
+
+<h3 id="reclaim-strategy-reclaim">Reclaim Strategy (reclaim)<a class="headerlink" href="#reclaim-strategy-reclaim" title="Permanent link">&para;</a></h3>
+<p>DAOS is a versioned object store that tags every I/O with an epoch number.
+This versioning mechanism is the baseline for multi-version concurrency control and
+snapshot support. Over time, unused versions need to be reclaimed in order to
+release storage space and also simplify the metadata index. This process is
+called aggregation.</p>
+<p>The reclaim property defines what strategy to use to reclaimed unused version.
+Three options are supported:</p>
+<ul>
+<li>"lazy"     : Trigger aggregation only when there is no IO activities or SCM free space is under pressure (default strategy)</li>
+<li>"time"     : Trigger aggregation regularly despite of IO activities.</li>
+<li>"disabled" : Never trigger aggregation. The system will eventually run out of space even if data is being deleted.</li>
+</ul>
+<h3 id="self-healing-policy-self_heal">Self-healing Policy (self_heal)<a class="headerlink" href="#self-healing-policy-self_heal" title="Permanent link">&para;</a></h3>
+<p>This property defines whether a failing node is automatically evicted from the
+pool. Once excluded, the self-healing mechasnism will be triggered to restore
+the pool data redundancy on the surviving storage nodes.</p>
+<h3 id="reserve-space-space_rb">Reserve Space (space_rb)<a class="headerlink" href="#reserve-space-space_rb" title="Permanent link">&para;</a></h3>
+<p>This property defines the percentage of total space reserved on each storage
+node for self-healing purpose. The reserved space cannot be consumed by the
+applications.</p>
+<h3 id="ec-cell-size-ec_cell_sz">EC Cell Size (ec_cell_sz)<a class="headerlink" href="#ec-cell-size-ec_cell_sz" title="Permanent link">&para;</a></h3>
+<p>This property defines the default erasure code cell size inherited to DAOS
+containers. The value is typically between 32K and 1MB.</p>
+<h2 id="access-control-lists">Access Control Lists<a class="headerlink" href="#access-control-lists" title="Permanent link">&para;</a></h2>
+<p>Client user and group access for pools are controlled by
+<a href="https://daos-stack.github.io/overview/security/#access-control-lists">Access Control Lists (ACLs)</a>.
+Most pool-related tasks are performed using the DMG administrative tool, which
+is authenticated by the administrative certificate rather than user-specific
+credentials.</p>
+<p>Access-controlled client pool accesses include:</p>
+<ul>
+<li>
+<p>Connecting to the pool.</p>
+</li>
+<li>
+<p>Querying the pool.</p>
+</li>
+<li>
+<p>Creating containers in the pool.</p>
+</li>
+<li>
+<p>Deleting containers in the pool.</p>
+</li>
+</ul>
+<p>This is reflected in the set of supported
+<a href="https://daos-stack.github.io/overview/security/#permissions">pool permissions</a>.</p>
+<p>A user must be able to connect to the pool in order to access any containers
+inside, regardless of their permissions on those containers.</p>
+<h3 id="ownership">Ownership<a class="headerlink" href="#ownership" title="Permanent link">&para;</a></h3>
+<p>Pool ownership conveys no special privileges for access control decisions. All
+desired privileges of the owner-user (<code>OWNER@</code>) and owner-group (<code>GROUP@</code>) must
+be explicitly defined by an administrator in the pool ACL.</p>
+<h3 id="acl-at-pool-creation">ACL at Pool Creation<a class="headerlink" href="#acl-at-pool-creation" title="Permanent link">&para;</a></h3>
+<p>To create a pool with a custom ACL:</p>
+<pre><code class="bash">$ dmg pool create --size &lt;size&gt; --acl-file &lt;path&gt; &lt;pool_label&gt;
+</code></pre>
+
+<p>The ACL file format is detailed in <a href="https://daos-stack.github.io/overview/security/#acl-file">here</a>.</p>
+<h3 id="displaying-acl">Displaying ACL<a class="headerlink" href="#displaying-acl" title="Permanent link">&para;</a></h3>
+<p>To view a pool's ACL:</p>
+<pre><code class="bash">$ dmg pool get-acl --acl-file &lt;path&gt; &lt;pool_label&gt;
+</code></pre>
+
+<p>The output is in the same string format used in the ACL file during creation,
+with one Access Control Entry (i.e., ACE) per line.</p>
+<p>An example output is presented below:</p>
+<pre><code class="bash">$ dmg pool get-acl tank
+# Owner: jlombard@
+# Owner Group: jlombard@
+# Entries:
+A::OWNER@:rw
+A::bob@:r
+A:G:GROUP@:rw
+</code></pre>
+
+<h3 id="modifying-acl">Modifying ACL<a class="headerlink" href="#modifying-acl" title="Permanent link">&para;</a></h3>
+<p>For all of these commands using an ACL file, the ACL file must be in the format
+noted above for container creation.</p>
+<h4 id="overwriting-acl">Overwriting ACL<a class="headerlink" href="#overwriting-acl" title="Permanent link">&para;</a></h4>
+<p>To replace a pool's ACL with a new ACL:</p>
+<pre><code class="bash">$ dmg pool overwrite-acl --acl-file &lt;path&gt; &lt;pool_label&gt;
+</code></pre>
+
+<h4 id="adding-and-updating-aces">Adding and Updating ACEs<a class="headerlink" href="#adding-and-updating-aces" title="Permanent link">&para;</a></h4>
+<p>To add or update multiple entries in an existing pool ACL:</p>
+<pre><code class="bash">$ dmg pool update-acl --acl-file &lt;path&gt; &lt;pool_label&gt;
+</code></pre>
+
+<p>To add or update a single entry in an existing pool ACL:</p>
+<pre><code class="bash">$ dmg pool update-acl --entry &lt;ACE&gt; &lt;pool_label&gt;
+</code></pre>
+
+<p>If there is no existing entry for the principal in the ACL, the new entry is
+added to the ACL. If there is already an entry for the principal, that entry
+is replaced with the new one.</p>
+<p>For instance:</p>
+<pre><code class="bash">$ dmg pool update-acl -e A::kelsey@:r tank
+Pool-update-ACL command succeeded, UUID: 8a05bf3a-a088-4a77-bb9f-df989fce7cc8
+# Owner: jlombard@
+# Owner Group: jlombard@
+# Entries:
+A::OWNER@:rw
+A::bob@:r
+A::kelsey@:r
+A:G:GROUP@:rw
+</code></pre>
+
+<h4 id="removing-an-ace">Removing an ACE<a class="headerlink" href="#removing-an-ace" title="Permanent link">&para;</a></h4>
+<p>To delete an entry for a given principal in an existing pool ACL:</p>
+<pre><code class="bash">$ dmg pool delete-acl --principal &lt;principal&gt; &lt;pool_label&gt;
+</code></pre>
+
+<p>The principal corresponds to the principal portion of an ACE that was
+set during pool creation or a previous pool ACL operation. For the delete
+operation, the principal argument must be formatted as follows:</p>
+<ul>
+<li>Named user: <code>u:username@</code></li>
+<li>Named group: <code>g:groupname@</code></li>
+<li>Special principals: <code>OWNER@</code>, <code>GROUP@</code>, and <code>EVERYONE@</code></li>
+</ul>
+<p>The entry for that principal will be completely removed. This does not always
+mean that the principal will have no access. Rather, their access to the pool
+will be decided based on the remaining ACL rules.</p>
+<h2 id="pool-modifications">Pool Modifications<a class="headerlink" href="#pool-modifications" title="Permanent link">&para;</a></h2>
+<h3 id="exclusion-self-healing">Exclusion &amp; Self-healing<a class="headerlink" href="#exclusion-self-healing" title="Permanent link">&para;</a></h3>
+<p>An operator can exclude one or more engines or targets from a specific DAOS pool
+using the rank the target resides, as well as the target idx on that rank.
+If a target idx list is not provided, all targets on the rank will be excluded.
+Excluding a target will automatically start the rebuild process.</p>
+<p>To exclude a target from a pool:</p>
+<pre><code class="bash">$ dmg pool exclude --rank=${rank} --target-idx=${idx1},${idx2},${idx3} &lt;pool_label&gt;
+</code></pre>
+
+<p>The pool target exclude command accepts 2 parameters:</p>
+<ul>
+<li>The rank of the target(s) to be excluded.</li>
+<li>The target Indices of the targets to be excluded from that rank (optional).</li>
+</ul>
+<h3 id="drain">Drain<a class="headerlink" href="#drain" title="Permanent link">&para;</a></h3>
+<p>Alternatively, when an operator would like to remove one or more engines or
+targets without the system operating in degraded mode, the drain operation can
+be used.
+A pool drain operation initiates rebuild without excluding the designated engine
+or target until after the rebuild is complete.
+This allows the drained entity to continue to perform I/O while the rebuild
+operation is ongoing. Drain additionally enables non-replicated data to be
+rebuilt onto another target whereas in a conventional failure scenario non-replicated
+data would not be integrated into a rebuild and would be lost.</p>
+<p>To drain a target from a pool:</p>
+<pre><code class="bash">$ dmg pool drain --rank=${rank} --target-idx=${idx1},${idx2},${idx3} &lt;pool_label&gt;
+</code></pre>
+
+<p>The pool target drain command accepts 2 parameters:</p>
+<ul>
+<li>The rank of the target(s) to be drained.</li>
+<li>The target Indices of the targets to be drained from that rank (optional).</li>
+</ul>
+<h3 id="reintegration">Reintegration<a class="headerlink" href="#reintegration" title="Permanent link">&para;</a></h3>
+<p>After an engine failure and exclusion, an operator can fix the underlying issue
+and reintegrate the affected engines or targets to restore the pool to its
+original state.
+The operator can either reintegrate specific targets for an engine rank by
+supplying a target idx list, or reintegrate an entire rank by omitting the list.</p>
+<pre><code>$ dmg pool reintegrate --pool=${puuid} --rank=${rank} --target-idx=${idx1},${idx2},${idx3}
+</code></pre>
+
+<p>The pool reintegrate command accepts 3 parameters:</p>
+<ul>
+<li>The label or UUID of the pool that the targets will be reintegrated into.</li>
+<li>The engine rank of the affected targets.</li>
+<li>The target indices of the targets to be reintegrated on that rank (optional).</li>
+</ul>
+<p>When rebuild is triggered it will list the operations and their related targets by their rank ID
+and target index.</p>
+<pre><code>Target (rank 5 idx 0) is down.
+Target (rank 5 idx 1) is down.
+...
+(rank 5 idx 0) is excluded.
+(rank 5 idx 1) is excluded.
+</code></pre>
+
+<p>These should be the same values used when reintegrating the targets.</p>
+<pre><code>$ dmg pool reintegrate --rank=5 --target-idx=0,1 &lt;pool_label&gt;
+</code></pre>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While dmg pool query and list show how many targets are disabled for each
+pool, there is currently no way to list the targets that have actually
+been disabled. As a result, it is recommended for now to try to reintegrate
+all engine ranks one after the other via <code>for i in seq $NR_RANKs; do dmg
+pool reintegrate --rank=$i; done</code>. This limitation will be addressed in the
+next release.</p>
+</div>
+<h2 id="pool-extension">Pool Extension<a class="headerlink" href="#pool-extension" title="Permanent link">&para;</a></h2>
+<h3 id="addition-space-rebalancing">Addition &amp; Space Rebalancing<a class="headerlink" href="#addition-space-rebalancing" title="Permanent link">&para;</a></h3>
+<p>Full Support for online target addition and automatic space rebalancing is
+planned for a future release and will be documented here once available.</p>
+<p>Until then the following command(s) are placeholders and offer limited
+functionality related to Online Server Addition/Rebalancing operations.</p>
+<p>An operator can choose to extend a pool to include ranks not currently in the
+pool.
+This will automatically trigger a server rebalance operation where objects
+within the extended pool will be rebalanced across the new storage.</p>
+<pre><code>$ dmg pool extend --ranks=${rank1},${rank2}... &lt;pool_label&gt;
+</code></pre>
+
+<p>The pool extend command accepts one required parameter which is a comma
+separated list of server ranks to include in the pool.</p>
+<p>The pool rebalance operation will work most efficiently when the pool is
+extended to its desired size in a single operation, as opposed to multiple,
+small extensions.</p>
+<h3 id="resize">Resize<a class="headerlink" href="#resize" title="Permanent link">&para;</a></h3>
+<p>Support for quiescent pool resize (changing capacity used on each storage node
+without adding new ones) is currently not supported and is under consideration.</p>
+<h2 id="pool-catastrophic-recovery">Pool Catastrophic Recovery<a class="headerlink" href="#pool-catastrophic-recovery" title="Permanent link">&para;</a></h2>
+<p>A DAOS pool is instantiated on each target by a set of pmemobj files
+managed by PMDK and SPDK blobs on SSDs. Tools to verify and repair this
+persistent data is scheduled for DAOS v2.4 and will be documented here
+once available.</p>
+<p>Meanwhile, PMDK provides a recovery tool (i.e., pmempool check) to verify
+and possibly repair a pmemobj file. As discussed in the previous section, the
+rebuild status can be consulted via the pool query and will be expanded
+with more information.</p>
+<h2 id="recovering-container-ownership">Recovering Container Ownership<a class="headerlink" href="#recovering-container-ownership" title="Permanent link">&para;</a></h2>
+<p>Typically users are expected to manage their containers. However, in the event
+that a container is orphaned and no users have the privileges to change the
+ownership, an administrator can transfer ownership of the container to a new
+user and/or group.</p>
+<p>To change the owner user:</p>
+<pre><code class="bash">$ dmg cont set-owner --pool &lt;UUID&gt; --cont &lt;UUID&gt; --user &lt;owner-user&gt;
+</code></pre>
+
+<p>To change the owner group:</p>
+<pre><code class="bash">$ dmg cont set-owner --pool &lt;UUID&gt; --cont &lt;UUID&gt; --group &lt;owner-group&gt;
+</code></pre>
+
+<p>The user and group names are case sensitive and must be formatted as
+<a href="https://daos-stack.github.io/overview/security/#principal">DAOS ACL user/group principals</a>.</p>
+<p>Because this is an administrative action, it does not require the administrator
+to have any privileges assigned in the container ACL.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../administration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: System Administration" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              System Administration
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../tiering_uns/" class="md-footer__link md-footer__link--next" aria-label="Next: Tiering and Unified Namespace" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Tiering and Unified Namespace
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.top", "navigation.indexes", "toc.integrate", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

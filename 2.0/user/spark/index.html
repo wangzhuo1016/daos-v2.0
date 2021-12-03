@@ -1,0 +1,1733 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+      <link rel="icon" href="../../daos_logo_wh.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Spark and Hadoop - DAOS v2.0</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#daos-hadoop-filesystem" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-header__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v2.0
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spark and Hadoop
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Intro
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../overview/architecture/" class="md-tabs__link">
+        Overview
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../QSG/setup_centos/" class="md-tabs__link">
+        Installation and Setup
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../admin/hardware/" class="md-tabs__link">
+        Administration Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/autotest/" class="md-tabs__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../workflow/" class="md-tabs__link md-tabs__link--active">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../release/release_notes_v2_0/" class="md-tabs__link">
+        Releases
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../dev/development/" class="md-tabs__link">
+        Developer Zone
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v2.0" class="md-nav__button md-logo" aria-label="DAOS v2.0" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    DAOS v2.0
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Intro
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to DAOS Version 2.0!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Community Roadmap
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Community Mailing list
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://jira.daos.io/" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/data_integrity/" class="md-nav__link">
+        Data Integrity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/use_cases/" class="md-nav__link">
+        Use Cases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_centos/" class="md-nav__link">
+        CentOS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup_suse/" class="md-nav__link">
+        openSUSE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/build_from_scratch/" class="md-nav__link">
+        Build from Scratch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/ior/" class="md-nav__link">
+        Run IOR and mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/datamover/" class="md-nav__link">
+        Run Datamover test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4873388103/DAOS+IO-500+Instructions" class="md-nav__link">
+        Run IO500
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      <label class="md-nav__link" for="__nav_6">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        Workflow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filesystem/" class="md-nav__link">
+        File System
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python/" class="md-nav__link">
+        Python Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Spark and Hadoop
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Spark and Hadoop
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maven-download" class="md-nav__link">
+    Maven Download
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jar-files" class="md-nav__link">
+    JAR Files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daos-site-examplexml" class="md-nav__link">
+    daos-site-example.xml
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-hadoop" class="md-nav__link">
+    Configuring Hadoop
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variable" class="md-nav__link">
+    Environment Variable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daos-uri" class="md-nav__link">
+    DAOS URI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validating-hadoop-access" class="md-nav__link">
+    Validating Hadoop Access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-spark" class="md-nav__link">
+    Configuring Spark
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring Spark">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validatng-spark-access" class="md-nav__link">
+    Validatng Spark Access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    Appendix
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-daos-hadoop-filesystem" class="md-nav__link">
+    Building DAOS Hadoop Filesystem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daos-more-uris" class="md-nav__link">
+    DAOS More URIs
+  </a>
+  
+    <nav class="md-nav" aria-label="DAOS More URIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daos-uns-path" class="md-nav__link">
+    DAOS UNS Path
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daos-non-uns-path" class="md-nav__link">
+    DAOS Non-UNS Path
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-uuid-path" class="md-nav__link">
+    Special UUID Path
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-map-reduce-in-hadoop" class="md-nav__link">
+    Run Map-Reduce in Hadoop
+  </a>
+  
+    <nav class="md-nav" aria-label="Run Map-Reduce in Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    Known Issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tune-more-configurations" class="md-nav__link">
+    Tune More Configurations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#psm2-issue" class="md-nav__link">
+    PSM2 Issue
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datamover/" class="md-nav__link">
+        Data Mover
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v2_0/" class="md-nav__link">
+        Release Notes v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix_v2_0/" class="md-nav__link">
+        Support Matrix v2.0
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/index.html" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/user/spark.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="daos-hadoop-filesystem">DAOS Hadoop Filesystem<a class="headerlink" href="#daos-hadoop-filesystem" title="Permanent link">&para;</a></h1>
+<p>Here, we describe the quick steps required to use the DAOS Hadoop filesystem
+to access DAOS from Hadoop and Spark.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Linux OS</li>
+<li>Java 8</li>
+<li>Hadoop 2.7 or later</li>
+<li>Spark 3.1 or later</li>
+<li>DAOS Readiness</li>
+</ol>
+<p>We assume that the DAOS servers and agents have already been deployed in the
+environment. Otherwise, they can be deployed by following the
+<a href="https://daos-stack.github.io/admin/installation/">DAOS Installation Guide</a>.</p>
+<h2 id="maven-download">Maven Download<a class="headerlink" href="#maven-download" title="Permanent link">&para;</a></h2>
+<p>There are two artifacts to download, daos-java and hadoop-daos, from maven.
+Here are maven dependencies.</p>
+<p>You can download them with below commands if you have maven installed.</p>
+<pre><code class="bash">mvn dependency:get -Dartifact=io.daos:daos-java:&lt;version&gt; -Ddest=./
+mvn dependency:get -Dartifact=io.daos:hadoop-daos:&lt;version&gt; -Ddest=./
+</code></pre>
+
+<p>Or search these artifacts from maven central(https://search.maven.org) and
+download them manually.</p>
+<p>You can also build artifacts by yourself.
+see <a href="#builddaos">Build DAOS Hadoop Filesystem</a> for details.</p>
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
+<h3 id="jar-files">JAR Files<a class="headerlink" href="#jar-files" title="Permanent link">&para;</a></h3>
+<p><code>daos-java-&lt;version&gt;.jar</code> and <code>hadoop-daos-&lt;version&gt;.jar</code> need to be deployed
+on every compute node that runs Spark or Hadoop.
+Place them in a directory, e.g., <code>$SPARK_HOME/jars</code> for Spark and
+<code>$HADOOP_HOME/share/hadoop/common/lib</code> for Hadoop, which is accessible to all
+the nodes or copy them to every node.<br/></p>
+<h3 id="daos-site-examplexml"><code>daos-site-example.xml</code><a class="headerlink" href="#daos-site-examplexml" title="Permanent link">&para;</a></h3>
+<p>Extract from <code>hadoop-daos-&lt;version&gt;.jar</code> and rename to <code>daos-site.xml</code>. Then
+copy it to your application config directory, e.g., <code>$SPARK_HOME/conf</code> for
+Spark and <code>$HADOOP_HOME/etc/hadoop</code> for Hadoop.</p>
+<h2 id="configuring-hadoop">Configuring Hadoop<a class="headerlink" href="#configuring-hadoop" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variable">Environment Variable<a class="headerlink" href="#environment-variable" title="Permanent link">&para;</a></h3>
+<p>Export all DAOS-specific env variables in your application, e.g.,
+<code>spark-env.sh</code> for Spark and <code>hadoop-env.sh</code> for Hadoop. Or you can simply put
+env variables in your <code>.bashrc</code>.</p>
+<p>Besides, you should have LD_LIBRARY_PATH include DAOS library path so that Java
+can link to DAOS libs, like below.</p>
+<pre><code class="bash">$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:&lt;DAOS_INSTALL&gt;/lib64:&lt;DAOS_INSTALL&gt;/lib
+</code></pre>
+
+<h3 id="daos-uri">DAOS URI<a class="headerlink" href="#daos-uri" title="Permanent link">&para;</a></h3>
+<p>In <code>daos-site.xml</code>, we default the DAOS URI as simplest form, "daos:///". For
+other form of URIs, please check <a href="#uris">DAOS More URIs</a>.</p>
+<p>If the DAOS pool and container have not been created, we can use the following
+command to create them and get the pool UUID and container UUID.</p>
+<pre><code class="bash">$ dmg pool create --scm-size=&lt;scm size&gt; --nvme-size=&lt;nvme size&gt;
+$ daos cont create --pool &lt;pool UUID&gt; --type POSIX
+</code></pre>
+
+<p>After that, configure <code>daos-site.xml</code> with the pool and container created.</p>
+<pre><code class="xml">&lt;configuration&gt;
+...
+  &lt;property&gt;
+    &lt;name&gt;fs.daos.pool.uuid&lt;/name&gt;
+    &lt;value&gt;your pool UUID&lt;/value&gt;
+    &lt;description&gt;UUID of DAOS pool&lt;/description&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.daos.container.uuid&lt;/name&gt;
+    &lt;value&gt;your container UUID&lt;/value&gt;
+    &lt;description&gt;UUID of DAOS container created with &quot;--type posix&quot;&lt;/description&gt;
+  &lt;/property&gt;
+...
+&lt;/configuration&gt;
+</code></pre>
+
+<p>Please put <code>daos-site.xml</code> in right place, e.g., Java classpath, and
+loadable by Hadoop DAOS FileSystem.</p>
+<h3 id="validating-hadoop-access">Validating Hadoop Access<a class="headerlink" href="#validating-hadoop-access" title="Permanent link">&para;</a></h3>
+<p>If everything goes well, you should see <code>/user</code> directory being listed after
+issuing below command.</p>
+<pre><code class="bash">$ hadoop fs -ls /
+</code></pre>
+
+<p>You can also play around with other Hadoop commands, like -copyFromLocal and
+-copyToLocal. You can also start Yarn and run some mapreduce jobs on Yarn.
+See <a href="#mapreduce">Run Map-Reduce in Hadoop</a></p>
+<h2 id="configuring-spark">Configuring Spark<a class="headerlink" href="#configuring-spark" title="Permanent link">&para;</a></h2>
+<p>To access DAOS Hadoop filesystem in Spark, add the jar files to the classpath
+of the Spark executor and driver. This can be configured in Spark's
+configuration file <code>spark-defaults.conf</code>.</p>
+<pre><code>spark.executor.extraClassPath   /path/to/daos-java-&lt;version&gt;.jar:/path/to/hadoop-daos-&lt;version&gt;.jar
+spark.driver.extraClassPath     /path/to/daos-java-&lt;version&gt;.jar:/path/to/hadoop-daos-&lt;version&gt;.jar
+</code></pre>
+
+<h3 id="validatng-spark-access">Validatng Spark Access<a class="headerlink" href="#validatng-spark-access" title="Permanent link">&para;</a></h3>
+<p>All Spark APIs that work with the Hadoop filesystem will work with DAOS. We can
+use the <code>daos:///</code> URI to access files stored in DAOS. For example, to read the
+<code>people.json</code> file from the root directory of DAOS filesystem, we can use the
+following pySpark code:</p>
+<pre><code class="python">df = spark.read.json(&quot;daos:///people.json&quot;)
+</code></pre>
+
+<h2 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">&para;</a></h2>
+<h3 id="building-daos-hadoop-filesystem"><a name="builddaos"></a>Building DAOS Hadoop Filesystem<a class="headerlink" href="#building-daos-hadoop-filesystem" title="Permanent link">&para;</a></h3>
+<p>Below are the steps to build the Java jar files for the DAOS Java and DAOS
+Hadoop filesystem. Spark and Hadoop require these jars in their classpath.
+You can ignore this section if you already have the pre-built jars.</p>
+<pre><code class="bash">$ git clone https://github.com/daos-stack/daos.git
+$ cd daos
+$ git checkout &lt;desired branch or commit&gt;
+## assume DAOS is built and installed to &lt;daos_install&gt; directory
+$ cd src/client/java
+## with-proto3-netty4-deps profile builds jars with protobuf 3 and netty-buffer 4 shaded
+## It spares you potential third-party jar compatibility issue.
+$ mvn -Pdistribute,with-proto3-netty4-deps clean package -DskipTests -Dgpg.skip -Ddaos.install.path=&lt;daos_install&gt;
+</code></pre>
+
+<p>After build, the package <code>daos-java-&lt;version&gt;-assemble.tgz</code> will be available
+under <code>distribution/target</code>.</p>
+<h3 id="daos-more-uris"><a name="uris"></a>DAOS More URIs<a class="headerlink" href="#daos-more-uris" title="Permanent link">&para;</a></h3>
+<p>DAOS FileSystem binds to schema "daos".  DAOS URIs are in the format of
+"daos://[authority]//[path]". Both authority and path are optional. There
+are three types of DAOS URIs, DAOS UNS path, DAOS Non-UNS path and
+Special UUID path depending on where you want the DAOS Filesystem to get
+initialized and configured.</p>
+<h4 id="daos-uns-path">DAOS UNS Path<a class="headerlink" href="#daos-uns-path" title="Permanent link">&para;</a></h4>
+<p>The simple form of URI is "daos:///\&lt;your uns path>[/sub path]".
+"\&lt;your path>" is your OS file path created with the <code>daos</code> command or Java
+DAOS UNS method, <code>DaosUns.create()</code>. The "[sub path]" is optional. You can
+create the UNS path with below command.</p>
+<pre><code class="bash">$ daos cont create --pool &lt;pool UUID&gt; -path &lt;your path&gt; --type=POSIX
+</code></pre>
+
+<p>Or</p>
+<pre><code class="bash">$ java -Dpath=&quot;your path&quot; -Dpool_id=&quot;your pool uuid&quot; -cp ./daos-java-&lt;version&gt;-shaded.jar io.daos.dfs.DaosUns create
+</code></pre>
+
+<p>After creation, you can use below command to see what DAOS properties set to
+the path.</p>
+<pre><code class="path">$ getfattr -d -m - &lt;your path&gt;
+</code></pre>
+
+<h4 id="daos-non-uns-path">DAOS Non-UNS Path<a class="headerlink" href="#daos-non-uns-path" title="Permanent link">&para;</a></h4>
+<p>Check <a href="#non-uns">Set DAOS URI and Pool/Container</a>.</p>
+<h4 id="special-uuid-path">Special UUID Path<a class="headerlink" href="#special-uuid-path" title="Permanent link">&para;</a></h4>
+<p>DAOS supports a specialized URI with pool/container UUIDs embedded. The format
+is "daos://pool UUID/container UUID". As you can see, we don't need to find the
+UUIDs from neither UNS path nor configuration like above two types of URIs.</p>
+<p>You may want to connect to two DAOS servers or two DFS instances mounted to
+different containers in one DAOS server from same JVM. Then, you need to add
+authority to your URI to make it unique since Hadoop caches filesystem instance
+keyed by "schema + authority" in global (JVM). It applies to the both types of
+URIs described above.</p>
+<h3 id="run-map-reduce-in-hadoop"><a name="mapreduce"></a>Run Map-Reduce in Hadoop<a class="headerlink" href="#run-map-reduce-in-hadoop" title="Permanent link">&para;</a></h3>
+<p>Edit <code>$HADOOP_HOME/etc/hadoop/core-site.xml</code> to change fs.defaultFS to
+<code>daos:///</code>. It is not recommended to set fs.defaultFS to a DAOS UNS path.
+You may get an error complaining pool/container UUIDs cannot be found. It's
+because Hadoop considers the default filesystem is DAOS since you configured
+DAOS UNS URI. YARN has some working directories defaulting to local path
+without schema, like "/tmp/yarn", which is then constructed as
+"daos:///tmp/yarn". With this URI, Hadoop cannot connect to DAOS since no
+pool/container UUIDs can be found if daos-site.xml is not provided too.
+               .</p>
+<p>Then append below configuration to this file and
+<code>$HADOOP_HOME/etc/hadoop/yarn-site.xml</code>.</p>
+<pre><code class="xml">&lt;property&gt;
+    &lt;name&gt;fs.AbstractFileSystem.daos.impl&lt;/name&gt;
+    &lt;value&gt;io.daos.fs.hadoop.DaosAbsFsImpl&lt;/value&gt;
+&lt;/property&gt;
+
+</code></pre>
+
+<p>DAOS has no data locality since it is remote storage. You need to add below
+configuration to the scheduler configuration file, like
+<code>capacity-scheduler.xml</code> in yarn.</p>
+<pre><code class="xml">&lt;property&gt;
+  &lt;name&gt;yarn.scheduler.capacity.node-locality-delay&lt;/name&gt;
+  &lt;value&gt;-1&lt;/value&gt;
+&lt;/property&gt;
+</code></pre>
+
+<p>Then replicate <code>daos-site.xml</code>, <code>core-site.xml</code>, <code>yarn-site.xml</code> and
+<code>capacity-scheduler.xml</code> to other nodes.</p>
+<h4 id="known-issues">Known Issues<a class="headerlink" href="#known-issues" title="Permanent link">&para;</a></h4>
+<p>If you use Omni-path PSM2 provider in DAOS, you'll get connection issue in
+Yarn container due to PSM2 resource not being released properly in time.</p>
+<h3 id="tune-more-configurations">Tune More Configurations<a class="headerlink" href="#tune-more-configurations" title="Permanent link">&para;</a></h3>
+<p>If your DAOS URI is the non-UNS, you can follow descriptions of each
+config item to set your own values in loadable <code>daos-site.xml</code>.</p>
+<p>If your DAOS URI is the UNS path, your configurations, except those set by DAOS
+UNS creation, in <code>daos-site.xml</code> can still be effective. To make configuration
+source consistent, an alternative to the configuration file <code>daos-site.xml</code> is
+to set all configurations to the UNS path. You put the configs to the same UNS
+path with below command.</p>
+<pre><code class="bash"># install attr package if get &quot;command not found&quot; error
+$ setfattr -n user.daos.hadoop -v &quot;fs.daos.server.group=daos_server&quot; &lt;your path&gt;
+</code></pre>
+
+<p>Or</p>
+<pre><code class="bash">$ java -Dpath=&quot;your path&quot; -Dattr=user.daos.hadoop -Dvalue=&quot;fs.daos.server.group=daos_server&quot;
+    -cp ./daos-java-&lt;version&gt;-shaded.jar io.daos.dfs.DaosUns setappinfo
+</code></pre>
+
+<p>For the "value" property, you need to follow pattern, key1=value1:key2=value2..
+.. And key<em> should be from
+<a href="hadoop-daos/src/main/resources/daos-site-example.xml">daos-site-example.xml</a>.
+If value</em> contains characters of '=' or ':', you need to escape the value with
+below command.</p>
+<pre><code class="bash">$ java -Dop=escape-app-value -Dinput=&quot;daos_server:1=2&quot; -cp ./daos-java-&lt;version&gt;-shaded.jar io.daos.dfs.DaosUns util
+</code></pre>
+
+<p>You'll get escaped value, "daos_server\u003a1\u003d2", for "daos_server:1=2".</p>
+<p>If you configure the same property in both <code>daos-site.xml</code> and UNS path, the
+value in <code>daos-site.xml</code> takes priority. If user sets Hadoop configuration
+before initializing Hadoop DAOS FileSystem, the user's configuration takes
+priority.</p>
+<h3 id="psm2-issue">PSM2 Issue<a class="headerlink" href="#psm2-issue" title="Permanent link">&para;</a></h3>
+<p>For some libfabric providers, like PSM2, signal chaining should be enabled to
+better interoperate with DAOS and its dependencies which may install its own
+signal handlers. It ensures that signal calls are intercepted so that they do
+not actually replace the JVM's signal handlers if the handlers conflict with
+those already installed by the JVM. Instead, these calls save the new signal
+handlers, or "chain" them behind the JVM-installed handlers. Later, when any of
+these signals are raised and found not to be targeted at the JVM, the DAOS's
+handlers are invoked.</p>
+<pre><code class="bash">$ export LD_PRELOAD=&lt;YOUR JDK HOME&gt;/jre/lib/amd64/libjsig.so
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../python/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Python Support" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Python Support
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../datamover/" class="md-footer__link md-footer__link--next" aria-label="Next: Data Mover" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Data Mover
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.top", "navigation.indexes", "toc.integrate", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>
