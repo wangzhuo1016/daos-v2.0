@@ -1,0 +1,1631 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___containers">
+<title>DAOS Containers</title>
+<indexterm><primary>DAOS Containers</primary></indexterm>
+<simplesect>
+    <title>Data Structures    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_group___containers_1gaab23e66f2eb2bac0b001547b3fdf8587">DAOS_COO_RO</link>   (1U &lt;&lt; 0)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1ga11ee11e5a4bb4ec779ee2f6a01ed96cc"/>#define <emphasis role="strong">DAOS_COO_RW</emphasis>   (1U &lt;&lt; 1)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1ga26bfa27ac1eafe57a6efb365d4db7ec2"/>#define <emphasis role="strong">DAOS_COO_NOSLIP</emphasis>   (1U &lt;&lt; 2)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1ga64c5c8c269cb03333bafeba9cd847992"/>#define <emphasis role="strong">DAOS_COO_FORCE</emphasis>   (1U &lt;&lt; 3)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1ga35cb86400b82c1386a6ca4bbd3a1b1d4"/>#define <emphasis role="strong">DAOS_COO_NBITS</emphasis>   (4)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1gade251344bf9a9a2955f03ada21ecc36a"/>#define <emphasis role="strong">DAOS_COO_MASK</emphasis>   ((1U &lt;&lt; DAOS_COO_NBITS) - 1)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1gafb8acd391dfbeecb6895e66a997781ed"/>#define <emphasis role="strong">DAOS_SNAPSHOT_MAX_LEN</emphasis>   128</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___containers_1ga426a8e88774116475ff60291e3a1280d">daos_cont_open</link>(poh,  co, ...)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___containers_1ga9ced37f2791e33caa4fa5e3a33527a25">daos_cont_destroy</link>(poh,  co, ...)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___containers_1gadfaa5fb3ea11125d20df71a0fd416a85">daos_cont_create</link>(poh,  co, ...)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_group___containers_1gaa9db6759d54439124fe8d210d2c0254e">daos_snapshot_opts</link> { <link linkend="_group___containers_1ggaa9db6759d54439124fe8d210d2c0254ea88a2ff8dbc2299ef17503a12dc26f959">DAOS_SNAP_OPT_CR</link> = (1 &lt;&lt; 0), 
+<link linkend="_group___containers_1ggaa9db6759d54439124fe8d210d2c0254ea895cc6c5368a9ea6bc2557546ca7a9e7">DAOS_SNAP_OPT_OIT</link> = (1 &lt;&lt; 1)
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>d_rank_list_t * <link linkend="_group___containers_1gabc4655c8429eff6b7a5637027ec3dbb2">daos_rank_list_parse</link> (const char *str, const char *sep)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga2d32bebaa76e264a8825074b360c2f2d">daos_cont_local2global</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, d_iov_t *glob)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaa780e37e03ace1bb78baec4ca2096c75">daos_cont_global2local</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_iov_t glob, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga4ab958d41ed9ec62e6533027ba2927a9">daos_cont_create</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t *uuid, <link linkend="_structdaos__prop__t">daos_prop_t</link> *cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gab6e2e5a40108c1ac45c936009201564b">daos_cont_create_with_label</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *label, <link linkend="_structdaos__prop__t">daos_prop_t</link> *cont_prop, uuid_t *uuid, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gac79ad39c83ee600516d907e14b5496c1">daos_cont_open</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *cont, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> *info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga619e6f50a6272f421a6967d5a54d7686">daos_cont_close</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga6d214b26c932fc9cfe2cd78be970caba">daos_cont_destroy</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *cont, int force, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gafe40750c587a6bd761f8735160152e4c">daos_cont_query</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> container, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> *info, <link linkend="_structdaos__prop__t">daos_prop_t</link> *cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gad08f81ef557291516c1f9ec335c84cb0">daos_cont_get_acl</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> container, <link linkend="_structdaos__prop__t">daos_prop_t</link> **acl_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaf276a397e5990736e5f243937e983d71">daos_cont_set_prop</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__prop__t">daos_prop_t</link> *prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaeab1776ae06542dbac5d2c5f0868bf81">daos_cont_status_clear</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga36c2f6d5365282a3eb64395d376d9e89">daos_cont_overwrite_acl</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, struct <link linkend="_structdaos__acl">daos_acl</link> *acl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga2c7c585a946df6da3b556b539391af3d">daos_cont_update_acl</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, struct <link linkend="_structdaos__acl">daos_acl</link> *acl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga1ca2bc0480e7f871cf50f5500daa82ec">daos_cont_delete_acl</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, d_string_t name, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga30e8564681522eca4077b15900c3c867">daos_cont_set_owner</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, d_string_t user, d_string_t group, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga2b7eefa0f54fdf10306902d5ee1ef8b6">daos_cont_list_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, char *buffer, size_t *size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gac4bb5e6daaa823d4e06a8ac00846286f">daos_cont_get_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], void *const buffers[], size_t sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga0e96331dd7cc4f930938a4bcf146f74e">daos_cont_set_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], void const *const values[], size_t const sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga22d9e94cba3233caedef8d46019b6607">daos_cont_del_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaa774a851cf98ae75dc7ed075ac4e814b">daos_cont_alloc_oids</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> num_oids, uint64_t *oid, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaa6d5e5ebaf5ae854b97785eabc86419a">daos_cont_aggregate</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gad009b4e58db4cccc38f3d5a6d5732897">daos_cont_rollback</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gafab4df174d6e1a48b343d0d5a13e7038">daos_cont_subscribe</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> *epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga0aa2756744ae5f6afd756946927126c7">daos_cont_create_snap</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> *epoch, char *name, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga86a37dccb956c087c2b7bdd923944ff0">daos_cont_create_snap_opt</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> *epoch, char *name, enum <link linkend="_group___containers_1gaa9db6759d54439124fe8d210d2c0254e">daos_snapshot_opts</link> opts, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga7e166976d2bbd06192bcdcd47f4d5462">daos_cont_list_snap</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int *nr, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> *epochs, char **names, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> *anchor, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga794403da19e79aaed193c0ab187951ed">daos_cont_destroy_snap</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link> epr, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1gaaae23040ee2aff624b7f57673fca6c4f">daos_cont_open2</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *cont, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> *coh, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> *info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga1db046abea95899206095e4980ca3225">daos_cont_destroy2</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char *cont, int force, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___containers_1ga27a3d91f483a2a17218778f67a621af1">daos_cont_create2</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t *uuid, <link linkend="_structdaos__prop__t">daos_prop_t</link> *cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___containers_1ga7de71b30130199c32b95bf323feb1eb1"/>int <emphasis role="strong">daos_cont_create1</emphasis> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const uuid_t uuid, <link linkend="_structdaos__prop__t">daos_prop_t</link> *cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_group___containers_1gadfaa5fb3ea11125d20df71a0fd416a85"/>    <section>
+    <title>daos_cont_create</title>
+<indexterm><primary>daos_cont_create</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create</secondary></indexterm>
+<para><computeroutput>#define daos_cont_create( poh,  co,  ...)</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;({&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuid_t&#32;*_u;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(d_is_uuid(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_u&#32;=&#32;(uuid_t&#32;*)((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co));&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___containers_1gadfaa5fb3ea11125d20df71a0fd416a85">daos_cont_create</link>((poh),&#32;_u,&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__VA_ARGS__);&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_u&#32;=&#32;(uuid_t&#32;*)(co);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___containers_1ga27a3d91f483a2a17218778f67a621af1">daos_cont_create2</link>((poh),&#32;_u,&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__VA_ARGS__);&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;})
+</programlisting>
+<para>for backward compatility, support old api where a const uuid_t was required to be passed in for the container to be created. </para>
+<para>
+Definition at line 779 of file daos_cont.h.</para>
+    </section><anchor xml:id="_group___containers_1ga9ced37f2791e33caa4fa5e3a33527a25"/>    <section>
+    <title>daos_cont_destroy</title>
+<indexterm><primary>daos_cont_destroy</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_destroy</secondary></indexterm>
+<para><computeroutput>#define daos_cont_destroy( poh,  co,  ...)</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;({&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char&#32;_str[37];&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<emphasis role="keywordtype">char</emphasis>&#32;*__str&#32;=&#32;NULL;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(d_is_string(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(d_is_uuid(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuid_unparse((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co),&#32;_str);&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;_str;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___containers_1ga1db046abea95899206095e4980ca3225">daos_cont_destroy2</link>((poh),&#32;__str,&#32;__VA_ARGS__);&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;})
+</programlisting>
+<para>for backward compatility, support old api where a const uuid_t was used instead of a string to identify the container. </para>
+<para>
+Definition at line 760 of file daos_cont.h.</para>
+    </section><anchor xml:id="_group___containers_1ga426a8e88774116475ff60291e3a1280d"/>    <section>
+    <title>daos_cont_open</title>
+<indexterm><primary>daos_cont_open</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_open</secondary></indexterm>
+<para><computeroutput>#define daos_cont_open( poh,  co,  ...)</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;({&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char&#32;_str[37];&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<emphasis role="keywordtype">char</emphasis>&#32;*__str&#32;=&#32;NULL;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(d_is_string(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(d_is_uuid(co))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuid_unparse((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(co),&#32;_str);&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;_str;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___containers_1gaaae23040ee2aff624b7f57673fca6c4f">daos_cont_open2</link>((poh),&#32;__str,&#32;__VA_ARGS__);&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;})
+</programlisting>
+<para>for backward compatility, support old api where a const uuid_t was used instead of a string to identify the container. </para>
+<para>
+Definition at line 741 of file daos_cont.h.</para>
+    </section><anchor xml:id="_group___containers_1gaab23e66f2eb2bac0b001547b3fdf8587"/>    <section>
+    <title>DAOS_COO_RO</title>
+<indexterm><primary>DAOS_COO_RO</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>DAOS_COO_RO</secondary></indexterm>
+<para><computeroutput>#define DAOS_COO_RO   (1U &lt;&lt; 0)</computeroutput></para>
+<para>DAOS_COO_RO opens the container for reading only. This flag conflicts with DAOS_COO_RW.</para>
+
+<para>DAOS_COO_RW opens the container for reading and writing. This flag conflicts with DAOS_COO_RO.</para>
+
+<para>DAOS_COO_NOSLIP disables the automatic epoch slip at epoch commit time. See daos_epoch_commit().</para>
+
+<para>DAOS_COO_FORCE skips the check to see if the pool meets the redundancy factor/level requirements of the container. </para>
+<para>
+Definition at line 38 of file daos_cont.h.</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_group___containers_1gaa9db6759d54439124fe8d210d2c0254e"/>    <section>
+    <title>daos_snapshot_opts</title>
+<indexterm><primary>daos_snapshot_opts</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_snapshot_opts</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___containers_1gaa9db6759d54439124fe8d210d2c0254e">daos_snapshot_opts</link></computeroutput></para><informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DAOS_SNAP_OPT_CR</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>DAOS_SNAP_OPT_CR</secondary></indexterm>
+<anchor xml:id="_group___containers_1ggaa9db6759d54439124fe8d210d2c0254ea88a2ff8dbc2299ef17503a12dc26f959"/>DAOS_SNAP_OPT_CR</entry><entry>
+<para>create snapshot </para>
+</entry></row><row><entry><indexterm><primary>DAOS_SNAP_OPT_OIT</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>DAOS_SNAP_OPT_OIT</secondary></indexterm>
+<anchor xml:id="_group___containers_1ggaa9db6759d54439124fe8d210d2c0254ea895cc6c5368a9ea6bc2557546ca7a9e7"/>DAOS_SNAP_OPT_OIT</entry><entry>
+<para>create OI table for a snapshot </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 597 of file daos_cont.h.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___containers_1gaa6d5e5ebaf5ae854b97785eabc86419a"/>    <section>
+    <title>daos_cont_aggregate()</title>
+<indexterm><primary>daos_cont_aggregate</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_aggregate</secondary></indexterm>
+<para><computeroutput>int daos_cont_aggregate (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Trigger aggregation to specified epoch</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>epoch</entry>
+                                <entry>
+<para>Epoch to be aggregated to. Current time will be used when 0 is specified. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1gaa774a851cf98ae75dc7ed075ac4e814b"/>    <section>
+    <title>daos_cont_alloc_oids()</title>
+<indexterm><primary>daos_cont_alloc_oids</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_alloc_oids</secondary></indexterm>
+<para><computeroutput>int daos_cont_alloc_oids (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> num_oids, uint64_t * oid, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Allocate a unique set of 64 bit unsigned integers to be used for object ID generation for that container. This is an optional helper function for applications to use to guarantee unique object IDs on the container when more than 1 client are accessing objects on the container. The highest used ID is tracked in the container metadata for future access to that container. This doesn&apos;t guarantee that the IDs allocated are sequential; and several ID ranges could be discarded at container close.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>num_oids</entry>
+                                <entry>
+<para>Number of unique IDs requested. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>oid</entry>
+                                <entry>
+<para>starting oid that was allocated up to oid + num_oids. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_HDL Invalid container open handle -DER_UNREACH Network is unreachable </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga619e6f50a6272f421a6967d5a54d7686"/>    <section>
+    <title>daos_cont_close()</title>
+<indexterm><primary>daos_cont_close</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_close</secondary></indexterm>
+<para><computeroutput>int daos_cont_close (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Close a container handle. Upon successful completion, the container handle&apos;s epoch hold (i.e., if LHE &lt; DAOS_EPOCH_MAX) is released, and any uncommitted updates from the container handle are discarded.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga4ab958d41ed9ec62e6533027ba2927a9"/>    <section>
+    <title>daos_cont_create()</title>
+<indexterm><primary>daos_cont_create</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create</secondary></indexterm>
+<para><computeroutput>int daos_cont_create (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t * uuid, <link linkend="_structdaos__prop__t">daos_prop_t</link> * cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Create a new container on the storage pool connected by <emphasis>poh</emphasis>. The label (along with other container properties) can be passed via the <emphasis>cont_prop</emphasis>. If no label is specified, a container without any labels will be created. In this case, the only way to identify the newly created container will be via its UUID. It is thus recommended to pass a <emphasis>uuid</emphasis> argumnent so that the UUID allocated to the container can be returned to the caller.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>uuid</entry>
+                                <entry>
+<para>Optional, pointer to uuid_t to hold the implementation-generated container UUID. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cont_prop</entry>
+                                <entry>
+<para>Optional, container properties pointer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Invalid pool handle -DER_NO_PERM Permission denied -DER_UNREACH network is unreachable </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga27a3d91f483a2a17218778f67a621af1"/>    <section>
+    <title>daos_cont_create2()</title>
+<indexterm><primary>daos_cont_create2</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create2</secondary></indexterm>
+<para><computeroutput>int daos_cont_create2 (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uuid_t * uuid, <link linkend="_structdaos__prop__t">daos_prop_t</link> * cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Backward compatibility code. Please don&apos;t use directly </para>
+    </section><anchor xml:id="_group___containers_1ga0aa2756744ae5f6afd756946927126c7"/>    <section>
+    <title>daos_cont_create_snap()</title>
+<indexterm><primary>daos_cont_create_snap</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create_snap</secondary></indexterm>
+<para><computeroutput>int daos_cont_create_snap (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> * epoch, char * name, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Create a persistent snapshot at the current epoch and return it. The epoch that is returned can be used to create a read only transaction to read data from that persistent snapshot. Optionally the snapshot can be given a name as an attribute which can be retrieved with <link linkend="_group___containers_1ga7e166976d2bbd06192bcdcd47f4d5462">daos_cont_list_snap()</link>. Name length can&apos;t exceed DAOS_SNAPSHOT_MAX_LEN.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>epoch</entry>
+                                <entry>
+<para>returned epoch of persistent snapshot taken. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Optional null terminated name for snapshot. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga86a37dccb956c087c2b7bdd923944ff0"/>    <section>
+    <title>daos_cont_create_snap_opt()</title>
+<indexterm><primary>daos_cont_create_snap_opt</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create_snap_opt</secondary></indexterm>
+<para><computeroutput>int daos_cont_create_snap_opt (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> * epoch, char * name, enum <link linkend="_group___containers_1gaa9db6759d54439124fe8d210d2c0254e">daos_snapshot_opts</link> opts, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Advanced snapshot function, it can do different things based bits set in <emphasis>opts:</emphasis> <itemizedlist>
+<listitem>
+<para>DAOS_SNAP_OPT_CR create a snapshot at the current epoch and return it.</para>
+</listitem><listitem>
+<para>DAOS_SNAP_OPT_OIT create object ID table (OIT) for the snapshot</para>
+</listitem></itemizedlist>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>epoch</entry>
+                                <entry>
+<para>returned epoch of persistent snapshot taken. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Optional null terminated name for snapshot. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>opts</entry>
+                                <entry>
+<para>Bit flags, see daos_snapshot_opts </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1gab6e2e5a40108c1ac45c936009201564b"/>    <section>
+    <title>daos_cont_create_with_label()</title>
+<indexterm><primary>daos_cont_create_with_label</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_create_with_label</secondary></indexterm>
+<para><computeroutput>int daos_cont_create_with_label (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * label, <link linkend="_structdaos__prop__t">daos_prop_t</link> * cont_prop, uuid_t * uuid, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Create a new container with label <emphasis>label</emphasis> on the storage pool connected by <emphasis>poh</emphasis>. Helper method built over the regular <link linkend="_group___containers_1gadfaa5fb3ea11125d20df71a0fd416a85">daos_cont_create()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>label</entry>
+                                <entry>
+<para>Required, label property of the new container. Supersedes any label specified in <emphasis>cont_prop</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cont_prop</entry>
+                                <entry>
+<para>Optional, container properties pointer that if specified must not include an entry with type DAOS_PROP_CO_LABEL. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>uuid</entry>
+                                <entry>
+<para>Optional, pointer to uuid_t to hold the implementation-generated container UUID. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Invalid pool handle -DER_NO_PERM Permission denied -DER_UNREACH network is unreachable </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga22d9e94cba3233caedef8d46019b6607"/>    <section>
+    <title>daos_cont_del_attr()</title>
+<indexterm><primary>daos_cont_del_attr</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_del_attr</secondary></indexterm>
+<para><computeroutput>int daos_cont_del_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Delete a list of user-defined container attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle -DER_NOMEM Out of memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga1ca2bc0480e7f871cf50f5500daa82ec"/>    <section>
+    <title>daos_cont_delete_acl()</title>
+<indexterm><primary>daos_cont_delete_acl</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_delete_acl</secondary></indexterm>
+<para><computeroutput>int daos_cont_delete_acl (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, enum <link linkend="_group___security_1gae5134a9b969724c62e7c10e294f50db0">daos_acl_principal_type</link> type, d_string_t name, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Remove a principal&apos;s entry from a container&apos;s ACL.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>type</entry>
+                                <entry>
+<para>Principal type to be removed </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>name</entry>
+                                <entry>
+<para>Name of principal to be removed (if type is user or group) </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle -DER_NOMEM Out of memory -DER_NONEXIST Principal is not in the ACL </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga6d214b26c932fc9cfe2cd78be970caba"/>    <section>
+    <title>daos_cont_destroy()</title>
+<indexterm><primary>daos_cont_destroy</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_destroy</secondary></indexterm>
+<para><computeroutput>int daos_cont_destroy (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * cont, int force, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Destroy a container identified by <emphasis>cont</emphasis>, a label or UUID string associated with the container. All objects within this container will be destroyed. If there is at least one container opener, and <emphasis>force</emphasis> is set to zero, then the operation completes with DER_BUSY. Otherwise, the container is destroyed when the operation completes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cont</entry>
+                                <entry>
+<para>Label or UUID string to idenfity the container to destroy </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>force</entry>
+                                <entry>
+<para>Container destroy will return failure if the container is still busy (outstanding open handles). This parameter will force the destroy to proceed even if there is an outstanding open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. Function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NONEXIST Container is nonexistent -DER_BUSY Pool is busy </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga1db046abea95899206095e4980ca3225"/>    <section>
+    <title>daos_cont_destroy2()</title>
+<indexterm><primary>daos_cont_destroy2</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_destroy2</secondary></indexterm>
+<para><computeroutput>int daos_cont_destroy2 (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * cont, int force, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Backward compatibility code. Please don&apos;t use directly </para>
+    </section><anchor xml:id="_group___containers_1ga794403da19e79aaed193c0ab187951ed"/>    <section>
+    <title>daos_cont_destroy_snap()</title>
+<indexterm><primary>daos_cont_destroy_snap</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_destroy_snap</secondary></indexterm>
+<para><computeroutput>int daos_cont_destroy_snap (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link> epr, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Destroy a snapshot. The epoch corresponding to the snapshot is not discarded, but may be aggregated.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>epr</entry>
+                                <entry>
+<para>Epoch range of snapshots to destroy. If epr_lo == epr_hi delete 1 snapshot at epr_lo/hi. If epr_lo == 0, delete all snapshots &lt;= epr_hi. If epr_hi == DAOS_EPOCH_MAX, delete all snapshots &gt;= epr_lo. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1gad08f81ef557291516c1f9ec335c84cb0"/>    <section>
+    <title>daos_cont_get_acl()</title>
+<indexterm><primary>daos_cont_get_acl</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_get_acl</secondary></indexterm>
+<para><computeroutput>int daos_cont_get_acl (<link linkend="_structdaos__handle__t">daos_handle_t</link> container, <link linkend="_structdaos__prop__t">daos_prop_t</link> ** acl_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Query the container Access Control List and ownership properties.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle.</para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>acl_prop</entry>
+                                <entry>
+<para>Newly allocated <link linkend="_structdaos__prop__t">daos_prop_t</link> containing the ACL, owner, and owner-group properties of the container. Caller must free it with <link linkend="_group___pool_container_1ga4e37d76ae1c35f0187c1cb83bd37d6b7">daos_prop_free()</link>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gac4bb5e6daaa823d4e06a8ac00846286f"/>    <section>
+    <title>daos_cont_get_attr()</title>
+<indexterm><primary>daos_cont_get_attr</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_get_attr</secondary></indexterm>
+<para><computeroutput>int daos_cont_get_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], void *const buffers[], size_t sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Retrieve a list of user-defined container attribute values.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buffers</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> buffers to store attribute values. Attribute values larger than corresponding buffer sizes will be truncated. NULL values are permitted and will be treated identical to zero-length buffers, in which case only the sizes of attribute values will be retrieved. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>sizes</entry>
+                                <entry>
+<para>[in]: Array of <emphasis>n</emphasis> buffer sizes. [out]: Array of actual sizes of <emphasis>n</emphasis> attribute values, regardless of given buffer sizes. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1gaa780e37e03ace1bb78baec4ca2096c75"/>    <section>
+    <title>daos_cont_global2local()</title>
+<indexterm><primary>daos_cont_global2local</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_global2local</secondary></indexterm>
+<para><computeroutput>int daos_cont_global2local (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_iov_t glob, <link linkend="_structdaos__handle__t">daos_handle_t</link> * coh)</computeroutput></para>
+<para>Create a local container handle for global representation data.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle the container belong to </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>Global (shared) representation of a collective handle to be extracted </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Returned local container handle</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned: non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Pool handle is nonexistent </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1ga2b7eefa0f54fdf10306902d5ee1ef8b6"/>    <section>
+    <title>daos_cont_list_attr()</title>
+<indexterm><primary>daos_cont_list_attr</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_list_attr</secondary></indexterm>
+<para><computeroutput>int daos_cont_list_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, char * buffer, size_t * size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>List the names of all user-defined container attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buffer</entry>
+                                <entry>
+<para>Buffer containing concatenation of all attribute names, each being null-terminated. No truncation is performed and only full names will be returned. NULL is permitted in which case only the aggregate size will be retrieved. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Buffer size. [out]: Aggregate size of all attribute names (excluding terminating null characters), regardless of the actual buffer size. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga7e166976d2bbd06192bcdcd47f4d5462"/>    <section>
+    <title>daos_cont_list_snap()</title>
+<indexterm><primary>daos_cont_list_snap</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_list_snap</secondary></indexterm>
+<para><computeroutput>int daos_cont_list_snap (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int * nr, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> * epochs, char ** names, <link linkend="_structdaos__anchor__t">daos_anchor_t</link> * anchor, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>List all the snapshots of a container and optionally retrieve the snapshot name of each one if it was given at create time.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>nr</entry>
+                                <entry>
+<para>[in]: Number of snapshots in epochs and names. [out]: Actual number of snapshots returned. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>epochs</entry>
+                                <entry>
+<para>preallocated array of epochs to store snapshots. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>preallocated array of names of the snapshots. DAOS_SNAPSHOT_MAX_LEN can be used for each name size if not known. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>anchor</entry>
+                                <entry>
+<para>Hash anchor for the next call, it should be set to zeroes for the first call, it should not be changed by caller between calls. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga2d32bebaa76e264a8825074b360c2f2d"/>    <section>
+    <title>daos_cont_local2global()</title>
+<indexterm><primary>daos_cont_local2global</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_local2global</secondary></indexterm>
+<para><computeroutput>int daos_cont_local2global (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, d_iov_t * glob)</computeroutput></para>
+<para>Convert a local container handle to global representation data which can be shared with peer processes. If glob-&gt;iov_buf is set to NULL, the actual size of the global handle is returned through glob-&gt;iov_buf_len. This function does not involve any communication and does not block.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>valid local container handle to be shared </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>pointer to iov of the buffer to store handle information</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned: non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Container handle is nonexistent -DER_TRUNC Buffer in <emphasis>glob</emphasis> is too short, larger buffer required. In this case the required buffer size is returned through glob-&gt;iov_buf_len. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gac79ad39c83ee600516d907e14b5496c1"/>    <section>
+    <title>daos_cont_open()</title>
+<indexterm><primary>daos_cont_open</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_open</secondary></indexterm>
+<para><computeroutput>int daos_cont_open (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * cont, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> * coh, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> * info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Open an existing container identified by <emphasis>cont</emphasis>, a label or UUID string. Upon successful completion, <emphasis>coh</emphasis> and <emphasis>info</emphasis>, both of which shall be allocated by the caller, return the container handle and the latest container information respectively.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>cont</entry>
+                                <entry>
+<para>Label or UUID string to identify the container. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Open mode, represented by the DAOS_COO_ bits. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Returned open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>Optional, return container information </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_UNREACH Network is unreachable -DER_NO_PERM Permission denied -DER_NONEXIST Container is nonexistent -DER_RF #failures exceed RF, data possibly lost </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gaaae23040ee2aff624b7f57673fca6c4f"/>    <section>
+    <title>daos_cont_open2()</title>
+<indexterm><primary>daos_cont_open2</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_open2</secondary></indexterm>
+<para><computeroutput>int daos_cont_open2 (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, const char * cont, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> * coh, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> * info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Backward compatibility code. Please don&apos;t use directly </para>
+    </section><anchor xml:id="_group___containers_1ga36c2f6d5365282a3eb64395d376d9e89"/>    <section>
+    <title>daos_cont_overwrite_acl()</title>
+<indexterm><primary>daos_cont_overwrite_acl</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_overwrite_acl</secondary></indexterm>
+<para><computeroutput>int daos_cont_overwrite_acl (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, struct <link linkend="_structdaos__acl">daos_acl</link> * acl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Overwrites the container ACL with a new one.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>New ACL to write </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gafe40750c587a6bd761f8735160152e4c"/>    <section>
+    <title>daos_cont_query()</title>
+<indexterm><primary>daos_cont_query</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_query</secondary></indexterm>
+<para><computeroutput>int daos_cont_query (<link linkend="_structdaos__handle__t">daos_handle_t</link> container, <link linkend="_structdaos__cont__info__t">daos_cont_info_t</link> * info, <link linkend="_structdaos__prop__t">daos_prop_t</link> * cont_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Query container information.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>Returned container information. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>cont_prop</entry>
+                                <entry>
+<para>Optional, returned container properties If it is NULL, then needs not query the properties. If cont_prop is non-NULL but its dpp_entries is NULL, will query all pool properties, DAOS internally allocates the needed buffers and assign pointer to dpp_entries. If cont_prop&apos;s dpp_nr &gt; 0 and dpp_entries is non-NULL, will query the properties for specific dpe_type(s), DAOS internally allocates the needed buffer for dpe_str or dpe_val_ptr, if the dpe_type with immediate value then will directly assign it to dpe_val. User can free the associated buffer by calling <link linkend="_group___pool_container_1ga4e37d76ae1c35f0187c1cb83bd37d6b7">daos_prop_free()</link>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gad009b4e58db4cccc38f3d5a6d5732897"/>    <section>
+    <title>daos_cont_rollback()</title>
+<indexterm><primary>daos_cont_rollback</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_rollback</secondary></indexterm>
+<para><computeroutput>int daos_cont_rollback (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Rollback to a specific persistent snapshot.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>epoch</entry>
+                                <entry>
+<para>Epoch of a persistent snapshot to rollback to. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga0e96331dd7cc4f930938a4bcf146f74e"/>    <section>
+    <title>daos_cont_set_attr()</title>
+<indexterm><primary>daos_cont_set_attr</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_set_attr</secondary></indexterm>
+<para><computeroutput>int daos_cont_set_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, int n, char const *const names[], void const *const values[], size_t const sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Create or update a list of user-defined container attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>values</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> attribute values </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sizes</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> elements containing the sizes of respective attribute values. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga30e8564681522eca4077b15900c3c867"/>    <section>
+    <title>daos_cont_set_owner()</title>
+<indexterm><primary>daos_cont_set_owner</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_set_owner</secondary></indexterm>
+<para><computeroutput>int daos_cont_set_owner (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, d_string_t user, d_string_t group, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Update a container&apos;s owner user and/or owner group.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>user</entry>
+                                <entry>
+<para>New owner user (NULL if not updating) </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>group</entry>
+                                <entry>
+<para>New owner group (NULL if not updating) </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle -DER_NOMEM Out of memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gaf276a397e5990736e5f243937e983d71"/>    <section>
+    <title>daos_cont_set_prop()</title>
+<indexterm><primary>daos_cont_set_prop</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_set_prop</secondary></indexterm>
+<para><computeroutput>int daos_cont_set_prop (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_structdaos__prop__t">daos_prop_t</link> * prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Sets the container properties.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>prop</entry>
+                                <entry>
+<para>Property entries to update </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gaeab1776ae06542dbac5d2c5f0868bf81"/>    <section>
+    <title>daos_cont_status_clear()</title>
+<indexterm><primary>daos_cont_status_clear</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_status_clear</secondary></indexterm>
+<para><computeroutput>int daos_cont_status_clear (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Clear container status, to clear container&apos;s DAOS_PROP_CO_STATUS property from DAOS_PROP_CO_UNCLEAN status to DAOS_PROP_CO_HEALTHY (with same purpose with &quot;daos cont set-prop --properties=status:healthy --pool= --cont= &quot;.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gafab4df174d6e1a48b343d0d5a13e7038"/>    <section>
+    <title>daos_cont_subscribe()</title>
+<indexterm><primary>daos_cont_subscribe</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_subscribe</secondary></indexterm>
+<para><computeroutput>int daos_cont_subscribe (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, <link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> * epoch, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Subscribe to the container snapshot state. If user specifies a valid epoch, the call will return once a persistent snapshot has been taken at that epoch or a greater one. The epoch value will be updated with that epoch. If multiple snapshots exist at an epoch greater than the one specified, the lowest one will be returned in the epoch value. If the epoch value passed in is 0, this call will return the lowest persistent snapshot on the container, if any exist, otherwise will just wait till a persistent snapshot is created.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>epoch</entry>
+                                <entry>
+<para>[in]: Epoch of snapshot to wait for. [out]: epoch of persistent snapshot that was taken. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___containers_1ga2c7c585a946df6da3b556b539391af3d"/>    <section>
+    <title>daos_cont_update_acl()</title>
+<indexterm><primary>daos_cont_update_acl</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_cont_update_acl</secondary></indexterm>
+<para><computeroutput>int daos_cont_update_acl (<link linkend="_structdaos__handle__t">daos_handle_t</link> coh, struct <link linkend="_structdaos__acl">daos_acl</link> * acl, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Add new entries and/or update existing entries in a container&apos;s ACL.</para>
+
+<para>If an entry already exists in the container&apos;s ACL for a principal in the passed-in ACL, the entry will be replaced with the new one. Otherwise, a new entry will be added.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>coh</entry>
+                                <entry>
+<para>Container handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>acl</entry>
+                                <entry>
+<para>ACL containing new/updated entries </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___containers_1gabc4655c8429eff6b7a5637027ec3dbb2"/>    <section>
+    <title>daos_rank_list_parse()</title>
+<indexterm><primary>daos_rank_list_parse</primary><secondary>DAOS Containers</secondary></indexterm>
+<indexterm><primary>DAOS Containers</primary><secondary>daos_rank_list_parse</secondary></indexterm>
+<para><computeroutput>d_rank_list_t* daos_rank_list_parse (const char * str, const char * sep)</computeroutput></para>
+<para>Generate a rank list from a string with a separator argument. This is a convenience function to generate the rank list required by <link linkend="_group___pools_1ga87b6ec0342030289f5f6c225703921e3">daos_pool_connect()</link>.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>str</entry>
+                                <entry>
+<para>string with the rank list </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sep</entry>
+                                <entry>
+<para>separator of the ranks in <emphasis>str</emphasis>. dmg uses &quot;:&quot; as the separator.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>allocated rank list that user is responsible to free with d_rank_list_free(). </para>
+</formalpara>
+</para>
+</section>
+</section>
+</section>

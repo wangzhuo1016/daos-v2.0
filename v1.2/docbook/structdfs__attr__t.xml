@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdfs__attr__t">
+<title>dfs_attr_t Struct Reference</title>
+<indexterm><primary>dfs_attr_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_fs.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uint64_t <link linkend="_structdfs__attr__t_1a83f871acfb094f9af728200928e142da">da_id</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> <link linkend="_structdfs__attr__t_1a99f0686f082c91df320c81a642ec949b">da_chunk_size</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> <link linkend="_structdfs__attr__t_1af3603cd1c7440c516bb372e91a0670a5">da_oclass_id</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__prop__t">daos_prop_t</link> * <link linkend="_structdfs__attr__t_1a73ad14cfecf638b05eaa683f14698664">da_props</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdfs__attr__t_1a639f1f675e340c3809bb5442e5e909dd"/>uint32_t <emphasis role="strong">da_mode</emphasis></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>struct holding attributes for a DFS container </para>
+<para>
+Definition at line 60 of file daos_fs.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdfs__attr__t_1a99f0686f082c91df320c81a642ec949b"/>    <section>
+    <title>da_chunk_size</title>
+<indexterm><primary>da_chunk_size</primary><secondary>dfs_attr_t</secondary></indexterm>
+<indexterm><primary>dfs_attr_t</primary><secondary>da_chunk_size</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> da_chunk_size</computeroutput></para>
+<para>Default Chunk size for all files in container </para>
+<para>
+Definition at line 64 of file daos_fs.h.</para>
+    </section><anchor xml:id="_structdfs__attr__t_1a83f871acfb094f9af728200928e142da"/>    <section>
+    <title>da_id</title>
+<indexterm><primary>da_id</primary><secondary>dfs_attr_t</secondary></indexterm>
+<indexterm><primary>dfs_attr_t</primary><secondary>da_id</secondary></indexterm>
+<para><computeroutput>uint64_t da_id</computeroutput></para>
+<para>Optional user ID for DFS container. </para>
+<para>
+Definition at line 62 of file daos_fs.h.</para>
+    </section><anchor xml:id="_structdfs__attr__t_1af3603cd1c7440c516bb372e91a0670a5"/>    <section>
+    <title>da_oclass_id</title>
+<indexterm><primary>da_oclass_id</primary><secondary>dfs_attr_t</secondary></indexterm>
+<indexterm><primary>dfs_attr_t</primary><secondary>da_oclass_id</secondary></indexterm>
+<para><computeroutput><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> da_oclass_id</computeroutput></para>
+<para>Default Object Class for all objects in the container </para>
+<para>
+Definition at line 66 of file daos_fs.h.</para>
+    </section><anchor xml:id="_structdfs__attr__t_1a73ad14cfecf638b05eaa683f14698664"/>    <section>
+    <title>da_props</title>
+<indexterm><primary>da_props</primary><secondary>dfs_attr_t</secondary></indexterm>
+<indexterm><primary>dfs_attr_t</primary><secondary>da_props</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__prop__t">daos_prop_t</link>* da_props</computeroutput></para>
+<para>DAOS properties on the DFS container </para>
+<para>
+Definition at line 68 of file daos_fs.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_fs.h</section>
+</section>

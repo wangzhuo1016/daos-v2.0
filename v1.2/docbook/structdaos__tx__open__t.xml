@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__tx__open__t">
+<title>daos_tx_open_t Struct Reference</title>
+<indexterm><primary>daos_tx_open_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__tx__open__t_1a7fe83fe613282d305d3aeacba805f901">coh</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> * <link linkend="_structdaos__tx__open__t_1afe354de0e9d0f58ea97b79df58c30bcc">th</link></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__tx__open__t_1a899a76dc5f03f0d4ea3793c339e07ee9">flags</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Transaction Open args </para>
+<para>
+Definition at line 499 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__tx__open__t_1a7fe83fe613282d305d3aeacba805f901"/>    <section>
+    <title>coh</title>
+<indexterm><primary>coh</primary><secondary>daos_tx_open_t</secondary></indexterm>
+<indexterm><primary>daos_tx_open_t</primary><secondary>coh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> coh</computeroutput></para>
+<para>Container open handle. </para>
+<para>
+Definition at line 501 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__tx__open__t_1a899a76dc5f03f0d4ea3793c339e07ee9"/>    <section>
+    <title>flags</title>
+<indexterm><primary>flags</primary><secondary>daos_tx_open_t</secondary></indexterm>
+<indexterm><primary>daos_tx_open_t</primary><secondary>flags</secondary></indexterm>
+<para><computeroutput>uint64_t flags</computeroutput></para>
+<para>Transaction flags. </para>
+<para>
+Definition at line 505 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__tx__open__t_1afe354de0e9d0f58ea97b79df58c30bcc"/>    <section>
+    <title>th</title>
+<indexterm><primary>th</primary><secondary>daos_tx_open_t</secondary></indexterm>
+<indexterm><primary>daos_tx_open_t</primary><secondary>th</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link>* th</computeroutput></para>
+<para>Returned transaction open handle. </para>
+<para>
+Definition at line 503 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

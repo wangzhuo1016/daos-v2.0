@@ -1,0 +1,2090 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+        <link rel="canonical" href="http://daos.io/v1.2/QSG/suseQSG/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>suseQSG - DAOS v1.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CUbuntu+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Ubuntu Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start-opensusesles-152-with-posix" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v1.2" class="md-header__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v1.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              suseQSG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v1.2" class="md-nav__button md-logo" aria-label="DAOS v1.2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    DAOS v1.2
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Architecture Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Architecture Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Architecture Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        CentOS Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../suse_setup/" class="md-nav__link">
+        openSUSE Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tour/" class="md-nav__link">
+        Admin/Client Tools
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_index/" class="md-nav__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/DAOS+IO-500+Instructions" class="md-nav__link">
+        IO500 Setup
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/performance_tuning/" class="md-nav__link">
+        Performance Tuning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/posix/" class="md-nav__link">
+        POSIX Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runior/" class="md-nav__link">
+        Run IOR
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mdtest/" class="md-nav__link">
+        Run mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datamover/" class="md-nav__link">
+        Datamover test
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v1_2/" class="md-nav__link">
+        Release Notes v1.2
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix/" class="md-nav__link">
+        Support Matrix
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://wiki.hpdd.intel.com/display/DC/Roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Mailing list
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://jira.hpdd.intel.com/projects/DAOS" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/QSG/suseQSG.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="quick-start-opensusesles-152-with-posix">Quick Start openSUSE/SLES 15.2 with POSIX<a class="headerlink" href="#quick-start-opensusesles-152-with-posix" title="Permanent link">&para;</a></h1>
+<ul>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-In">Introduction</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Re">Requirements</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Se">Set-Up</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run CART selftest</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DAOS PERF*</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DAOS_RACER*</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DAOS_TEST*</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Cr">Create pool and dfuse mountpoint  for IOR, MDTEST and
+    DATAMOVER</a></p>
+<ul>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Cr">Create pool</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Cr">Create container</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Se">Set up dfuse mount
+    point: </a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run IOR</a></p>
+<ul>
+<li><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Bu">Build IOR</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run MDTEST</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DBENCH</a></p>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DATAMOVER</a></p>
+<ul>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Ru">Run DATAMOVER using
+    mpifileutils</a></p>
+<ul>
+<li><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Bu">Build
+    mpifileutils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#QuickStartopenSUSE/SLES15.2withPOSIX-Cl">Clean Up</a></p>
+</li>
+</ul>
+<h1 id="introduction"><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>The purpose of this  Quick Start is to provider a user with a set of
+cmdlines to quickly setup and use DAOS with POSIX on openSUSE/SLES 15.2.</p>
+<p>This document covers installation of daos rpms on openSUSE/SLES 15.2 and
+updating the DAOS configuration files needed by daos servers </p>
+<p>The quick start describes how to use dfuse in order to take advantage of
+daos support for POSIX.   The quick start steps users through running
+benchmarking tools like</p>
+<p>ior and mdtest along with some examples of how to move data between a
+POSIX file system and daos containers (and vise versa) and finally
+cleaning up your daos setup.</p>
+<h1 id="requirements"><strong>Requirements</strong><a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h1>
+<p>The quick start requires a minimum of 1 server with PMEM and SSDs
+connected via infiniband storage network and 1 client node  and 1 admin
+node without pmem/ssd but on the infiniband storage network.</p>
+<p>All nodes have a base openSUSE or SLES 15.2 installed.</p>
+<p>Install pdsh on the admin node</p>
+<p>sudo zypper install pdsh</p>
+<p>For example, if one wanted to use node-1 as their admin node, node-2 and
+node-3 as client nodes, and node-4 and node-5 as their server nodes then
+these variables would be defined as:</p>
+<pre><code>ADMIN_NODE=node-1
+
+CLIENT_NODES=node-2, node-3
+
+SERVER_NODES=node-4, node-5
+
+ALL_NODES=$ADMIN_NODE,$CLIENT_NODES,$SERVER_NODES
+</code></pre>
+<p>If a client node is also serving as an admin node then exclude
+<code>$ADMIN_NODE</code> from the <code>ALL_NODES</code> assignment to prevent duplication,
+e.g.</p>
+<p><code>ALL_NODES=$CLIENT_NODES,$SERVER_NODES</code></p>
+<h1 id="set-up"><strong>Set-Up</strong><a class="headerlink" href="#set-up" title="Permanent link">&para;</a></h1>
+<p>Please refer <a href="file:///C:\display\DAOS\DAOS+Set-Up">here</a> for initial set
+up which consists of rpm installation, generate and set up certificates,
+setting up config files, starting servers and agents.</p>
+<p>For this quick start, the daos-tests package will need to be installed
+on the client nodes</p>
+<p><strong>The following applications will be run from a client node:</strong></p>
+<p><strong>\"*\" Indicates that the cmdline will run internally only; cmdline
+should be removed for external customers</strong></p>
+<h1 id="run-cart-selftest"><strong>Run CART selftest</strong><a class="headerlink" href="#run-cart-selftest" title="Permanent link">&para;</a></h1>
+<p>SHARED_DIR=\&lt;shared dir by all nodes></p>
+<p>export FI_UNIVERSE_SIZE=2048</p>
+<p>export OFI_INTERFACE=eth0</p>
+<p># selt_test --help for more details on params</p>
+<p>#Generate the attach info file (enable SHARED_DIR with perms for sudo
+to write )</p>
+<p>sudo daos_agent -o /etc/daos/daos_agent.yml -l
+\$SHARED_DIR/daos_agent.log dump-attachinfo -o
+\$SHARED_DIR/daos_server.attach_info_tmp</p>
+<p># Run:</p>
+<p>self_test --path \$SHARED_DIR --group-name daos_server --endpoint
+0-1:0           (for 4 servers --endpoint 0-3:0   ranks:tags)</p>
+<p># Sample output:</p>
+<p>Adding endpoints:</p>
+<p>ranks: 0-1 (# ranks = 2)</p>
+<p>tags: 0 (# tags = 1)</p>
+<p>Warning: No --master-endpoint specified; using this command line
+application as the master endpoint</p>
+<p>Self Test Parameters:</p>
+<p>Group name to test against: daos_server</p>
+<p># endpoints: 2</p>
+<p>Message sizes: [(200000-BULK_GET 200000-BULK_PUT), (200000-BULK_GET
+0-EMPTY), (0-EMPTY 200000-BULK_PUT), (200000-BULK_GET 1000-IOV),
+(1000-IOV 200000-BULK_PUT), (1000-IOV 1000-IOV), (1000-IOV 0-EMPTY),
+(0-EMPTY 1000-IOV), (0-EMPTY 0-EMPTY)]</p>
+<p>Buffer addresses end with: \&lt;Default></p>
+<p>Repetitions per size: 20000</p>
+<p>Max inflight RPCs: 1000</p>
+<p>CLI [rank=0 pid=3255] Attached daos_server</p>
+<p>##################################################</p>
+<p>Results for message size (200000-BULK_GET 200000-BULK_PUT)
+(max_inflight_rpcs = 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 222.67</p>
+<p>RPC Throughput (RPCs/sec): 584</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 27191</p>
+<p>25th %: 940293</p>
+<p>Median : 1678137</p>
+<p>75th %: 2416765</p>
+<p>Max : 3148987</p>
+<p>Average: 1671626</p>
+<p>Std Dev: 821872.40</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 2416764</p>
+<p>1:0 - 969063</p>
+<p>##################################################</p>
+<p>Results for message size (200000-BULK_GET 0-EMPTY) (max_inflight_rpcs
+= 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 112.08</p>
+<p>RPC Throughput (RPCs/sec): 588</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 2880</p>
+<p>25th %: 1156162</p>
+<p>Median : 1617356</p>
+<p>75th %: 2185604</p>
+<p>Max : 2730569</p>
+<p>Average: 1659133</p>
+<p>Std Dev: 605053.68</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 2185589</p>
+<p>1:0 - 1181363</p>
+<p>##################################################</p>
+<p>Results for message size (0-EMPTY 200000-BULK_PUT) (max_inflight_rpcs
+= 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 112.11</p>
+<p>RPC Throughput (RPCs/sec): 588</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 4956</p>
+<p>25th %: 747786</p>
+<p>Median : 1558111</p>
+<p>75th %: 2583834</p>
+<p>Max : 3437395</p>
+<p>Average: 1659959</p>
+<p>Std Dev: 1078975.59</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 2583826</p>
+<p>1:0 - 776862</p>
+<p>##################################################</p>
+<p>Results for message size (200000-BULK_GET 1000-IOV)
+(max_inflight_rpcs = 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 112.57</p>
+<p>RPC Throughput (RPCs/sec): 587</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 2755</p>
+<p>25th %: 12341</p>
+<p>Median : 1385716</p>
+<p>75th %: 3393178</p>
+<p>Max : 3399349</p>
+<p>Average: 1660125</p>
+<p>Std Dev: 1446054.82</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 12343</p>
+<p>1:0 - 3393174</p>
+<p>##################################################</p>
+<p>Results for message size (1000-IOV 200000-BULK_PUT)
+(max_inflight_rpcs = 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 112.68</p>
+<p>RPC Throughput (RPCs/sec): 588</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 4557</p>
+<p>25th %: 522380</p>
+<p>Median : 1640322</p>
+<p>75th %: 2725419</p>
+<p>Max : 3441963</p>
+<p>Average: 1661254</p>
+<p>Std Dev: 1147206.09</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 600190</p>
+<p>1:0 - 2725402</p>
+<p>##################################################</p>
+<p>Results for message size (1000-IOV 1000-IOV) (max_inflight_rpcs =
+1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 88.87</p>
+<p>RPC Throughput (RPCs/sec): 46595</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 1165</p>
+<p>25th %: 21374</p>
+<p>Median : 21473</p>
+<p>75th %: 21572</p>
+<p>Max : 21961</p>
+<p>Average: 20923</p>
+<p>Std Dev: 2786.99</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 21430</p>
+<p>1:0 - 21516</p>
+<p>##################################################</p>
+<p>Results for message size (1000-IOV 0-EMPTY) (max_inflight_rpcs =
+1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 59.03</p>
+<p>RPC Throughput (RPCs/sec): 61902</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 1164</p>
+<p>25th %: 15544</p>
+<p>Median : 16104</p>
+<p>75th %: 16575</p>
+<p>Max : 17237</p>
+<p>Average: 15696</p>
+<p>Std Dev: 2126.37</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 15579</p>
+<p>1:0 - 16571</p>
+<p>##################################################</p>
+<p>Results for message size (0-EMPTY 1000-IOV) (max_inflight_rpcs =
+1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 46.93</p>
+<p>RPC Throughput (RPCs/sec): 49209</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 945</p>
+<p>25th %: 20327</p>
+<p>Median : 20393</p>
+<p>75th %: 20434</p>
+<p>Max : 20576</p>
+<p>Average: 19821</p>
+<p>Std Dev: 2699.27</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 20393</p>
+<p>1:0 - 20393</p>
+<p>##################################################</p>
+<p>Results for message size (0-EMPTY 0-EMPTY) (max_inflight_rpcs = 1000):</p>
+<p>Master Endpoint 2:0</p>
+<p>-------------------</p>
+<p>RPC Bandwidth (MB/sec): 0.00</p>
+<p>RPC Throughput (RPCs/sec): 65839</p>
+<p>RPC Latencies (us):</p>
+<p>Min : 879</p>
+<p>25th %: 14529</p>
+<p>Median : 15108</p>
+<p>75th %: 15650</p>
+<p>Max : 16528</p>
+<p>Average: 14765</p>
+<p>Std Dev: 2087.87</p>
+<p>RPC Failures: 0</p>
+<p>Endpoint results (rank:tag - Median Latency (us)):</p>
+<p>0:0 - 14569</p>
+<p>1:0 - 15649</p>
+<h1 id="run-daos-perf"><strong>Run DAOS PERF*</strong><a class="headerlink" href="#run-daos-perf" title="Permanent link">&para;</a></h1>
+<p><strong>(requires openmpi3 -</strong> <a href="http://libmpi.so">libmpi.so</a>.40<strong>)</strong></p>
+<p>module load gnu-openmpi/3.1.6</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;openmpi lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;openmpi bin path>:\$PATH</p>
+<p>export D_LOG_FILE=/tmp/daos_perf.log</p>
+<p># Single process</p>
+<p>daos_perf -a 64 -d 256 -c R2S -P 20G -T daos -s 1k -R \"U;pV\" -g
+/etc/daos/daos_control.yml</p>
+<p># MPI</p>
+<p>orterun --enable-recovery -x D_LOG_FILE=/tmp/daos_perf_daos.log
+--host \&lt;host name>:4 --map-by node --mca
+btl_openib_warn_default_gid_prefix \"0\" --mca btl \"tcp,self\"
+--mca oob \"tcp\" --mca pml \"ob1\" --mca btl_tcp_if_include
+\"eth0\" --np 4 --tag-output /usr/bin/daos_perf -a 64 -d 256 -c R2S
+-P 20G -T daos -s 1k -R \"U;pV\" -g /etc/daos/daos_control.yml  </p>
+<p># Sample Output:</p>
+<p>Test :</p>
+<p>DAOS R2S (full stack, 2 replica)</p>
+<p>Pool :</p>
+<p>9c88849b-b0d6-4444-bb39-42769a7a1ef5</p>
+<p>Parameters :</p>
+<p>pool size : SCM: 20480 MB, NVMe: 0 MB</p>
+<p>credits : -1 (sync I/O for -ve)</p>
+<p>obj_per_cont : 1 x 1 (procs)</p>
+<p>dkey_per_obj : 256</p>
+<p>akey_per_dkey : 64</p>
+<p>recx_per_akey : 16</p>
+<p>value type : single</p>
+<p>stride size : 1024</p>
+<p>zero copy : no</p>
+<p>VOS file : \&lt;NULL></p>
+<p>Running test=UPDATE</p>
+<p>Running UPDATE test (iteration=1)</p>
+<p>UPDATE successfully completed:</p>
+<p>duration : 91.385233 sec</p>
+<p>bandwith : 2.801 MB/sec</p>
+<p>rate : 2868.56 IO/sec</p>
+<p>latency : 348.607 us (nonsense if credits > 1)</p>
+<p>Duration across processes:</p>
+<p>MAX duration : 91.385233 sec</p>
+<p>MIN duration : 91.385233 sec</p>
+<p>Average duration : 91.385233 sec</p>
+<p>Completed test=UPDATE</p>
+<h1 id="run-daos_racer"><strong>Run DAOS_RACER*</strong><a class="headerlink" href="#run-daos_racer" title="Permanent link">&para;</a></h1>
+<p><strong>(requires openmpi3 - <a href="http://libmpi.so">libmpi.so</a>.40 )</strong></p>
+<p>module load gnu-openmpi/3.1.6</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;openmpi lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;openmpi bin path>:\$PATH</p>
+<p># RUN:</p>
+<p>export D_LOG_FILE=/tmp/daos_racer.log</p>
+<p>export D_LOG_MASK=ERR</p>
+<p>/usr/bin/daos_racer -n /etc/daos/daos_control.yml</p>
+<p>NOTE: daos_racer is currently disabled due to DAOS-7359</p>
+<h1 id="run-daos_test"><strong>Run DAOS_TEST*</strong><a class="headerlink" href="#run-daos_test" title="Permanent link">&para;</a></h1>
+<p><strong>(requires openmpi3 - <a href="http://libmpi.so">libmpi.so</a>.40 )</strong></p>
+<p>module load gnu-openmpi/3.1.6</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;openmpi lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;openmpi bin path>:\$PATH</p>
+<p># RUN:</p>
+<p>export OFI_INTERFACE=eth0</p>
+<p>export POOL_SCM_SIZE=8G</p>
+<p>export POOL_NVME_SIZE=16G</p>
+<p>daos_test -pctVAKCoRb -n /etc/daos/daos_control.yml</p>
+<p># Sample output from -p (pool test)</p>
+<p>=================</p>
+<p>DAOS pool tests..</p>
+<p>=====================</p>
+<p>[==========] Running 14 test(s).</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool b91606bb-87dd-4a57-8eee-5d8747a37b31</p>
+<p>[ RUN ] POOL1: connect to non-existing pool</p>
+<p>[ OK ] POOL1: connect to non-existing pool</p>
+<p>[ RUN ] POOL2: connect/disconnect to pool</p>
+<p>rank 0 connecting to pool synchronously ... success</p>
+<p>rank 0 querying pool info... success</p>
+<p>rank 0 disconnecting from pool synchronously ... success</p>
+<p>rank 0 success</p>
+<p>[ OK ] POOL2: connect/disconnect to pool</p>
+<p>[ RUN ] POOL3: connect/disconnect to pool (async)</p>
+<p>rank 0 connecting to pool asynchronously ... success</p>
+<p>rank 0 querying pool info... success</p>
+<p>rank 0 disconnecting from pool asynchronously ... success</p>
+<p>rank 0 success</p>
+<p>[ OK ] POOL3: connect/disconnect to pool (async)</p>
+<p>[ RUN ] POOL4: pool handle local2global and global2local</p>
+<p>rank 0 connecting to pool synchronously ... success</p>
+<p>rank 0 querying pool info... success</p>
+<p>rank 0 call local2global on pool handlesuccess</p>
+<p>rank 0 broadcast global pool handle ...success</p>
+<p>rank 0 disconnecting from pool synchronously ... success</p>
+<p>rank 0 success</p>
+<p>[ OK ] POOL4: pool handle local2global and global2local</p>
+<p>[ RUN ] POOL5: exclusive connection</p>
+<p>SUBTEST 1: other connections already exist; shall get -1012</p>
+<p>establishing a non-exclusive connection</p>
+<p>trying to establish an exclusive connection</p>
+<p>disconnecting the non-exclusive connection</p>
+<p>SUBTEST 2: no other connections; shall succeed</p>
+<p>establishing an exclusive connection</p>
+<p>SUBTEST 3: shall prevent other connections (-1012)</p>
+<p>trying to establish a non-exclusive connection</p>
+<p>disconnecting the exclusive connection</p>
+<p>[ OK ] POOL5: exclusive connection</p>
+<p>[ RUN ] POOL6: exclude targets and query pool info</p>
+<p>Skip it for now, because CaRT can\'t support subgroup membership,
+excluding a node w/o killing it will cause IV issue.</p>
+<p>[ OK ] POOL6: exclude targets and query pool info</p>
+<p>[ RUN ] POOL7: set/get/list user-defined pool attributes (sync)</p>
+<p>setup: connecting to pool</p>
+<p>connected to pool, ntarget=16</p>
+<p>setting pool attributes synchronously ...</p>
+<p>listing pool attributes synchronously ...</p>
+<p>Verifying Total Name Length..</p>
+<p>Verifying Small Name..</p>
+<p>Verifying All Names..</p>
+<p>getting pool attributes synchronously ...</p>
+<p>Verifying Name-Value (A)..</p>
+<p>Verifying Name-Value (B)..</p>
+<p>Verifying with NULL buffer..</p>
+<p>Deleting all attributes</p>
+<p>Verifying all attributes deletion</p>
+<p>[ OK ] POOL7: set/get/list user-defined pool attributes (sync)</p>
+<p>[ RUN ] POOL8: set/get/list user-defined pool attributes (async)</p>
+<p>setting pool attributes asynchronously ...</p>
+<p>listing pool attributes asynchronously ...</p>
+<p>Verifying Total Name Length..</p>
+<p>Verifying Small Name..</p>
+<p>Verifying All Names..</p>
+<p>getting pool attributes asynchronously ...</p>
+<p>Verifying Name-Value (A)..</p>
+<p>Verifying Name-Value (B)..</p>
+<p>Verifying with NULL buffer..</p>
+<p>Deleting all attributes</p>
+<p>Verifying all attributes deletion</p>
+<p>[ OK ] POOL8: set/get/list user-defined pool attributes (async)</p>
+<p>[ RUN ] POOL9: pool reconnect after daos re-init</p>
+<p>connected to pool, ntarget=16</p>
+<p>[ OK ] POOL9: pool reconnect after daos re-init</p>
+<p>[ RUN ] POOL10: pool create with properties and query</p>
+<p>create pool with properties, and query it to verify.</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool 6b686dce-8cc3-40e6-b706-4c5aedfee4a9</p>
+<p>setup: connecting to pool</p>
+<p>connected to pool, ntarget=16</p>
+<p>ACL prop matches expected defaults</p>
+<p>teardown: destroyed pool 6b686dce-8cc3-40e6-b706-4c5aedfee4a9</p>
+<p>[ OK ] POOL10: pool create with properties and query</p>
+<p>[ RUN ] POOL11: pool list containers (zero)</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool f3bc2fb8-17aa-45cc-9b1a-87ffebddb048</p>
+<p>setup: connected to pool: f3bc2fb8-17aa-45cc-9b1a-87ffebddb048</p>
+<p>daos_pool_list_cont returned rc=0</p>
+<p>success t0: output nconts=0</p>
+<p>verifying conts[0..10], nfilled=0</p>
+<p>success t1: conts[] over-sized</p>
+<p>success t2: nconts=0, non-NULL conts[] rc=0</p>
+<p>success t3: in &amp;nconts NULL, -DER_INVAL</p>
+<p>success</p>
+<p>teardown: destroyed pool f3bc2fb8-17aa-45cc-9b1a-87ffebddb048</p>
+<p>[ OK ] POOL11: pool list containers (zero)</p>
+<p>[ RUN ] POOL12: pool list containers (many)</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool d0fbd1a8-2061-428c-9cfb-376f201689fc</p>
+<p>setup: connected to pool: d0fbd1a8-2061-428c-9cfb-376f201689fc</p>
+<p>setup: alloc lcarg->conts len 16</p>
+<p>setup: creating container: b52e36e6-26db-4e51-9bbe-df776624ca59</p>
+<p>setup: creating container: 645212d3-3fad-446d-be2a-c362b0884555</p>
+<p>setup: creating container: 4a2ab45a-2adb-4c1e-8d03-2c7f06ad0721</p>
+<p>setup: creating container: 07cbf32b-beaf-444a-af64-5602aa41485f</p>
+<p>setup: creating container: 427824a9-a6c7-4417-83c8-1fc2f5e49c83</p>
+<p>setup: creating container: 898ffab6-9472-47cc-a6ca-9a6fe54704c0</p>
+<p>setup: creating container: d4d3181c-7376-41fa-8f81-fb363b7b8e2e</p>
+<p>setup: creating container: c1253a14-991d-4e2a-a3cf-ff2e4b160240</p>
+<p>setup: creating container: 66439972-fd1e-4330-a4b4-e5ee6f6c2b06</p>
+<p>setup: creating container: 09a4cdca-b4d0-4d3c-9898-75a7a5adbd45</p>
+<p>setup: creating container: 480f2232-58c9-444e-bff5-36e2efa3609d</p>
+<p>setup: creating container: d33ae63c-eeb4-411f-8ca4-c70eb86371dc</p>
+<p>setup: creating container: d9b3eb0e-7ef3-4e8b-8bd6-8e757a39d0cb</p>
+<p>setup: creating container: f789b108-96f1-4052-ad22-c6fb5b02cd19</p>
+<p>setup: creating container: 2c83b9d1-a723-49da-912b-63ffe3e43930</p>
+<p>setup: creating container: 31e5df3b-809f-47d8-b170-68329b687361</p>
+<p>daos_pool_list_cont returned rc=0</p>
+<p>success t0: output nconts=16</p>
+<p>verifying conts[0..26], nfilled=16</p>
+<p>container 645212d3-3fad-446d-be2a-c362b0884555 found in list result</p>
+<p>container 4a2ab45a-2adb-4c1e-8d03-2c7f06ad0721 found in list result</p>
+<p>container d9b3eb0e-7ef3-4e8b-8bd6-8e757a39d0cb found in list result</p>
+<p>container b52e36e6-26db-4e51-9bbe-df776624ca59 found in list result</p>
+<p>container 09a4cdca-b4d0-4d3c-9898-75a7a5adbd45 found in list result</p>
+<p>container 2c83b9d1-a723-49da-912b-63ffe3e43930 found in list result</p>
+<p>container d33ae63c-eeb4-411f-8ca4-c70eb86371dc found in list result</p>
+<p>container 427824a9-a6c7-4417-83c8-1fc2f5e49c83 found in list result</p>
+<p>container 66439972-fd1e-4330-a4b4-e5ee6f6c2b06 found in list result</p>
+<p>container f789b108-96f1-4052-ad22-c6fb5b02cd19 found in list result</p>
+<p>container 480f2232-58c9-444e-bff5-36e2efa3609d found in list result</p>
+<p>container 07cbf32b-beaf-444a-af64-5602aa41485f found in list result</p>
+<p>container 31e5df3b-809f-47d8-b170-68329b687361 found in list result</p>
+<p>container 898ffab6-9472-47cc-a6ca-9a6fe54704c0 found in list result</p>
+<p>container c1253a14-991d-4e2a-a3cf-ff2e4b160240 found in list result</p>
+<p>container d4d3181c-7376-41fa-8f81-fb363b7b8e2e found in list result</p>
+<p>success t1: conts[] over-sized</p>
+<p>success t2: nconts=0, non-NULL conts[] rc=0</p>
+<p>success t3: in &amp;nconts NULL, -DER_INVAL</p>
+<p>verifying conts[0..16], nfilled=16</p>
+<p>container 645212d3-3fad-446d-be2a-c362b0884555 found in list result</p>
+<p>container 4a2ab45a-2adb-4c1e-8d03-2c7f06ad0721 found in list result</p>
+<p>container d9b3eb0e-7ef3-4e8b-8bd6-8e757a39d0cb found in list result</p>
+<p>container b52e36e6-26db-4e51-9bbe-df776624ca59 found in list result</p>
+<p>container 09a4cdca-b4d0-4d3c-9898-75a7a5adbd45 found in list result</p>
+<p>container 2c83b9d1-a723-49da-912b-63ffe3e43930 found in list result</p>
+<p>container d33ae63c-eeb4-411f-8ca4-c70eb86371dc found in list result</p>
+<p>container 427824a9-a6c7-4417-83c8-1fc2f5e49c83 found in list result</p>
+<p>container 66439972-fd1e-4330-a4b4-e5ee6f6c2b06 found in list result</p>
+<p>container f789b108-96f1-4052-ad22-c6fb5b02cd19 found in list result</p>
+<p>container 480f2232-58c9-444e-bff5-36e2efa3609d found in list result</p>
+<p>container 07cbf32b-beaf-444a-af64-5602aa41485f found in list result</p>
+<p>container 31e5df3b-809f-47d8-b170-68329b687361 found in list result</p>
+<p>container 898ffab6-9472-47cc-a6ca-9a6fe54704c0 found in list result</p>
+<p>container c1253a14-991d-4e2a-a3cf-ff2e4b160240 found in list result</p>
+<p>container d4d3181c-7376-41fa-8f81-fb363b7b8e2e found in list result</p>
+<p>success t4: conts[] exact length</p>
+<p>verifying conts[0..15], nfilled=0</p>
+<p>success t5: conts[] under-sized</p>
+<p>success</p>
+<p>teardown: destroy container: b52e36e6-26db-4e51-9bbe-df776624ca59</p>
+<p>teardown: destroy container: 645212d3-3fad-446d-be2a-c362b0884555</p>
+<p>teardown: destroy container: 4a2ab45a-2adb-4c1e-8d03-2c7f06ad0721</p>
+<p>teardown: destroy container: 07cbf32b-beaf-444a-af64-5602aa41485f</p>
+<p>teardown: destroy container: 427824a9-a6c7-4417-83c8-1fc2f5e49c83</p>
+<p>teardown: destroy container: 898ffab6-9472-47cc-a6ca-9a6fe54704c0</p>
+<p>teardown: destroy container: d4d3181c-7376-41fa-8f81-fb363b7b8e2e</p>
+<p>teardown: destroy container: c1253a14-991d-4e2a-a3cf-ff2e4b160240</p>
+<p>teardown: destroy container: 66439972-fd1e-4330-a4b4-e5ee6f6c2b06</p>
+<p>teardown: destroy container: 09a4cdca-b4d0-4d3c-9898-75a7a5adbd45</p>
+<p>teardown: destroy container: 480f2232-58c9-444e-bff5-36e2efa3609d</p>
+<p>teardown: destroy container: d33ae63c-eeb4-411f-8ca4-c70eb86371dc</p>
+<p>teardown: destroy container: d9b3eb0e-7ef3-4e8b-8bd6-8e757a39d0cb</p>
+<p>teardown: destroy container: f789b108-96f1-4052-ad22-c6fb5b02cd19</p>
+<p>teardown: destroy container: 2c83b9d1-a723-49da-912b-63ffe3e43930</p>
+<p>teardown: destroy container: 31e5df3b-809f-47d8-b170-68329b687361</p>
+<p>teardown: destroyed pool d0fbd1a8-2061-428c-9cfb-376f201689fc</p>
+<p>[ OK ] POOL12: pool list containers (many)</p>
+<p>[ RUN ] POOL13: retry POOL_{CONNECT,DISCONNECT,QUERY}</p>
+<p>setting DAOS_POOL_CONNECT_FAIL_CORPC ... success</p>
+<p>connecting to pool ... success</p>
+<p>setting DAOS_POOL_QUERY_FAIL_CORPC ... success</p>
+<p>querying pool info... success</p>
+<p>setting DAOS_POOL_DISCONNECT_FAIL_CORPC ... success</p>
+<p>disconnecting from pool ... success</p>
+<p>[ OK ] POOL13: retry POOL_{CONNECT,DISCONNECT,QUERY}</p>
+<p>[ RUN ] POOL14: pool connect access based on ACL</p>
+<p>pool ACL gives the owner no permissions</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool 86a9951c-08f2-4ad0-a4ad-037f8b85a656</p>
+<p>setup: connecting to pool</p>
+<p>daos_pool_connect failed, rc: -1001</p>
+<p>failed to connect pool: -1001</p>
+<p>pool disconnect failed: -1002</p>
+<p>teardown: destroyed pool 86a9951c-08f2-4ad0-a4ad-037f8b85a656</p>
+<p>pool ACL gives the owner RO, they want RW</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool 15d9c7f9-140e-436d-88d0-2d5924348725</p>
+<p>setup: connecting to pool</p>
+<p>daos_pool_connect failed, rc: -1001</p>
+<p>failed to connect pool: -1001</p>
+<p>pool disconnect failed: -1002</p>
+<p>teardown: destroyed pool 15d9c7f9-140e-436d-88d0-2d5924348725</p>
+<p>pool ACL gives the owner RO, they want RO</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool b6ce2f69-94a8-4fa7-8c43-b35766a0fb6f</p>
+<p>setup: connecting to pool</p>
+<p>connected to pool, ntarget=16</p>
+<p>teardown: destroyed pool b6ce2f69-94a8-4fa7-8c43-b35766a0fb6f</p>
+<p>pool ACL gives the owner RW, they want RO</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool 992015b0-7c70-458e-afa5-eecae4ad5313</p>
+<p>setup: connecting to pool</p>
+<p>connected to pool, ntarget=16</p>
+<p>teardown: destroyed pool 992015b0-7c70-458e-afa5-eecae4ad5313</p>
+<p>pool ACL gives the owner RW, they want RW</p>
+<p>setup: creating pool, SCM size=8 GB, NVMe size=16 GB</p>
+<p>setup: created pool 464bfccf-2ec9-4105-b791-f1163960dc0d</p>
+<p>setup: connecting to pool</p>
+<p>connected to pool, ntarget=16</p>
+<p>teardown: destroyed pool 464bfccf-2ec9-4105-b791-f1163960dc0d</p>
+<p>[ OK ] POOL14: pool connect access based on ACL</p>
+<p>teardown: destroyed pool b91606bb-87dd-4a57-8eee-5d8747a37b31</p>
+<p>[==========] 14 test(s) run.</p>
+<p>[ PASSED ] 14 test(s).</p>
+<h1 id="create-pool-and-dfuse-mountpoint-for-ior-mdtest-and-datamover"><strong>Create pool and dfuse mountpoint  for IOR, MDTEST and DATAMOVER</strong><a class="headerlink" href="#create-pool-and-dfuse-mountpoint-for-ior-mdtest-and-datamover" title="Permanent link">&para;</a></h1>
+<h2 id="create-pool"><strong>Create pool</strong><a class="headerlink" href="#create-pool" title="Permanent link">&para;</a></h2>
+<p>dmg pool create --name=daos_test_pool --size=500G</p>
+<p># Sample output</p>
+<p>Creating DAOS pool with automatic storage allocation: 500 GB NVMe +
+6.00% SCM</p>
+<p>Pool created with 6.00% SCM/NVMe ratio</p>
+<p>---------------------------------------</p>
+<p>UUID          : acf889b6-f290-4d7b-823a-5fae0014a64d</p>
+<p>Service Ranks : 0</p>
+<p>Storage Ranks : 0</p>
+<p>Total Size    : 530 GB</p>
+<p>SCM           : 30 GB (30 GB / rank)</p>
+<p>NVMe          : 500 GB (500 GB / rank)</p>
+<p>dmg pool list</p>
+<p># Sample output</p>
+<p>Pool UUID                            Svc Replicas</p>
+<p>--------------                      
+----------------</p>
+<p>acf889b6-f290-4d7b-823a-5fae0014a64d 0</p>
+<p>DAOS_POOL=\&lt;pool uuid> (define on all clients)</p>
+<h2 id="create-container"><strong>Create container</strong><a class="headerlink" href="#create-container" title="Permanent link">&para;</a></h2>
+<p>daos cont create --type=POSIX --oclass=SX --pool=\$DAOS_POOL</p>
+<p>DAOS_CONT=\&lt;cont uuid> (define on all clients)</p>
+<h2 id="set-up-dfuse-mount-point"><strong>Set up dfuse mount point: </strong><a class="headerlink" href="#set-up-dfuse-mount-point" title="Permanent link">&para;</a></h2>
+<p><strong>( Run dfuse on all client nodes )</strong></p>
+<p># Create directory</p>
+<p>mkdir -p /tmp/daos_dfuse/daos_test</p>
+<p># Use dfuse to mount the daos container to the above directory</p>
+<p>dfuse --container \$DAOS_CONT --disable-direct-io --mountpoint
+/tmp/daos_dfuse/daos_test --pool \$DAOS_POOL</p>
+<p># verfiy that the file type is dfuse</p>
+<p>df -h</p>
+<p># Sample output</p>
+<p>dfuse                                                       500G   17G  
+34G  34% /tmp/daos_dfuse/daos_test</p>
+<h1 id="run-ior"><strong>Run IOR</strong><a class="headerlink" href="#run-ior" title="Permanent link">&para;</a></h1>
+<p><strong>(uses mpich in the examples)</strong></p>
+<h2 id="build-ior"><strong>Build IOR</strong><a class="headerlink" href="#build-ior" title="Permanent link">&para;</a></h2>
+<p><strong>( Requires mpich added to PATH and LD_LIBRARY_PATH )</strong></p>
+<p>module load gnu-mpich/3.4\~a2</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;mpich lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;mpich bin path>:\$PATH</p>
+<p># Download ior source</p>
+<p>git clone https://github.com/hpc/ior.git</p>
+<p># Build IOR</p>
+<p>cd ior ./bootstrap</p>
+<p>mkdir build;cd build</p>
+<p>MPICC=mpicc ../configure --with-daos=/usr --prefix=\&lt;your dir></p>
+<p>make</p>
+<p>make install</p>
+<p># Add IOR to paths add \&lt;your dir>/lib to LD_LIBRARY_PATh and \&lt;your
+dir>/bin to PATH</p>
+<p>module load gnu-mpich/3.4\~a2</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;mpich lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;mpich bin path>:\$PATH</p>
+<p># Run:</p>
+<p>mpirun -np 20 -ppn 10 -hosts host1,host2  ior -a POSIX -b 1G -v -w -W -r
+-R -k -F -T 10 -i 1 -s 1 -o /tmp/daos_dfuse/daos_test/testfile -t 1G</p>
+<p># Sample output</p>
+<p>IOR-3.4.0+dev: MPI Coordinated Test of Parallel I/O</p>
+<p>Began : Thu Apr 29 16:31:55 2021</p>
+<p>Command line : ior -a POSIX -b 1G -v -w -W -r -R -k -F -T 10 -i 1 -s 1
+-o /tmp/daos_dfuse/daos_test/testfile -t 1G</p>
+<p>Machine : Linux wolf-184</p>
+<p>Start time skew across all tasks: 0.00 sec</p>
+<p>TestID : 0</p>
+<p>StartTime : Thu Apr 29 16:31:55 2021</p>
+<p>Path : /tmp/daos_dfuse/daos_test/testfile.00000000</p>
+<p>FS : 493.6 GiB Used FS: 6.6% Inodes: -0.0 Mi Used Inodes: 0.0%</p>
+<p>Participating tasks : 20</p>
+<p>Options:</p>
+<p>api : POSIX</p>
+<p>apiVersion :</p>
+<p>test filename : /tmp/daos_dfuse/daos_test/testfile</p>
+<p>access : file-per-process</p>
+<p>type : independent</p>
+<p>segments : 1</p>
+<p>ordering in a file : sequential</p>
+<p>ordering inter file : no tasks offsets</p>
+<p>nodes : 2</p>
+<p>tasks : 20</p>
+<p>clients per node : 10</p>
+<p>repetitions : 1</p>
+<p>xfersize : 1 GiB</p>
+<p>blocksize : 1 GiB</p>
+<p>aggregate filesize : 20 GiB</p>
+<p>verbose : 1</p>
+<p>Results:</p>
+<p>access bw(MiB/s) IOPS Latency(s) block(KiB) xfer(KiB) open(s) wr/rd(s)
+close(s) total(s) iter</p>
+<p>------ --------- ---- ----------
+---------- --------- -------- --------
+-------- -------- ----</p>
+<p>Commencing write performance test: Thu Apr 29 16:31:56 2021</p>
+<p>write 224.18 0.218924 91.34 1048576 1048576 0.024130 91.36 0.000243
+91.36 0</p>
+<p>Verifying contents of the file(s) just written.</p>
+<p>Thu Apr 29 16:33:27 2021</p>
+<p>Commencing read performance test: Thu Apr 29 16:34:59 2021</p>
+<p>read 223.26 0.218024 91.60 1048576 1048576 0.137707 91.73 0.000087 91.73
+0</p>
+<p>Max Write: 224.18 MiB/sec (235.07 MB/sec)</p>
+<p>Max Read: 223.26 MiB/sec (234.10 MB/sec)</p>
+<p>Summary of all tests:</p>
+<p>Operation Max(MiB) Min(MiB) Mean(MiB) StdDev Max(OPs) Min(OPs) Mean(OPs)
+StdDev Mean(s) Stonewall(s) Stonewall(MiB) Test# #Tasks tPN reps fPP
+reord reordoff reordrand seed segcnt blksiz xsize aggs(MiB) API RefNum</p>
+<p>write 224.18 224.18 224.18 0.00 0.22 0.22 0.22 0.00 91.35618 NA NA 0 20
+10 1 1 0 1 0 0 1 1073741824 1073741824 20480.0 POSIX 0</p>
+<p>read 223.26 223.26 223.26 0.00 0.22 0.22 0.22 0.00 91.73292 NA NA 0 20
+10 1 1 0 1 0 0 1 1073741824 1073741824 20480.0 POSIX 0</p>
+<p>Finished : Thu Apr 29 16:36:31 2021</p>
+<h1 id="run-mdtest"><strong>Run MDTEST</strong><a class="headerlink" href="#run-mdtest" title="Permanent link">&para;</a></h1>
+<p>module load gnu-mpich/3.4\~a2</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;mpich lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;mpich bin path>:\$PATH</p>
+<p># Create 10000 files</p>
+<p># Run:  </p>
+<p>mpirun -np 20 -ppn 10 -hosts host1,host2 mdtest -a POSIX -z 0 -N 1 -P -i
+1 -n 500 -e 4096 -d /tmp/daos_dfuse/daos_test -w 4096</p>
+<p>#Sample output</p>
+<p>-- started at 04/29/2021 17:09:02 --</p>
+<p>mdtest-3.4.0+dev was launched with 20 total task(s) on 2 node(s)</p>
+<p>Command line used: mdtest \'-a\' \'POSIX\' \'-z\' \'0\' \'-N\' \'1\'
+\'-P\' \'-i\' \'1\' \'-n\' \'500\' \'-e\' \'4096\' \'-d\'
+\'/tmp/daos_dfuse/daos_test\' \'-w\' \'4096\'</p>
+<p>Path: /tmp/daos_dfuse</p>
+<p>FS: 36.5 GiB Used FS: 86.5% Inodes: 2.3 Mi Used Inodes: 9.7%</p>
+<p>Nodemap: 11111111110000000000</p>
+<p>V-0: Rank 0 Line 2216 Shifting ranks by 10 for each phase.</p>
+<p>20 tasks, 10000 files/directories</p>
+<p>SUMMARY rate: (of 1 iterations)</p>
+<p>Operation Max Min Mean Std Dev</p>
+<p>--------- --- --- ---- -------</p>
+<p>Directory creation : 2249.104 2249.085 2249.094 0.009</p>
+<p>Directory stat : 4089.121 4089.116 4089.118 0.001</p>
+<p>Directory removal : 318.313 318.311 318.312 0.000</p>
+<p>File creation : 1080.348 1080.334 1080.341 0.007</p>
+<p>File stat : 1676.635 1676.619 1676.632 0.004</p>
+<p>File read : 1486.296 1486.291 1486.295 0.002</p>
+<p>File removal : 611.135 611.132 611.133 0.001</p>
+<p>Tree creation : 667.967 667.967 667.967 0.000</p>
+<p>Tree removal : 18.063 18.063 18.063 0.000</p>
+<p>SUMMARY time: (of 1 iterations)</p>
+<p>Operation Max Min Mean Std Dev</p>
+<p>--------- --- --- ---- -------</p>
+<p>Directory creation : 4.446 4.446 4.446 0.000</p>
+<p>Directory stat : 2.446 2.446 2.446 0.000</p>
+<p>Directory removal : 31.416 31.416 31.416 0.000</p>
+<p>File creation : 9.256 9.256 9.256 0.000</p>
+<p>File stat : 5.964 5.964 5.964 0.000</p>
+<p>File read : 6.728 6.728 6.728 0.000</p>
+<p>File removal : 16.363 16.363 16.363 0.000</p>
+<p>Tree creation : 0.001 0.001 0.001 0.000</p>
+<p>Tree removal : 0.055 0.055 0.055 0.000</p>
+<p>-- finished at 04/29/2021 17:10:19 --</p>
+<p># Create 1000000 files</p>
+<p>#Run:</p>
+<p>mpirun -np 20 -ppn 10 -hosts host1,host2  mdtest -a POSIX -z 0 -N 1 -P
+-i 1 -n 50000 -e 4096 -d /tmp/daos_dfuse/daos_test -w 4096</p>
+<h1 id="run-dbench"><strong>Run DBENCH</strong><a class="headerlink" href="#run-dbench" title="Permanent link">&para;</a></h1>
+<p>module load gnu-mpich/3.4\~a2</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;mpich lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;mpich bin path>:\$PATH  </p>
+<p># Run:</p>
+<p>dbench -c /usr/share/dbench/client.txt -t 10 -D
+/tmp/daos_dfuse/daos_test 10</p>
+<p>#Sample output</p>
+<p>dbench version 3.04 - Copyright Andrew Tridgell 1999-2004</p>
+<p>Running for 10 seconds with load \'/usr/share/dbench/client.txt\' and
+minimum warmup 2 secs</p>
+<p>10 clients started</p>
+<p>10 131 58.09 MB/sec warmup 1 sec</p>
+<p>10 401 42.01 MB/sec execute 1 sec</p>
+<p>10 538 43.39 MB/sec execute 2 sec</p>
+<p>10 682 37.23 MB/sec execute 3 sec</p>
+<p>10 803 28.65 MB/sec execute 4 sec</p>
+<p>10 898 23.36 MB/sec execute 5 sec</p>
+<p>10 980 19.87 MB/sec execute 6 sec</p>
+<p>10 1074 18.43 MB/sec execute 7 sec</p>
+<p>10 1161 16.25 MB/sec execute 8 sec</p>
+<p>10 1240 14.52 MB/sec execute 9 sec</p>
+<p>10 1367 15.67 MB/sec cleanup 10 sec</p>
+<p>10 1367 14.25 MB/sec cleanup 11 sec</p>
+<p>10 1367 14.08 MB/sec cleanup 11 sec</p>
+<p>Throughput 15.6801 MB/sec 10 procs</p>
+<h1 id="run-datamover"><strong>Run DATAMOVER</strong><a class="headerlink" href="#run-datamover" title="Permanent link">&para;</a></h1>
+<p>For more details on datamover reference:</p>
+<p><a href="https://github.com/hpc/mpifileutils/blob/master/DAOS-Support.md">https://github.com/hpc/mpifileutils/blob/master/DAOS-Support.md</a></p>
+<p># Create a POSIX container</p>
+<p>daos container create --pool \$DAOS_POOL --type POSIX</p>
+<p>DAOS_CONT2=\&lt;cont uuid></p>
+<p># Copy POSIX directory to POSIX container (only directory copies are
+supported in 1.2)</p>
+<p>daos filesystem copy --src /tmp/daos_dfuse/daos_test --dst
+daos://\$DAOS_POOL/\$DAOS_CONT2</p>
+<p># Copy the same POSIX container to a different POSIX directory</p>
+<p>daos filesystem copy --src daos://\$DAOS_POOL/\$DAOS_CONT2 --dst
+/tmp/datamover2</p>
+<p>ls -latr /tmp/datamover2/daos_test/</p>
+<p># Sample output</p>
+<p>ls -la /tmp/daos_dfuse/daos_test/</p>
+<p>total 10485760</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000000</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000001</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000002</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000003</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000004</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000005</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000006</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000007</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000008</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000009</p>
+<p>ls -la /tmp/datamover2/daos_test/</p>
+<p>total 10485808</p>
+<p>drwx------ 2 mjean mjean 4096 Apr 29 17:45 .</p>
+<p>drwx------ 3 mjean mjean 4096 Apr 29 17:43 ..</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000000</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000001</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:43 testfile.00000002</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:45 testfile.00000003</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000004</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000005</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000006</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:43 testfile.00000007</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:44 testfile.00000008</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 17:45 testfile.00000009</p>
+<h2 id="run-datamover-using-mpifileutils"><strong>Run DATAMOVER using mpifileutils</strong><a class="headerlink" href="#run-datamover-using-mpifileutils" title="Permanent link">&para;</a></h2>
+<h3 id="build-mpifileutils"><strong>Build mpifileutils</strong><a class="headerlink" href="#build-mpifileutils" title="Permanent link">&para;</a></h3>
+<p>Mpifileutils can be built using dependency packages or dependencies
+built from source</p>
+<p>For more details on mpifileutils reference:</p>
+<p><a href="https://github.com/hpc/mpifileutils/blob/master/DAOS-Support.md">https://github.com/hpc/mpifileutils/blob/master/DAOS-Support.md</a></p>
+<p># Install the following packages:</p>
+<p>zypper install mpich-devel libbz2-devel # Setup environment (on launch
+node)</p>
+<p>#Setup mpich env</p>
+<p>module load gnu-mpich/3.4\~a2</p>
+<p>or</p>
+<p>export LD_LIBRARY_PATH=\&lt;mpich lib path>:\$LD_LIBRARY_PATH</p>
+<p>export PATH=\&lt;mpich bin path>:\$PATH</p>
+<p>export MPI_HOME=\&lt;mpich path></p>
+<p><strong>Build mpifileutils with dependencies installed from packages</strong></p>
+<p># Install build dependencies (on all client nodes)</p>
+<p>sudo zypper install dtcmp-mpich-devel libcircle-mpich-devel libcap-devel</p>
+<p># Build mpifileutils from installed packages (on all client nodes)</p>
+<p>git clone --depth 1 https://github.com/hpc/mpifileutils</p>
+<p>mkdir build install</p>
+<p>cd build</p>
+<p>cmake ../mpifileutils -DENABLE_DAOS=ON \</p>
+<p>-DENABLE_LIBARCHIVE=OFF \</p>
+<p>-DDTCMP_INCLUDE_DIRS=/usr/lib64/mpi/gcc/mpich/include \</p>
+<p>-DDTCMP_LIBRARIES=/usr/lib64/mpi/gcc/mpich/lib64/libdtcmp.so \</p>
+<p>-DLibCircle_INCLUDE_DIRS=/usr/lib64/mpi/gcc/mpich/include \</p>
+<p>-DLibCircle_LIBRARIES=/usr/lib64/mpi/gcc/mpich/lib64/libcircle.so \</p>
+<p>-DWITH_CART_PREFIX=/usr \</p>
+<p>-DWITH_DAOS_PREFIX=/usr \</p>
+<p>-DCMAKE_INSTALL_INCLUDEDIR=/usr/lib64/mpi/gcc/mpich/include \</p>
+<p>-DCMAKE_INSTALL_PREFIX=/usr/lib64/mpi/gcc/mpich/ \</p>
+<p>-DCMAKE_INSTALL_LIBDIR=/usr/lib64/mpi/gcc/mpich/lib64</p>
+<p>sudo make install</p>
+<p><strong>Build mpifileutils with dependencies that are built from source</strong></p>
+<p>mkdir install</p>
+<p>installdir=`pwd`/install</p>
+<p>export CC=mpicc</p>
+<p># download dependencies and build</p>
+<p>mkdir deps</p>
+<p>cd deps</p>
+<p>wget
+https://github.com/hpc/libcircle/releases/download/v0.3/libcircle-0.3.0.tar.gz</p>
+<p>wget
+https://github.com/llnl/lwgrp/releases/download/v1.0.3/lwgrp-1.0.3.tar.gz</p>
+<p>wget
+https://github.com/llnl/dtcmp/releases/download/v1.1.1/dtcmp-1.1.1.tar.gz</p>
+<p>wget
+https://github.com/libarchive/libarchive/releases/download/3.5.1/libarchive-3.5.1.tar.gz</p>
+<p>tar -zxf libcircle-0.3.0.tar.gz</p>
+<p>cd libcircle-0.3.0</p>
+<p>./configure --prefix=\$installdir</p>
+<p>make install</p>
+<p>cd ..</p>
+<p>tar -zxf lwgrp-1.0.3.tar.gz</p>
+<p>cd lwgrp-1.0.3</p>
+<p>./configure --prefix=\$installdir</p>
+<p>make install</p>
+<p>cd ..</p>
+<p>tar -zxf dtcmp-1.1.1.tar.gz</p>
+<p>cd dtcmp-1.1.1</p>
+<p>./configure --prefix=\$installdir --with-lwgrp=\$installdir</p>
+<p>make install</p>
+<p>cd ..</p>
+<p>tar -zxf libarchive-3.5.1.tar.gz</p>
+<p>cd libarchive-3.5.1</p>
+<p>./configure --prefix=\$installdir</p>
+<p>make install</p>
+<p>cd ..</p>
+<p>cd ..</p>
+<p># Download mpifileutils and build</p>
+<p>git clone --depth 1 https://github.com/hpc/mpifileutils</p>
+<p>mkdir build install</p>
+<p>cd build</p>
+<p>cmake ../mpifileutils \</p>
+<p>-DWITH_DTCMP_PREFIX=../install \</p>
+<p>-DWITH_LibCircle_PREFIX=../install \</p>
+<p>-DDTCMP_INCLUDE_DIRS=./install/include \</p>
+<p>-DDTCMP_LIBRARIES=../install/lib64/libdtcmp.so \</p>
+<p>-DLibCircle_INCLUDE_DIRS=../install/include \</p>
+<p>-DLibCircle_LIBRARIES=../install/lib64/libcircle.so \</p>
+<p>-DCMAKE_INSTALL_PREFIX=../install \</p>
+<p>-DWITH_CART_PREFIX=/usr \</p>
+<p>-DWITH_DAOS_PREFIX=/usr \</p>
+<p>-DENABLE_DAOS=ON</p>
+<p>make install</p>
+<p><strong>Create two POSIX containers for the mpifilutils test cases</strong></p>
+<p>daos container create --pool \$DAOS_POOL --type POSIX</p>
+<p>DAOS_CONT3=\&lt;cont uuid></p>
+<p>daos container create --pool \$DAOS_POOL --type POSIX</p>
+<p>DAOS_CONT4=\&lt;cont uuid></p>
+<p><strong>Run doas copy (dcp)</strong></p>
+<p>mpirun -hosts \&lt;hosts> -np 16 --ppn 16 dcp --bufsize 64MB
+--chunksize 128MB /tmp/daos_dfuse/daos_test
+daos://\$DAOS_POOL/\$DAOS_CONT3</p>
+<p>#Sample output</p>
+<p>[2021-04-29T23:55:52] Walking /tmp/daos_dfuse/daos_test</p>
+<p>[2021-04-29T23:55:52] Walked 11 items in 0.026 secs (417.452
+items/sec) ...</p>
+<p>[2021-04-29T23:55:52] Walked 11 items in 0.026 seconds (415.641
+items/sec)</p>
+<p>[2021-04-29T23:55:52] Copying to /</p>
+<p>[2021-04-29T23:55:52] Items: 11</p>
+<p>[2021-04-29T23:55:52] Directories: 1</p>
+<p>[2021-04-29T23:55:52] Files: 10</p>
+<p>[2021-04-29T23:55:52] Links: 0</p>
+<p>[2021-04-29T23:55:52] Data: 10.000 GiB (1.000 GiB per file)</p>
+<p>[2021-04-29T23:55:52] Creating 1 directories</p>
+<p>[2021-04-29T23:55:52] Creating 10 files.</p>
+<p>[2021-04-29T23:55:52] Copying data.</p>
+<p>[2021-04-29T23:56:53] Copied 1.312 GiB (13%) in 61.194 secs (21.963
+MiB/s) 405 secs left ...</p>
+<p>[2021-04-29T23:58:11] Copied 6.000 GiB (60%) in 139.322 secs (44.099
+MiB/s) 93 secs left ...</p>
+<p>[2021-04-29T23:58:11] Copied 10.000 GiB (100%) in 139.322 secs (73.499
+MiB/s) done</p>
+<p>[2021-04-29T23:58:11] Copy data: 10.000 GiB (10737418240 bytes)</p>
+<p>[2021-04-29T23:58:11] Copy rate: 73.499 MiB/s (10737418240 bytes in
+139.322 seconds)</p>
+<p>[2021-04-29T23:58:11] Syncing data to disk.</p>
+<p>[2021-04-29T23:58:11] Sync completed in 0.006 seconds.</p>
+<p>[2021-04-29T23:58:11] Fixing permissions.</p>
+<p>[2021-04-29T23:58:11] Updated 11 items in 0.002 seconds (4822.579
+items/sec)</p>
+<p>[2021-04-29T23:58:11] Syncing directory updates to disk.</p>
+<p>[2021-04-29T23:58:11] Sync completed in 0.001 seconds.</p>
+<p>[2021-04-29T23:58:11] Started: Apr-29-2021,23:55:52</p>
+<p>[2021-04-29T23:58:11] Completed: Apr-29-2021,23:58:11</p>
+<p>[2021-04-29T23:58:11] Seconds: 139.335</p>
+<p>[2021-04-29T23:58:11] Items: 11</p>
+<p>[2021-04-29T23:58:11] Directories: 1</p>
+<p>[2021-04-29T23:58:11] Files: 10</p>
+<p>[2021-04-29T23:58:11] Links: 0</p>
+<p>[2021-04-29T23:58:11] Data: 10.000 GiB (10737418240 bytes)</p>
+<p>[2021-04-29T23:58:11] Rate: 73.492 MiB/s (10737418240 bytes in 139.335
+seconds)</p>
+<p># Create directory</p>
+<p>mkdir /tmp/datamover3</p>
+<p>#RUN</p>
+<p>mpirun -hosts wolf-184 --ppn 16 -np 16 dcp --bufsize 64MB --chunksize
+128MB daos://\$DAOS_POOL/\$DAOS_CONT3 /tmp/datamover3/</p>
+<p># Sample output</p>
+<p>[2021-04-30T00:02:14] Walking /</p>
+<p>[2021-04-30T00:02:15] Walked 12 items in 0.112 secs (107.354
+items/sec) ...</p>
+<p>[2021-04-30T00:02:15] Walked 12 items in 0.112 seconds (107.236
+items/sec)</p>
+<p>[2021-04-30T00:02:15] Copying to /tmp/datamover3</p>
+<p>[2021-04-30T00:02:15] Items: 12</p>
+<p>[2021-04-30T00:02:15] Directories: 2</p>
+<p>[2021-04-30T00:02:15] Files: 10</p>
+<p>[2021-04-30T00:02:15] Links: 0</p>
+<p>[2021-04-30T00:02:15] Data: 10.000 GiB (1.000 GiB per file)</p>
+<p>[2021-04-30T00:02:15] Creating 2 directories</p>
+<p>[2021-04-30T00:02:15] Original directory exists, skip the creation:
+`/tmp/datamover3/\' (errno=17 File exists)</p>
+<p>[2021-04-30T00:02:15] Creating 10 files.</p>
+<p>[2021-04-30T00:02:15] Copying data.</p>
+<p>[2021-04-30T00:03:15] Copied 1.938 GiB (19%) in 60.341 secs (32.880
+MiB/s) 251 secs left ...</p>
+<p>[2021-04-30T00:03:46] Copied 8.750 GiB (88%) in 91.953 secs (97.441
+MiB/s) 13 secs left ...</p>
+<p>[2021-04-30T00:03:46] Copied 10.000 GiB (100%) in 91.953 secs (111.361
+MiB/s) done</p>
+<p>[2021-04-30T00:03:46] Copy data: 10.000 GiB (10737418240 bytes)</p>
+<p>[2021-04-30T00:03:46] Copy rate: 111.361 MiB/s (10737418240 bytes in
+91.954 seconds)</p>
+<p>[2021-04-30T00:03:46] Syncing data to disk.</p>
+<p>[2021-04-30T00:03:47] Sync completed in 0.135 seconds.</p>
+<p>[2021-04-30T00:03:47] Fixing permissions.</p>
+<p>[2021-04-30T00:03:47] Updated 12 items in 0.000 seconds (71195.069
+items/sec)</p>
+<p>[2021-04-30T00:03:47] Syncing directory updates to disk.</p>
+<p>[2021-04-30T00:03:47] Sync completed in 0.001 seconds.</p>
+<p>[2021-04-30T00:03:47] Started: Apr-30-2021,00:02:15</p>
+<p>[2021-04-30T00:03:47] Completed: Apr-30-2021,00:03:47</p>
+<p>[2021-04-30T00:03:47] Seconds: 92.091</p>
+<p>[2021-04-30T00:03:47] Items: 12</p>
+<p>[2021-04-30T00:03:47] Directories: 2</p>
+<p>[2021-04-30T00:03:47] Files: 10</p>
+<p>[2021-04-30T00:03:47] Links: 0</p>
+<p>[2021-04-30T00:03:47] Data: 10.000 GiB (10737418240 bytes)</p>
+<p>[2021-04-30T00:03:47] Rate: 111.194 MiB/s (10737418240 bytes in 92.091
+seconds)</p>
+<p># Verify the two directories have the same content
+mjean\@wolf-184:\~/build> ls -la /tmp/datamover3/daos_test/</p>
+<p>total 10485808</p>
+<p>drwxr-xr-x 2 mjean mjean 4096 Apr 30 00:02 .</p>
+<p>drwxr-xr-x 3 mjean mjean 4096 Apr 30 00:02 ..</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000000</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000001</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000002</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000003</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000004</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000005</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000006</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000007</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000008</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 30 00:03 testfile.00000009</p>
+<p>mjean\@wolf-184:\~/build> ls -la /tmp/daos_dfuse/daos_test/</p>
+<p>total 10485760</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000000</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000001</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000002</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000003</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000004</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000005</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000006</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000007</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000008</p>
+<p>-rw-r--r-- 1 mjean mjean 1073741824 Apr 29 16:31 testfile.00000009</p>
+<h1 id="clean-up"><strong>Clean Up</strong><a class="headerlink" href="#clean-up" title="Permanent link">&para;</a></h1>
+<p>Remove datamover tmp directories</p>
+<p>rm -rf /tmp/datamover2</p>
+<p>rm -rf /tmp/datamover3</p>
+<p>Remove dfuse mountpoint:</p>
+<p># unmount dfuse</p>
+<p>pdsh -w \$CLIENT_NODES \'fusermount3 -uz /tmp/daos_dfuse/daos_test\'</p>
+<p># remove mount dir</p>
+<p>pdsh -w \$CLIENT_NODES rm -rf /tmp/daos_dfuse</p>
+<p>Destroy Containers<em>:</em></p>
+<p># destroy container1</p>
+<p>daos container destroy --pool \$DAOS_POOL --cont \$DAOS_CONT</p>
+<p># destroy container2</p>
+<p>daos container destroy --pool \$DAOS_POOL --cont \$DAOS_CONT2</p>
+<p># destroy container3</p>
+<p>daos container destroy --pool \$DAOS_POOL --cont \$DAOS_CONT3</p>
+<p># destroy container4</p>
+<p>daos container destroy --pool \$DAOS_POOL --cont \$DAOS_CONT4</p>
+<p>Destroy Pool:</p>
+<p># destroy pool</p>
+<p>dmg pool destroy --pool \$DAOS_POOL</p>
+<p>Stop Agents:</p>
+<p># stop agents</p>
+<p>pdsh -S -w \$CLIENT_NODES \"sudo systemctl stop daos_agent\"</p>
+<p>Stop Servers:</p>
+<p># stop servers</p>
+<p>pdsh -S -w \$SERVER_NODES \"sudo systemctl stop daos_server\"</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

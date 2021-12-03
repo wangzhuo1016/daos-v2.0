@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__target__perf__t">
+<title>daos_target_perf_t Struct Reference</title>
+<indexterm><primary>daos_target_perf_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_pool.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_structdaos__target__perf__t_1a819b717d29c6c488a332fefeeb3815ba">foo</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Description of target performance </para>
+<para>
+Definition at line 51 of file daos_pool.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__target__perf__t_1a819b717d29c6c488a332fefeeb3815ba"/>    <section>
+    <title>foo</title>
+<indexterm><primary>foo</primary><secondary>daos_target_perf_t</secondary></indexterm>
+<indexterm><primary>daos_target_perf_t</primary><secondary>foo</secondary></indexterm>
+<para><computeroutput>int foo</computeroutput></para>
+<para>TODO: storage/network bandwidth, latency etc </para>
+<para>
+Definition at line 53 of file daos_pool.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_pool.h</section>
+</section>

@@ -1,0 +1,785 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___pools">
+<title>DAOS Pools</title>
+<indexterm><primary>DAOS Pools</primary></indexterm>
+<simplesect>
+    <title>Data Structures    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structdaos__target__perf__t">daos_target_perf_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__space">daos_space</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__target__info__t">daos_target_info_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__pool__space">daos_pool_space</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__rebuild__status">daos_rebuild_status</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__pool__cont__info">daos_pool_cont_info</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_group___pools_1ga66e1ed2fc7580dfd6a360808b40f4abc"/>#define <emphasis role="strong">DAOS_SYS_NAME_MAX_LEN</emphasis>   127</para>
+</listitem>
+            <listitem><para>#define <link linkend="_group___pools_1ga604e2af3821c31a6ea692a39866200bb">daos_pool_connect</link>(po, ...)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_group___pools_1ga79386cc6ec44453c791d429753179b70">daos_target_type_t</link> { 
+<emphasis role="strong">DAOS_TP_UNKNOWN</emphasis>, 
+<link linkend="_group___pools_1gga79386cc6ec44453c791d429753179b70aa2e0bcbbfb520f3a54e0bfcee759a27d">DAOS_TP_HDD</link>, 
+<link linkend="_group___pools_1gga79386cc6ec44453c791d429753179b70a74a7a96f6fea63f875911c43dad3d377">DAOS_TP_SSD</link>, 
+<link linkend="_group___pools_1gga79386cc6ec44453c791d429753179b70a49f0ceb6b9282f0f6aba403ede92866e">DAOS_TP_PM</link>, 
+
+<link linkend="_group___pools_1gga79386cc6ec44453c791d429753179b70a4284fbb9a64c97f2659257b94b09c063">DAOS_TP_VM</link>
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___pools_1ga5dee88343f29399c5f363a9a2e010986">daos_target_state_t</link> { 
+<emphasis role="strong">DAOS_TS_UNKNOWN</emphasis>, 
+<emphasis role="strong">DAOS_TS_DOWN_OUT</emphasis>, 
+<emphasis role="strong">DAOS_TS_DOWN</emphasis>, 
+<emphasis role="strong">DAOS_TS_UP</emphasis>, 
+
+<emphasis role="strong">DAOS_TS_UP_IN</emphasis>, 
+<emphasis role="strong">DAOS_TS_NEW</emphasis>, 
+<emphasis role="strong">DAOS_TS_DRAIN</emphasis>
+ }</para>
+</listitem>
+            <listitem><para><anchor xml:id="_group___pools_1gab04a0655cd1e3bcac5e8f48c18df1a57"/>enum { <emphasis role="strong">DAOS_MEDIA_SCM</emphasis> = 0, 
+<emphasis role="strong">DAOS_MEDIA_NVME</emphasis>, 
+<emphasis role="strong">DAOS_MEDIA_MAX</emphasis>
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___pools_1gae7678951d96621071ffd9c8c80b0141e">daos_pool_info_bit</link> { <link linkend="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea3feaa33238b685b5e6084c09c28e636b">DPI_SPACE</link> = 1ULL &lt;&lt; 0, 
+<link linkend="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea8520f5d2c8661e8ade570e0e52b42572">DPI_REBUILD_STATUS</link> = 1ULL &lt;&lt; 1, 
+<link linkend="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea27a0dfd19fb43728719bbd0ed2e4adf3">DPI_ALL</link> = -1
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_group___pools_1ga87b6ec0342030289f5f6c225703921e3">daos_pool_connect</link> (const char *pool, const char *sys, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> *poh, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> *info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga1a2ed9d16fd4f6cc0a9360a3fb8bcdac">daos_pool_disconnect</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga4e958dfff1a20560668602575970b591">daos_pool_local2global</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_iov_t *glob)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1gae016a3c4f6ecf41ea2fac16690d27b93">daos_pool_global2local</link> (d_iov_t glob, <link linkend="_structdaos__handle__t">daos_handle_t</link> *poh)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga2bc65f56de518b4437b4218617eedcf6">daos_pool_query</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_rank_list_t *tgts, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> *info, <link linkend="_structdaos__prop__t">daos_prop_t</link> *pool_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga18515908bfa6f3a2c52f598c57641c72">daos_pool_query_target</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uint32_t tgt, d_rank_t rank, <link linkend="_structdaos__target__info__t">daos_target_info_t</link> *info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga560c030cb0736dc59c2dec1a1c905a75">daos_pool_list_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, char *buffer, size_t *size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga7b4aea52094f634663fd5c34405f5bdd">daos_pool_get_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], void *const buffers[], size_t sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1gaa5cd5e2e0a749bbdcc9480b96eb91541">daos_pool_set_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], void const *const values[], size_t const sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga8196c2e626bc404fb8f01ec8cf63dffb">daos_pool_del_attr</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1gae61de46acf8f2d56a9bf056e244b4d6d">daos_pool_list_cont</link> (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> *ncont, struct <link linkend="_structdaos__pool__cont__info">daos_pool_cont_info</link> *cbuf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___pools_1ga396e9f90ccec256ddb6c5d3ca5d2ef11">daos_pool_connect2</link> (const char *pool, const char *sys, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> *poh, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> *info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> *ev)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>(C) Copyright 2020-2021 Intel Corporation.</para>
+
+<para>SPDX-License-Identifier: BSD-2-Clause-Patent DAOS storage pool types and functions </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_group___pools_1ga604e2af3821c31a6ea692a39866200bb"/>    <section>
+    <title>daos_pool_connect</title>
+<indexterm><primary>daos_pool_connect</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_connect</secondary></indexterm>
+<para><computeroutput>#define daos_pool_connect( po,  ...)</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting>&#32;&#32;&#32;&#32;({&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char&#32;_str[37];&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<emphasis role="keywordtype">char</emphasis>&#32;*__str&#32;=&#32;NULL;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(d_is_string(po))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(po);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(d_is_uuid(po))&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuid_unparse((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*)(po),&#32;_str);&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__str&#32;=&#32;_str;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret&#32;=&#32;<link linkend="_group___pools_1ga396e9f90ccec256ddb6c5d3ca5d2ef11">daos_pool_connect2</link>(__str,&#32;__VA_ARGS__);&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_ret;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;&#32;})
+</programlisting>
+<para>For backward compatibility, support old API where a const uuid_t was used instead of a string to identify the pool. </para>
+<para>
+Definition at line 454 of file daos_pool.h.</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_group___pools_1gae7678951d96621071ffd9c8c80b0141e"/>    <section>
+    <title>daos_pool_info_bit</title>
+<indexterm><primary>daos_pool_info_bit</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_info_bit</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___pools_1gae7678951d96621071ffd9c8c80b0141e">daos_pool_info_bit</link></computeroutput></para>
+<para>Pool info query bits. The basic pool info like fields from pi_uuid to pi_leader will always be queried for each <link linkend="_group___pools_1ga2bc65f56de518b4437b4218617eedcf6">daos_pool_query()</link> calling. But the pi_space and pi_rebuild_st are optional based on pi_mask&apos;s value. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DPI_SPACE</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DPI_SPACE</secondary></indexterm>
+<anchor xml:id="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea3feaa33238b685b5e6084c09c28e636b"/>DPI_SPACE</entry><entry>
+<para>true to query pool space usage </para>
+</entry></row><row><entry><indexterm><primary>DPI_REBUILD_STATUS</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DPI_REBUILD_STATUS</secondary></indexterm>
+<anchor xml:id="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea8520f5d2c8661e8ade570e0e52b42572"/>DPI_REBUILD_STATUS</entry><entry>
+<para>true to query rebuild status </para>
+</entry></row><row><entry><indexterm><primary>DPI_ALL</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DPI_ALL</secondary></indexterm>
+<anchor xml:id="_group___pools_1ggae7678951d96621071ffd9c8c80b0141ea27a0dfd19fb43728719bbd0ed2e4adf3"/>DPI_ALL</entry><entry>
+<para>query all above optional info </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 131 of file daos_pool.h.</para>
+    </section><anchor xml:id="_group___pools_1ga5dee88343f29399c5f363a9a2e010986"/>    <section>
+    <title>daos_target_state_t</title>
+<indexterm><primary>daos_target_state_t</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_target_state_t</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___pools_1ga5dee88343f29399c5f363a9a2e010986">daos_target_state_t</link></computeroutput></para>
+<para>Current state of the storage target </para>
+<para>
+Definition at line 34 of file daos_pool.h.</para>
+    </section><anchor xml:id="_group___pools_1ga79386cc6ec44453c791d429753179b70"/>    <section>
+    <title>daos_target_type_t</title>
+<indexterm><primary>daos_target_type_t</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_target_type_t</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___pools_1ga79386cc6ec44453c791d429753179b70">daos_target_type_t</link></computeroutput></para>
+<para>Type of storage target </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>DAOS_TP_HDD</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DAOS_TP_HDD</secondary></indexterm>
+<anchor xml:id="_group___pools_1gga79386cc6ec44453c791d429753179b70aa2e0bcbbfb520f3a54e0bfcee759a27d"/>DAOS_TP_HDD</entry><entry>
+<para>Rotating disk </para>
+</entry></row><row><entry><indexterm><primary>DAOS_TP_SSD</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DAOS_TP_SSD</secondary></indexterm>
+<anchor xml:id="_group___pools_1gga79386cc6ec44453c791d429753179b70a74a7a96f6fea63f875911c43dad3d377"/>DAOS_TP_SSD</entry><entry>
+<para>Flash-based </para>
+</entry></row><row><entry><indexterm><primary>DAOS_TP_PM</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DAOS_TP_PM</secondary></indexterm>
+<anchor xml:id="_group___pools_1gga79386cc6ec44453c791d429753179b70a49f0ceb6b9282f0f6aba403ede92866e"/>DAOS_TP_PM</entry><entry>
+<para>Persistent memory </para>
+</entry></row><row><entry><indexterm><primary>DAOS_TP_VM</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>DAOS_TP_VM</secondary></indexterm>
+<anchor xml:id="_group___pools_1gga79386cc6ec44453c791d429753179b70a4284fbb9a64c97f2659257b94b09c063"/>DAOS_TP_VM</entry><entry>
+<para>Volatile memory </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line 21 of file daos_pool.h.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___pools_1ga87b6ec0342030289f5f6c225703921e3"/>    <section>
+    <title>daos_pool_connect()</title>
+<indexterm><primary>daos_pool_connect</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_connect</secondary></indexterm>
+<para><computeroutput>int daos_pool_connect (const char * pool, const char * sys, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> * poh, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> * info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Connect to the DAOS pool identified by <emphasis>pool</emphasis>, a label or UUID string. Upon a successful completion, <emphasis>poh</emphasis> returns the pool handle, and <emphasis>info</emphasis> returns the latest pool information.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>pool</entry>
+                                <entry>
+<para>label or UUID string to identify a pool. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sys</entry>
+                                <entry>
+<para>DAOS system name to use for the pool connect. Pass NULL to connect to the default system. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>flags</entry>
+                                <entry>
+<para>Connect mode represented by the DAOS_PC_ bits. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Returned open handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>Optional, returned pool information, see daos_pool_info_bit. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_UNREACH Network is unreachable -DER_NO_PERM Permission denied -DER_NONEXIST Pool is nonexistent </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga396e9f90ccec256ddb6c5d3ca5d2ef11"/>    <section>
+    <title>daos_pool_connect2()</title>
+<indexterm><primary>daos_pool_connect2</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_connect2</secondary></indexterm>
+<para><computeroutput>int daos_pool_connect2 (const char * pool, const char * sys, unsigned int flags, <link linkend="_structdaos__handle__t">daos_handle_t</link> * poh, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> * info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Backward compatibility code. Please don&apos;t use directly </para>
+    </section><anchor xml:id="_group___pools_1ga8196c2e626bc404fb8f01ec8cf63dffb"/>    <section>
+    <title>daos_pool_del_attr()</title>
+<indexterm><primary>daos_pool_del_attr</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_del_attr</secondary></indexterm>
+<para><computeroutput>int daos_pool_del_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Delete a list of user-defined pool attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_PERM Permission denied -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid container handle -DER_NOMEM Out of memory </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga1a2ed9d16fd4f6cc0a9360a3fb8bcdac"/>    <section>
+    <title>daos_pool_disconnect()</title>
+<indexterm><primary>daos_pool_disconnect</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_disconnect</secondary></indexterm>
+<para><computeroutput>int daos_pool_disconnect (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Disconnect from the DAOS pool. It should revoke all the container open handles of this pool.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid pool handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga7b4aea52094f634663fd5c34405f5bdd"/>    <section>
+    <title>daos_pool_get_attr()</title>
+<indexterm><primary>daos_pool_get_attr</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_get_attr</secondary></indexterm>
+<para><computeroutput>int daos_pool_get_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], void *const buffers[], size_t sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Retrieve a list of user-defined pool attribute values.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buffers</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> buffers to store attribute values. Attribute values larger than corresponding buffer sizes will be truncated. NULL values are permitted and will be treated identical to zero-length buffers, in which case only the sizes of attribute values will be retrieved. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>sizes</entry>
+                                <entry>
+<para>[in]: Array of <emphasis>n</emphasis> buffer sizes. [out]: Array of actual sizes of <emphasis>n</emphasis> attribute values, regardless of given buffer sizes. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___pools_1gae016a3c4f6ecf41ea2fac16690d27b93"/>    <section>
+    <title>daos_pool_global2local()</title>
+<indexterm><primary>daos_pool_global2local</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_global2local</secondary></indexterm>
+<para><computeroutput>int daos_pool_global2local (d_iov_t glob, <link linkend="_structdaos__handle__t">daos_handle_t</link> * poh)</computeroutput></para>
+<para>Create a local pool connection for global representation data.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>Global (shared) representation of a collective handle to be extracted </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Returned local pool connection handle</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned: non-blocking mode: 0 Success -DER_INVAL Invalid parameter </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga560c030cb0736dc59c2dec1a1c905a75"/>    <section>
+    <title>daos_pool_list_attr()</title>
+<indexterm><primary>daos_pool_list_attr</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_list_attr</secondary></indexterm>
+<para><computeroutput>int daos_pool_list_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, char * buffer, size_t * size, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>List the names of all user-defined pool attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>buffer</entry>
+                                <entry>
+<para>Buffer containing concatenation of all attribute names, each being null-terminated. No truncation is performed and only full names will be returned. NULL is permitted in which case only the aggregate size will be retrieved. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>size</entry>
+                                <entry>
+<para>[in]: Buffer size. [out]: Aggregate size of all attribute names (excluding terminating null characters), regardless of the actual buffer size. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+    </section><anchor xml:id="_group___pools_1gae61de46acf8f2d56a9bf056e244b4d6d"/>    <section>
+    <title>daos_pool_list_cont()</title>
+<indexterm><primary>daos_pool_list_cont</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_list_cont</secondary></indexterm>
+<para><computeroutput>int daos_pool_list_cont (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, <link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * ncont, struct <link linkend="_structdaos__pool__cont__info">daos_pool_cont_info</link> * cbuf, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>List a pool&apos;s containers.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>ncont</entry>
+                                <entry>
+<para>[in] <emphasis>cbuf</emphasis> length in items. [out] Number of containers in the pool. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>cbuf</entry>
+                                <entry>
+<para>Array of container structures. NULL is permitted in which case only the number of containers will be returned in <emphasis>ncont</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event. Optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>0 Success -DER_TRUNC <emphasis>cbuf</emphasis> cannot hold <emphasis>ncont</emphasis> items </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga4e958dfff1a20560668602575970b591"/>    <section>
+    <title>daos_pool_local2global()</title>
+<indexterm><primary>daos_pool_local2global</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_local2global</secondary></indexterm>
+<para><computeroutput>int daos_pool_local2global (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_iov_t * glob)</computeroutput></para>
+<para>Convert a local pool connection to global representation data which can be shared with peer processes. If glob-&gt;iov_buf is set to NULL, the actual size of the global handle is returned through glob-&gt;iov_buf_len. This function does not involve any communication and does not block.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Valid local pool connection handle to be shared </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>glob</entry>
+                                <entry>
+<para>Pointer to iov of the buffer to store handle information</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned: non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Pool handle is nonexistent -DER_TRUNC Buffer in <emphasis>glob</emphasis> is too short, a larger buffer is required. In this case the required buffer size is returned through glob-&gt;iov_buf_len. </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga2bc65f56de518b4437b4218617eedcf6"/>    <section>
+    <title>daos_pool_query()</title>
+<indexterm><primary>daos_pool_query</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_query</secondary></indexterm>
+<para><computeroutput>int daos_pool_query (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, d_rank_list_t * tgts, <link linkend="_structdaos__pool__info__t">daos_pool_info_t</link> * info, <link linkend="_structdaos__prop__t">daos_prop_t</link> * pool_prop, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Query pool information. User should provide at least one of <emphasis>info</emphasis> and <emphasis>tgts</emphasis> as output buffer.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>tgts</entry>
+                                <entry>
+<para>Optional, returned storage targets in this pool. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in,out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>Optional, returned pool information, see daos_pool_info_bit. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>pool_prop</entry>
+                                <entry>
+<para>Optional, returned pool properties. If it is NULL, then needs not query the properties. If pool_prop is non-NULL but its dpp_entries is NULL, will query all pool properties, DAOS internally allocates the needed buffers and assign pointer to dpp_entries. If pool_prop&apos;s dpp_nr &gt; 0 and dpp_entries is non-NULL, will query the properties for specific dpe_type(s), DAOS internally allocates the needed buffer for dpe_str or dpe_val_ptr, if the dpe_type with immediate value then will directly assign it to dpe_val. User can free the associated buffer by calling <link linkend="_group___pool_container_1ga4e37d76ae1c35f0187c1cb83bd37d6b7">daos_prop_free()</link>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_UNREACH Network is unreachable -DER_NO_HDL Invalid pool handle </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1ga18515908bfa6f3a2c52f598c57641c72"/>    <section>
+    <title>daos_pool_query_target()</title>
+<indexterm><primary>daos_pool_query_target</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_query_target</secondary></indexterm>
+<para><computeroutput>int daos_pool_query_target (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, uint32_t tgt, d_rank_t rank, <link linkend="_structdaos__target__info__t">daos_target_info_t</link> * info, <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Query information of storage targets within a DAOS pool.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool connection handle. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>tgt</entry>
+                                <entry>
+<para>A single target index to query. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>rank</entry>
+                                <entry>
+<para>Rank of the target index to query. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out                                </entry>                                <entry>info</entry>
+                                <entry>
+<para>Returned storage information of <emphasis>tgt</emphasis>. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>These values will be returned by <emphasis>ev::ev_error</emphasis> in non-blocking mode: 0 Success -DER_INVAL Invalid parameter -DER_NO_HDL Invalid pool handle -DER_UNREACH Network is unreachable -DER_NONEXIST No pool on specified target </para>
+</formalpara>
+</para>
+    </section><anchor xml:id="_group___pools_1gaa5cd5e2e0a749bbdcc9480b96eb91541"/>    <section>
+    <title>daos_pool_set_attr()</title>
+<indexterm><primary>daos_pool_set_attr</primary><secondary>DAOS Pools</secondary></indexterm>
+<indexterm><primary>DAOS Pools</primary><secondary>daos_pool_set_attr</secondary></indexterm>
+<para><computeroutput>int daos_pool_set_attr (<link linkend="_structdaos__handle__t">daos_handle_t</link> poh, int n, char const *const names[], void const *const values[], size_t const sizes[], <link linkend="_group___types_1ga7e4095443fd42c3411ed0bd000cc9c20">daos_event_t</link> * ev)</computeroutput></para>
+<para>Create or update a list of user-defined pool attributes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters                    </title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in                                </entry>                                <entry>poh</entry>
+                                <entry>
+<para>Pool handle </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>n</entry>
+                                <entry>
+<para>Number of attributes </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>names</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>values</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> attribute values </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>sizes</entry>
+                                <entry>
+<para>Array of <emphasis>n</emphasis> elements containing the sizes of respective attribute values. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>in                                </entry>                                <entry>ev</entry>
+                                <entry>
+<para>Completion event, it is optional and can be NULL. The function will run in blocking mode if <emphasis>ev</emphasis> is NULL. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+</section>
+</section>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group___d_a_o_s_a_p_i">
+<title>DAOS API</title>
+<indexterm><primary>DAOS API</primary></indexterm>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_group___d_a_o_s_a_p_i_1ga4b2c21607fd4af8c6ccd0bceffb9f779">daos_init</link> (void)</para>
+</listitem>
+            <listitem><para>int <link linkend="_group___d_a_o_s_a_p_i_1gadceda4e95d7551e4baa746d3d49d9393">daos_fini</link> (void)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group___d_a_o_s_a_p_i_1gadceda4e95d7551e4baa746d3d49d9393"/>    <section>
+    <title>daos_fini()</title>
+<indexterm><primary>daos_fini</primary><secondary>DAOS API</secondary></indexterm>
+<indexterm><primary>DAOS API</primary><secondary>daos_fini</secondary></indexterm>
+<para><computeroutput>int daos_fini (void )</computeroutput></para>
+<para>Finalize the DAOS library. Should be invoked only when <link linkend="_group___d_a_o_s_a_p_i_1ga4b2c21607fd4af8c6ccd0bceffb9f779">daos_init()</link> was previously successfully executed. An internal reference count is maintained by the library that will tear down the DAOS stack on the last call to <link linkend="_group___d_a_o_s_a_p_i_1gadceda4e95d7551e4baa746d3d49d9393">daos_fini()</link> </para>
+    </section><anchor xml:id="_group___d_a_o_s_a_p_i_1ga4b2c21607fd4af8c6ccd0bceffb9f779"/>    <section>
+    <title>daos_init()</title>
+<indexterm><primary>daos_init</primary><secondary>DAOS API</secondary></indexterm>
+<indexterm><primary>DAOS API</primary><secondary>daos_init</secondary></indexterm>
+<para><computeroutput>int daos_init (void )</computeroutput></para>
+<para>Initialize the DAOS library. Should be invoked prior to any DAOS calls. Can be called multiple times. </para>
+</section>
+</section>
+</section>

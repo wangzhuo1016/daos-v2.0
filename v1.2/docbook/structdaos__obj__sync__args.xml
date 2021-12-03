@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__obj__sync__args">
+<title>daos_obj_sync_args Struct Reference</title>
+<indexterm><primary>daos_obj_sync_args</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__obj__sync__args_1aef20019954d183ed757cd90ac3288242">oh</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> <link linkend="_structdaos__obj__sync__args_1a17de810d40610c8a151488f29fa63593">epoch</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> ** <link linkend="_structdaos__obj__sync__args_1afd4dba31ae8bd29af4602b518d0ab400">epochs_p</link></para>
+</listitem>
+            <listitem><para>int * <link linkend="_structdaos__obj__sync__args_1a6221fbfc5193b1c86f07e4d58ce1b87d">nr</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Object sync args </para>
+<para>
+Definition at line 683 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__obj__sync__args_1a17de810d40610c8a151488f29fa63593"/>    <section>
+    <title>epoch</title>
+<indexterm><primary>epoch</primary><secondary>daos_obj_sync_args</secondary></indexterm>
+<indexterm><primary>daos_obj_sync_args</primary><secondary>epoch</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link> epoch</computeroutput></para>
+<para>epoch. </para>
+<para>
+Definition at line 687 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__sync__args_1afd4dba31ae8bd29af4602b518d0ab400"/>    <section>
+    <title>epochs_p</title>
+<indexterm><primary>epochs_p</primary><secondary>daos_obj_sync_args</secondary></indexterm>
+<indexterm><primary>daos_obj_sync_args</primary><secondary>epochs_p</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gae363d5e93e32d7104d2bdaf97bfa5d61">daos_epoch_t</link>** epochs_p</computeroutput></para>
+<para>epochp. </para>
+<para>
+Definition at line 689 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__sync__args_1a6221fbfc5193b1c86f07e4d58ce1b87d"/>    <section>
+    <title>nr</title>
+<indexterm><primary>nr</primary><secondary>daos_obj_sync_args</secondary></indexterm>
+<indexterm><primary>daos_obj_sync_args</primary><secondary>nr</secondary></indexterm>
+<para><computeroutput>int* nr</computeroutput></para>
+<para>nr. </para>
+<para>
+Definition at line 691 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__sync__args_1aef20019954d183ed757cd90ac3288242"/>    <section>
+    <title>oh</title>
+<indexterm><primary>oh</primary><secondary>daos_obj_sync_args</secondary></indexterm>
+<indexterm><primary>daos_obj_sync_args</primary><secondary>oh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> oh</computeroutput></para>
+<para>Object open handle </para>
+<para>
+Definition at line 685 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

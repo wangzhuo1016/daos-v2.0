@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__pool__cont__info">
+<title>daos_pool_cont_info Struct Reference</title>
+<indexterm><primary>daos_pool_cont_info</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_pool.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_structdaos__pool__cont__info_1abf17bc72d1416da8d9a75fbc86e86280"/>uuid_t <emphasis role="strong">pci_uuid</emphasis></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__pool__cont__info_1ab1eb5e73eb63c4954762d2fbf78c35bf"/>char <emphasis role="strong">pci_label</emphasis> [<link linkend="_group___pool_container_1gaee6fdbbe2d6446abf130688bcb43cf13">DAOS_PROP_LABEL_MAX_LEN</link>+1]</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>DAOS pool container information </para>
+<para>
+Definition at line 165 of file daos_pool.h.</para>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_pool.h</section>
+</section>

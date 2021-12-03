@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__cont__destroy__snap__t">
+<title>daos_cont_destroy_snap_t Struct Reference</title>
+<indexterm><primary>daos_cont_destroy_snap_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__cont__destroy__snap__t_1a7fe83fe613282d305d3aeacba805f901">coh</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link> <link linkend="_structdaos__cont__destroy__snap__t_1aff303b52866241bcba5522498d7ab63e">epr</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Container snapshot destroy args </para>
+<para>
+Definition at line 491 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__cont__destroy__snap__t_1a7fe83fe613282d305d3aeacba805f901"/>    <section>
+    <title>coh</title>
+<indexterm><primary>coh</primary><secondary>daos_cont_destroy_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_destroy_snap_t</primary><secondary>coh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> coh</computeroutput></para>
+<para>Container open handle. </para>
+<para>
+Definition at line 493 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__cont__destroy__snap__t_1aff303b52866241bcba5522498d7ab63e"/>    <section>
+    <title>epr</title>
+<indexterm><primary>epr</primary><secondary>daos_cont_destroy_snap_t</secondary></indexterm>
+<indexterm><primary>daos_cont_destroy_snap_t</primary><secondary>epr</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link> epr</computeroutput></para>
+<para>Epoch range of snapshots to destroy. </para>
+<para>
+Definition at line 495 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

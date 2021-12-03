@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdfs__iod__t">
+<title>dfs_iod_t Struct Reference</title>
+<indexterm><primary>dfs_iod_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_fs.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> <link linkend="_structdfs__iod__t_1a4acbee12deb5235cacef8566e230d108">iod_nr</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__range__t">daos_range_t</link> * <link linkend="_structdfs__iod__t_1a32c4a60a2e1dbbb63df2a8f28cb627f2">iod_rgs</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>IO descriptor of ranges in a file to access </para>
+<para>
+Definition at line 78 of file daos_fs.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdfs__iod__t_1a4acbee12deb5235cacef8566e230d108"/>    <section>
+    <title>iod_nr</title>
+<indexterm><primary>iod_nr</primary><secondary>dfs_iod_t</secondary></indexterm>
+<indexterm><primary>dfs_iod_t</primary><secondary>iod_nr</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> iod_nr</computeroutput></para>
+<para>Number of entries in dfs_rgs </para>
+<para>
+Definition at line 80 of file daos_fs.h.</para>
+    </section><anchor xml:id="_structdfs__iod__t_1a32c4a60a2e1dbbb63df2a8f28cb627f2"/>    <section>
+    <title>iod_rgs</title>
+<indexterm><primary>iod_rgs</primary><secondary>dfs_iod_t</secondary></indexterm>
+<indexterm><primary>dfs_iod_t</primary><secondary>iod_rgs</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__range__t">daos_range_t</link>* iod_rgs</computeroutput></para>
+<para>Array of ranges; each range defines a starting index and length. </para>
+<para>
+Definition at line 82 of file daos_fs.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_fs.h</section>
+</section>

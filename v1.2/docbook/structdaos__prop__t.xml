@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__prop__t">
+<title>daos_prop_t Struct Reference</title>
+<indexterm><primary>daos_prop_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_prop.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uint32_t <link linkend="_structdaos__prop__t_1abaa88a667aafa85fe5785ba8f409bd0d">dpp_nr</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__prop__t_1a8f9f2695655a99356e3598844f97d949">dpp_reserv</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__prop__entry">daos_prop_entry</link> * <link linkend="_structdaos__prop__t_1a221f1945559a651dd8acd252863a46eb">dpp_entries</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>daos properties, for pool or container </para>
+<para>
+Definition at line 439 of file daos_prop.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__prop__t_1a221f1945559a651dd8acd252863a46eb"/>    <section>
+    <title>dpp_entries</title>
+<indexterm><primary>dpp_entries</primary><secondary>daos_prop_t</secondary></indexterm>
+<indexterm><primary>daos_prop_t</primary><secondary>dpp_entries</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__prop__entry">daos_prop_entry</link>* dpp_entries</computeroutput></para>
+<para>property entries array </para>
+<para>
+Definition at line 445 of file daos_prop.h.</para>
+    </section><anchor xml:id="_structdaos__prop__t_1abaa88a667aafa85fe5785ba8f409bd0d"/>    <section>
+    <title>dpp_nr</title>
+<indexterm><primary>dpp_nr</primary><secondary>daos_prop_t</secondary></indexterm>
+<indexterm><primary>daos_prop_t</primary><secondary>dpp_nr</secondary></indexterm>
+<para><computeroutput>uint32_t dpp_nr</computeroutput></para>
+<para>number of entries </para>
+<para>
+Definition at line 441 of file daos_prop.h.</para>
+    </section><anchor xml:id="_structdaos__prop__t_1a8f9f2695655a99356e3598844f97d949"/>    <section>
+    <title>dpp_reserv</title>
+<indexterm><primary>dpp_reserv</primary><secondary>daos_prop_t</secondary></indexterm>
+<indexterm><primary>daos_prop_t</primary><secondary>dpp_reserv</secondary></indexterm>
+<para><computeroutput>uint32_t dpp_reserv</computeroutput></para>
+<para>reserved for future usage (for 64 bits alignment now) </para>
+<para>
+Definition at line 443 of file daos_prop.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_prop.h</section>
+</section>

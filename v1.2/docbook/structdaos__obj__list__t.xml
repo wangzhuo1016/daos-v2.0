@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__obj__list__t">
+<title>daos_obj_list_t Struct Reference</title>
+<indexterm><primary>daos_obj_list_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__obj__list__t_1aef20019954d183ed757cd90ac3288242">oh</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__obj__list__t_1a8df9d41740502f16e867061d9bc0c585">th</link></para>
+</listitem>
+            <listitem><para>daos_key_t * <link linkend="_structdaos__obj__list__t_1ab089b7883c4c375bdcdd7e4f7fada640">dkey</link></para>
+</listitem>
+            <listitem><para>daos_key_t * <link linkend="_structdaos__obj__list__t_1ab032fc0d4a38d84ac9d0274512a2cf60">akey</link></para>
+</listitem>
+            <listitem><para>uint32_t * <link linkend="_structdaos__obj__list__t_1a1c52a0f8b44ef73e6d5b670a1165b0db">nr</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__key__desc__t">daos_key_desc_t</link> * <link linkend="_structdaos__obj__list__t_1ad18e6de859bab889577e42129c68217c">kds</link></para>
+</listitem>
+            <listitem><para>d_sg_list_t * <link linkend="_structdaos__obj__list__t_1a170878ca472dc37d01dc1a98038b4a1e">sgl</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link> * <link linkend="_structdaos__obj__list__t_1a388912d6ab41a7faa2329bbe2ecd7c1a">size</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___object_1gab06c379248eb344585279218839d165a">daos_iod_type_t</link> <link linkend="_structdaos__obj__list__t_1ac11b05f1987a9e2131617855453d1bb1">type</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__recx__t">daos_recx_t</link> * <link linkend="_structdaos__obj__list__t_1a54d7bf469465b56d0ba9387586b74974">recxs</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link> * <link linkend="_structdaos__obj__list__t_1ab2a02b83b2477243a616d05ac4938705">eprs</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__obj__list__t_1ac376c63cd592209e79c0b58caa5f105f"/><link linkend="_structdaos__anchor__t">daos_anchor_t</link> * <emphasis role="strong">anchor</emphasis></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__anchor__t">daos_anchor_t</link> * <link linkend="_structdaos__obj__list__t_1a598f6fb316a8bc3d69f1b428e500284e">dkey_anchor</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__anchor__t">daos_anchor_t</link> * <link linkend="_structdaos__obj__list__t_1add7cac4a39ef271f4190ae8b1c2d899f">akey_anchor</link></para>
+</listitem>
+            <listitem><para>uint32_t * <link linkend="_structdaos__obj__list__t_1a54f908cf4722e1872884f4a2567be290">versions</link></para>
+</listitem>
+            <listitem><para>d_iov_t * <link linkend="_structdaos__obj__list__t_1a2b0efd23c5b18e41e7612f378834db3b">csum</link></para>
+</listitem>
+            <listitem><para>bool <link linkend="_structdaos__obj__list__t_1a3f89e2bd7740e3dab2fcb22f339f9e3e">incr_order</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Object list args </para>
+<para>
+Definition at line 695 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__obj__list__t_1ab032fc0d4a38d84ac9d0274512a2cf60"/>    <section>
+    <title>akey</title>
+<indexterm><primary>akey</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>akey</secondary></indexterm>
+<para><computeroutput>daos_key_t* akey</computeroutput></para>
+<para>Attribute key. </para>
+<para>
+Definition at line 703 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1add7cac4a39ef271f4190ae8b1c2d899f"/>    <section>
+    <title>akey_anchor</title>
+<indexterm><primary>akey_anchor</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>akey_anchor</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__anchor__t">daos_anchor_t</link>* akey_anchor</computeroutput></para>
+<para>anchor for list_akey. </para>
+<para>
+Definition at line 728 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a2b0efd23c5b18e41e7612f378834db3b"/>    <section>
+    <title>csum</title>
+<indexterm><primary>csum</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>csum</secondary></indexterm>
+<para><computeroutput>d_iov_t* csum</computeroutput></para>
+<para>Serialized checksum info for enumerated keys and data in sgl. (for internal use only) </para>
+<para>
+Definition at line 734 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1ab089b7883c4c375bdcdd7e4f7fada640"/>    <section>
+    <title>dkey</title>
+<indexterm><primary>dkey</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>dkey</secondary></indexterm>
+<para><computeroutput>daos_key_t* dkey</computeroutput></para>
+<para>Distribution key. </para>
+<para>
+Definition at line 701 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a598f6fb316a8bc3d69f1b428e500284e"/>    <section>
+    <title>dkey_anchor</title>
+<indexterm><primary>dkey_anchor</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>dkey_anchor</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__anchor__t">daos_anchor_t</link>* dkey_anchor</computeroutput></para>
+<para>anchor for list_dkey. </para>
+<para>
+Definition at line 726 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1ab2a02b83b2477243a616d05ac4938705"/>    <section>
+    <title>eprs</title>
+<indexterm><primary>eprs</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>eprs</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__epoch__range__t">daos_epoch_range_t</link>* eprs</computeroutput></para>
+<para>epoch ranges </para>
+<para>
+Definition at line 717 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a3f89e2bd7740e3dab2fcb22f339f9e3e"/>    <section>
+    <title>incr_order</title>
+<indexterm><primary>incr_order</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>incr_order</secondary></indexterm>
+<para><computeroutput>bool incr_order</computeroutput></para>
+<para>order. </para>
+<para>
+Definition at line 736 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1ad18e6de859bab889577e42129c68217c"/>    <section>
+    <title>kds</title>
+<indexterm><primary>kds</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>kds</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__key__desc__t">daos_key_desc_t</link>* kds</computeroutput></para>
+<para>Key descriptors holding enumerated keys. </para>
+<para>
+Definition at line 707 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a1c52a0f8b44ef73e6d5b670a1165b0db"/>    <section>
+    <title>nr</title>
+<indexterm><primary>nr</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>nr</secondary></indexterm>
+<para><computeroutput>uint32_t* nr</computeroutput></para>
+<para>number of dkeys/akeys/kds entries </para>
+<para>
+Definition at line 705 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1aef20019954d183ed757cd90ac3288242"/>    <section>
+    <title>oh</title>
+<indexterm><primary>oh</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>oh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> oh</computeroutput></para>
+<para>Object open handle </para>
+<para>
+Definition at line 697 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a54d7bf469465b56d0ba9387586b74974"/>    <section>
+    <title>recxs</title>
+<indexterm><primary>recxs</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>recxs</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__recx__t">daos_recx_t</link>* recxs</computeroutput></para>
+<para>record extents. </para>
+<para>
+Definition at line 715 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a170878ca472dc37d01dc1a98038b4a1e"/>    <section>
+    <title>sgl</title>
+<indexterm><primary>sgl</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>sgl</secondary></indexterm>
+<para><computeroutput>d_sg_list_t* sgl</computeroutput></para>
+<para>Scatter gather list for memory buffer. </para>
+<para>
+Definition at line 709 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a388912d6ab41a7faa2329bbe2ecd7c1a"/>    <section>
+    <title>size</title>
+<indexterm><primary>size</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>size</secondary></indexterm>
+<para><computeroutput><link linkend="_group___types_1gaef45c835fcfbd5f969030fd7c854eb8a">daos_size_t</link>* size</computeroutput></para>
+<para>total buf size for sgl buf, in case it uses bulk transfer. </para>
+<para>
+Definition at line 711 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a8df9d41740502f16e867061d9bc0c585"/>    <section>
+    <title>th</title>
+<indexterm><primary>th</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>th</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> th</computeroutput></para>
+<para>Transaction open handle. </para>
+<para>
+Definition at line 699 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1ac11b05f1987a9e2131617855453d1bb1"/>    <section>
+    <title>type</title>
+<indexterm><primary>type</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>type</secondary></indexterm>
+<para><computeroutput><link linkend="_group___object_1gab06c379248eb344585279218839d165a">daos_iod_type_t</link> type</computeroutput></para>
+<para>type of value. </para>
+<para>
+Definition at line 713 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__obj__list__t_1a54f908cf4722e1872884f4a2567be290"/>    <section>
+    <title>versions</title>
+<indexterm><primary>versions</primary><secondary>daos_obj_list_t</secondary></indexterm>
+<indexterm><primary>daos_obj_list_t</primary><secondary>versions</secondary></indexterm>
+<para><computeroutput>uint32_t* versions</computeroutput></para>
+<para>versions. </para>
+<para>
+Definition at line 730 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__pool__info__t">
+<title>daos_pool_info_t Struct Reference</title>
+<indexterm><primary>daos_pool_info_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_pool.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uuid_t <link linkend="_structdaos__pool__info__t_1a59e54b9261b587cedd76f8f79c313f34">pi_uuid</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__pool__info__t_1afc7f611bcdcf18ba183c009e472f4ebc">pi_ntargets</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__pool__info__t_1a0cdbd513abacc6447da6a0556f4a423a">pi_nnodes</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__pool__info__t_1ae922e563f62764a70663fe1ad1e47861">pi_ndisabled</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__pool__info__t_1a67ee77d992f0f2be597eaa73739a44eb">pi_map_ver</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__pool__info__t_1a4ced6f2dbd149346d3b6bac2d46d9688">pi_leader</link></para>
+</listitem>
+            <listitem><para>uint64_t <link linkend="_structdaos__pool__info__t_1a7e2d4a6399f6a6c0173dffc941ea01f1">pi_bits</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__pool__space">daos_pool_space</link> <link linkend="_structdaos__pool__info__t_1a52a790f75a9c4d388c635d02ca7e516d">pi_space</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__rebuild__status">daos_rebuild_status</link> <link linkend="_structdaos__pool__info__t_1ab2cf5c5b165c32250af2f3e60b0074dc">pi_rebuild_st</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Storage pool </para>
+<para>
+Definition at line 143 of file daos_pool.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__pool__info__t_1a7e2d4a6399f6a6c0173dffc941ea01f1"/>    <section>
+    <title>pi_bits</title>
+<indexterm><primary>pi_bits</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_bits</secondary></indexterm>
+<para><computeroutput>uint64_t pi_bits</computeroutput></para>
+<para>pool info bits, see daos_pool_info_bit </para>
+<para>
+Definition at line 157 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1a4ced6f2dbd149346d3b6bac2d46d9688"/>    <section>
+    <title>pi_leader</title>
+<indexterm><primary>pi_leader</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_leader</secondary></indexterm>
+<para><computeroutput>uint32_t pi_leader</computeroutput></para>
+<para>current raft leader </para>
+<para>
+Definition at line 155 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1a67ee77d992f0f2be597eaa73739a44eb"/>    <section>
+    <title>pi_map_ver</title>
+<indexterm><primary>pi_map_ver</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_map_ver</secondary></indexterm>
+<para><computeroutput>uint32_t pi_map_ver</computeroutput></para>
+<para>Latest pool map version </para>
+<para>
+Definition at line 153 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1ae922e563f62764a70663fe1ad1e47861"/>    <section>
+    <title>pi_ndisabled</title>
+<indexterm><primary>pi_ndisabled</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_ndisabled</secondary></indexterm>
+<para><computeroutput>uint32_t pi_ndisabled</computeroutput></para>
+<para>Number of deactivated targets </para>
+<para>
+Definition at line 151 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1a0cdbd513abacc6447da6a0556f4a423a"/>    <section>
+    <title>pi_nnodes</title>
+<indexterm><primary>pi_nnodes</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_nnodes</secondary></indexterm>
+<para><computeroutput>uint32_t pi_nnodes</computeroutput></para>
+<para>Number of nodes </para>
+<para>
+Definition at line 149 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1afc7f611bcdcf18ba183c009e472f4ebc"/>    <section>
+    <title>pi_ntargets</title>
+<indexterm><primary>pi_ntargets</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_ntargets</secondary></indexterm>
+<para><computeroutput>uint32_t pi_ntargets</computeroutput></para>
+<para>Number of targets </para>
+<para>
+Definition at line 147 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1ab2cf5c5b165c32250af2f3e60b0074dc"/>    <section>
+    <title>pi_rebuild_st</title>
+<indexterm><primary>pi_rebuild_st</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_rebuild_st</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__rebuild__status">daos_rebuild_status</link> pi_rebuild_st</computeroutput></para>
+<para>rebuild status </para>
+<para>
+Definition at line 161 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1a52a790f75a9c4d388c635d02ca7e516d"/>    <section>
+    <title>pi_space</title>
+<indexterm><primary>pi_space</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_space</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__pool__space">daos_pool_space</link> pi_space</computeroutput></para>
+<para>Space usage </para>
+<para>
+Definition at line 159 of file daos_pool.h.</para>
+    </section><anchor xml:id="_structdaos__pool__info__t_1a59e54b9261b587cedd76f8f79c313f34"/>    <section>
+    <title>pi_uuid</title>
+<indexterm><primary>pi_uuid</primary><secondary>daos_pool_info_t</secondary></indexterm>
+<indexterm><primary>daos_pool_info_t</primary><secondary>pi_uuid</secondary></indexterm>
+<para><computeroutput>uuid_t pi_uuid</computeroutput></para>
+<para>Pool UUID </para>
+<para>
+Definition at line 145 of file daos_pool.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_pool.h</section>
+</section>

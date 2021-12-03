@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__kv__destroy__t">
+<title>daos_kv_destroy_t Struct Reference</title>
+<indexterm><primary>daos_kv_destroy_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__kv__destroy__t_1aef20019954d183ed757cd90ac3288242">oh</link></para>
+</listitem>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__kv__destroy__t_1a8df9d41740502f16e867061d9bc0c585">th</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>KV destroy args </para>
+<para>
+Definition at line 900 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__kv__destroy__t_1aef20019954d183ed757cd90ac3288242"/>    <section>
+    <title>oh</title>
+<indexterm><primary>oh</primary><secondary>daos_kv_destroy_t</secondary></indexterm>
+<indexterm><primary>daos_kv_destroy_t</primary><secondary>oh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> oh</computeroutput></para>
+<para>KV open handle. </para>
+<para>
+Definition at line 902 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__kv__destroy__t_1a8df9d41740502f16e867061d9bc0c585"/>    <section>
+    <title>th</title>
+<indexterm><primary>th</primary><secondary>daos_kv_destroy_t</secondary></indexterm>
+<indexterm><primary>daos_kv_destroy_t</primary><secondary>th</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> th</computeroutput></para>
+<para>Transaction open handle. </para>
+<para>
+Definition at line 904 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>

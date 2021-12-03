@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__oclass__list">
+<title>daos_oclass_list Struct Reference</title>
+<indexterm><primary>daos_oclass_list</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_obj_class.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>uint32_t <link linkend="_structdaos__oclass__list_1a07b1e513e7b205f6fe1a3439604da2c2">cl_nr</link></para>
+</listitem>
+            <listitem><para>uint32_t <link linkend="_structdaos__oclass__list_1a6e14bb7ae93ef111f956cda8200a6c06">cl_nr_out</link></para>
+</listitem>
+            <listitem><para><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link> * <link linkend="_structdaos__oclass__list_1a7b46f661d8c0721149e5e7e9f12db845">cl_cids</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structdaos__oclass__attr">daos_oclass_attr</link> * <link linkend="_structdaos__oclass__list_1a308c28b277e3fdffadc2a423425fb1d1">cl_cattrs</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>List of object classes, used for class enumeration </para>
+<para>
+Definition at line 598 of file daos_obj_class.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__oclass__list_1a308c28b277e3fdffadc2a423425fb1d1"/>    <section>
+    <title>cl_cattrs</title>
+<indexterm><primary>cl_cattrs</primary><secondary>daos_oclass_list</secondary></indexterm>
+<indexterm><primary>daos_oclass_list</primary><secondary>cl_cattrs</secondary></indexterm>
+<para><computeroutput>struct <link linkend="_structdaos__oclass__attr">daos_oclass_attr</link>* cl_cattrs</computeroutput></para>
+<para>Attributes of each listed class, optional </para>
+<para>
+Definition at line 606 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__list_1a7b46f661d8c0721149e5e7e9f12db845"/>    <section>
+    <title>cl_cids</title>
+<indexterm><primary>cl_cids</primary><secondary>daos_oclass_list</secondary></indexterm>
+<indexterm><primary>daos_oclass_list</primary><secondary>cl_cids</secondary></indexterm>
+<para><computeroutput><link linkend="_group___obj_class_1ga697f542a81cf2b46e3642a31ad289728">daos_oclass_id_t</link>* cl_cids</computeroutput></para>
+<para>Actual list of class IDs </para>
+<para>
+Definition at line 604 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__list_1a07b1e513e7b205f6fe1a3439604da2c2"/>    <section>
+    <title>cl_nr</title>
+<indexterm><primary>cl_nr</primary><secondary>daos_oclass_list</secondary></indexterm>
+<indexterm><primary>daos_oclass_list</primary><secondary>cl_nr</secondary></indexterm>
+<para><computeroutput>uint32_t cl_nr</computeroutput></para>
+<para>List length, actual buffer size </para>
+<para>
+Definition at line 600 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__list_1a6e14bb7ae93ef111f956cda8200a6c06"/>    <section>
+    <title>cl_nr_out</title>
+<indexterm><primary>cl_nr_out</primary><secondary>daos_oclass_list</secondary></indexterm>
+<indexterm><primary>daos_oclass_list</primary><secondary>cl_nr_out</secondary></indexterm>
+<para><computeroutput>uint32_t cl_nr_out</computeroutput></para>
+<para>List length, returned buffer size </para>
+<para>
+Definition at line 602 of file daos_obj_class.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_obj_class.h</section>
+</section>

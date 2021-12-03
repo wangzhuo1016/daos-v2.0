@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__oclass__attr">
+<title>daos_oclass_attr Struct Reference</title>
+<indexterm><primary>daos_oclass_attr</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_obj_class.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_group___obj_class_1gac58a276a9d26cdd8aaeacf7fe8efb5ad">daos_obj_schema</link> <link linkend="_structdaos__oclass__attr_1a1787c3ebe216f351cc5e5657df4ed314">ca_schema</link></para>
+</listitem>
+            <listitem><para>enum <link linkend="_group___obj_class_1gaca42b0245376dc966f212d5fb3763760">daos_obj_resil</link> <link linkend="_structdaos__oclass__attr_1a5c04728f0f26559cbbd6e6f451875e36">ca_resil</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structdaos__oclass__attr_1a6912a44f91a6a741f46917baa388108a">ca_resil_degree</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structdaos__oclass__attr_1a17e6e44a36d3526b3d40c17410603e8c">ca_grp_nr</link></para>
+</listitem>
+            <listitem><para><anchor xml:id="_structdaos__oclass__attr_1a89d1859a797591e7d2bcd9bb5be4c8d9"/>union {</para>
+        <itemizedlist>
+            <listitem><para>   struct <emphasis role="strong">daos_rp_attr</emphasis> {</para>
+        <itemizedlist>
+            <listitem><para>      unsigned int <link linkend="_structdaos__oclass__attr_1aea8e66a3714bc82fb0ad724c71467285">r_proto</link></para>
+</listitem>
+            <listitem><para>      unsigned int <link linkend="_structdaos__oclass__attr_1a2596b44c5152c9a7a4005a43886b0590">r_num</link></para>
+</listitem>
+        </itemizedlist>
+</listitem>
+            <listitem><para>   } <emphasis role="strong">rp</emphasis></para>
+</listitem>
+            <listitem><para>   struct <emphasis role="strong">daos_ec_attr</emphasis> {</para>
+        <itemizedlist>
+            <listitem><para>      unsigned short <link linkend="_structdaos__oclass__attr_1a5cc770c0b4ba4f4dc8a01d554984aca2">e_k</link></para>
+</listitem>
+            <listitem><para>      unsigned short <link linkend="_structdaos__oclass__attr_1a270236fe33067544b3302be503bb44df">e_p</link></para>
+</listitem>
+            <listitem><para>      unsigned int <link linkend="_structdaos__oclass__attr_1ad2bee4b5d002a0caa45e354df58aacfa">e_len</link></para>
+</listitem>
+        </itemizedlist>
+</listitem>
+            <listitem><para>   } <emphasis role="strong">ec</emphasis></para>
+</listitem>
+        </itemizedlist>
+</listitem>
+            <listitem><para>} <emphasis role="strong">u</emphasis></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Object class attributes </para>
+<para>
+Definition at line 559 of file daos_obj_class.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__oclass__attr_1a17e6e44a36d3526b3d40c17410603e8c"/>    <section>
+    <title>ca_grp_nr</title>
+<indexterm><primary>ca_grp_nr</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>ca_grp_nr</secondary></indexterm>
+<para><computeroutput>unsigned int ca_grp_nr</computeroutput></para>
+<para>Initial # redundancy group, unnecessary for some schemas </para>
+<para>
+Definition at line 567 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a5c04728f0f26559cbbd6e6f451875e36"/>    <section>
+    <title>ca_resil</title>
+<indexterm><primary>ca_resil</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>ca_resil</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___obj_class_1gaca42b0245376dc966f212d5fb3763760">daos_obj_resil</link> ca_resil</computeroutput></para>
+<para>Resilience method, replication or erasure code </para>
+<para>
+Definition at line 563 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a6912a44f91a6a741f46917baa388108a"/>    <section>
+    <title>ca_resil_degree</title>
+<indexterm><primary>ca_resil_degree</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>ca_resil_degree</secondary></indexterm>
+<para><computeroutput>unsigned int ca_resil_degree</computeroutput></para>
+<para>reserved </para>
+<para>
+Definition at line 565 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a1787c3ebe216f351cc5e5657df4ed314"/>    <section>
+    <title>ca_schema</title>
+<indexterm><primary>ca_schema</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>ca_schema</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_group___obj_class_1gac58a276a9d26cdd8aaeacf7fe8efb5ad">daos_obj_schema</link> ca_schema</computeroutput></para>
+<para>reserved: object placement schema, used by placement algorithm </para>
+<para>
+Definition at line 561 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a5cc770c0b4ba4f4dc8a01d554984aca2"/>    <section>
+    <title>e_k</title>
+<indexterm><primary>e_k</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>e_k</secondary></indexterm>
+<para><computeroutput>unsigned short e_k</computeroutput></para>
+<para>number of data cells (k) </para>
+<para>
+Definition at line 580 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1ad2bee4b5d002a0caa45e354df58aacfa"/>    <section>
+    <title>e_len</title>
+<indexterm><primary>e_len</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>e_len</secondary></indexterm>
+<para><computeroutput>unsigned int e_len</computeroutput></para>
+<para>length of each block of data (cell) </para>
+<para>
+Definition at line 584 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a270236fe33067544b3302be503bb44df"/>    <section>
+    <title>e_p</title>
+<indexterm><primary>e_p</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>e_p</secondary></indexterm>
+<para><computeroutput>unsigned short e_p</computeroutput></para>
+<para>number of parity cells (p) </para>
+<para>
+Definition at line 582 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1a2596b44c5152c9a7a4005a43886b0590"/>    <section>
+    <title>r_num</title>
+<indexterm><primary>r_num</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>r_num</secondary></indexterm>
+<para><computeroutput>unsigned int r_num</computeroutput></para>
+<para>Number of replicas </para>
+<para>
+Definition at line 574 of file daos_obj_class.h.</para>
+    </section><anchor xml:id="_structdaos__oclass__attr_1aea8e66a3714bc82fb0ad724c71467285"/>    <section>
+    <title>r_proto</title>
+<indexterm><primary>r_proto</primary><secondary>daos_oclass_attr</secondary></indexterm>
+<indexterm><primary>daos_oclass_attr</primary><secondary>r_proto</secondary></indexterm>
+<para><computeroutput>unsigned int r_proto</computeroutput></para>
+<para>Protocol of replicating, reserved </para>
+<para>
+Definition at line 572 of file daos_obj_class.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_obj_class.h</section>
+</section>

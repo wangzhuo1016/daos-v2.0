@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structdaos__pool__get__attr__t">
+<title>daos_pool_get_attr_t Struct Reference</title>
+<indexterm><primary>daos_pool_get_attr_t</primary></indexterm>
+<para>
+<computeroutput>#include &lt;daos_task.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Data Fields    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structdaos__handle__t">daos_handle_t</link> <link linkend="_structdaos__pool__get__attr__t_1af65e0a5ef9986001524f96e09ae666a3">poh</link></para>
+</listitem>
+            <listitem><para>int <link linkend="_structdaos__pool__get__attr__t_1a76f11d9a0a47b94f72c2d0e77fb32240">n</link></para>
+</listitem>
+            <listitem><para>const char *const * <link linkend="_structdaos__pool__get__attr__t_1a3e21e2c9e75716907b2090ca8fda0a60">names</link></para>
+</listitem>
+            <listitem><para>void *const * <link linkend="_structdaos__pool__get__attr__t_1ac31e63060224a2873fe54edf02b58c2a">values</link></para>
+</listitem>
+            <listitem><para>size_t * <link linkend="_structdaos__pool__get__attr__t_1a400fb89b01337e8e824c465ff6fed3c5">sizes</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>pool get attributes args </para>
+<para>
+Definition at line 223 of file daos_task.h.</para>
+</section>
+<section>
+<title>Field Documentation</title>
+<anchor xml:id="_structdaos__pool__get__attr__t_1a76f11d9a0a47b94f72c2d0e77fb32240"/>    <section>
+    <title>n</title>
+<indexterm><primary>n</primary><secondary>daos_pool_get_attr_t</secondary></indexterm>
+<indexterm><primary>daos_pool_get_attr_t</primary><secondary>n</secondary></indexterm>
+<para><computeroutput>int n</computeroutput></para>
+<para>Number of attributes. </para>
+<para>
+Definition at line 227 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__get__attr__t_1a3e21e2c9e75716907b2090ca8fda0a60"/>    <section>
+    <title>names</title>
+<indexterm><primary>names</primary><secondary>daos_pool_get_attr_t</secondary></indexterm>
+<indexterm><primary>daos_pool_get_attr_t</primary><secondary>names</secondary></indexterm>
+<para><computeroutput>const char* const * names</computeroutput></para>
+<para>Array of <emphasis>n</emphasis> null-terminated attribute names. </para>
+<para>
+Definition at line 229 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__get__attr__t_1af65e0a5ef9986001524f96e09ae666a3"/>    <section>
+    <title>poh</title>
+<indexterm><primary>poh</primary><secondary>daos_pool_get_attr_t</secondary></indexterm>
+<indexterm><primary>daos_pool_get_attr_t</primary><secondary>poh</secondary></indexterm>
+<para><computeroutput><link linkend="_structdaos__handle__t">daos_handle_t</link> poh</computeroutput></para>
+<para>Pool open handle. </para>
+<para>
+Definition at line 225 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__get__attr__t_1a400fb89b01337e8e824c465ff6fed3c5"/>    <section>
+    <title>sizes</title>
+<indexterm><primary>sizes</primary><secondary>daos_pool_get_attr_t</secondary></indexterm>
+<indexterm><primary>daos_pool_get_attr_t</primary><secondary>sizes</secondary></indexterm>
+<para><computeroutput>size_t* sizes</computeroutput></para>
+<para>[in]: Array of <emphasis>n</emphasis> buf sizes. [out]: Array of actual sizes. </para>
+<para>
+Definition at line 233 of file daos_task.h.</para>
+    </section><anchor xml:id="_structdaos__pool__get__attr__t_1ac31e63060224a2873fe54edf02b58c2a"/>    <section>
+    <title>values</title>
+<indexterm><primary>values</primary><secondary>daos_pool_get_attr_t</secondary></indexterm>
+<indexterm><primary>daos_pool_get_attr_t</primary><secondary>values</secondary></indexterm>
+<para><computeroutput>void* const * values</computeroutput></para>
+<para>Array of <emphasis>n</emphasis> buffers to store attribute values. </para>
+<para>
+Definition at line 231 of file daos_task.h.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+src/include/daos_task.h</section>
+</section>
