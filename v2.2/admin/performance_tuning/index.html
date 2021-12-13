@@ -1,0 +1,1832 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Distributed Asynchronous Object Storage">
+      
+      
+      
+        <meta name="author" content="DAOS Project">
+      
+      
+      <link rel="icon" href="../../daos_logo_wh.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Performance Tuning - DAOS v2.2 - dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#02a6f2">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Ubuntu";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#daos-performance-tuning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="http://daos.io" title="DAOS v2.2 - dev" class="md-header__button md-logo" aria-label="DAOS v2.2 - dev" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DAOS v2.2 - dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Performance Tuning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Intro
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../overview/architecture/" class="md-tabs__link">
+        Overview
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../QSG/setup/" class="md-tabs__link">
+        Installation and Setup
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../hardware/" class="md-tabs__link md-tabs__link--active">
+        Administration Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/autotest/" class="md-tabs__link">
+        Test and Benchmarking
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../user/workflow/" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../release/release_notes_v2_2/" class="md-tabs__link">
+        Releases
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../dev/development/" class="md-tabs__link">
+        Developer Zone
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://daos.io" title="DAOS v2.2 - dev" class="md-nav__button md-logo" aria-label="DAOS v2.2 - dev" data-md-component="logo">
+      
+  <img src="../../daos_logo_wh.png" alt="logo">
+
+    </a>
+    DAOS v2.2 - dev
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/daos-stack/daos/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daos-stack/daos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        Intro
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to DAOS!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io" class="md-nav__link">
+        Community Wiki
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Community Roadmap
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://daos.groups.io/g/daos" class="md-nav__link">
+        Community Mailing list
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://jira.daos.io" class="md-nav__link">
+        Issue tracker
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/storage/" class="md-nav__link">
+        Storage Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/transaction/" class="md-nav__link">
+        Transaction Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/data_integrity/" class="md-nav__link">
+        Data Integrity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/fault/" class="md-nav__link">
+        Fault Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/security/" class="md-nav__link">
+        Security Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/use_cases/" class="md-nav__link">
+        Use Cases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Installation and Setup
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Installation and Setup" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Installation and Setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/setup/" class="md-nav__link">
+        CentOS
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/suse_setup/" class="md-nav__link">
+        openSUSE
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/scratch/" class="md-nav__link">
+        Build from Scratch
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        Administration Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Administration Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Administration Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Software Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predeployment_check/" class="md-nav__link">
+        Pre-deployment Checklist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        System Deployment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/" class="md-nav__link">
+        System Administration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pool_operations/" class="md-nav__link">
+        Pool Operations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tiering_uns/" class="md-nav__link">
+        Tiering and Unified Namespace
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Performance Tuning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Performance Tuning
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#network-performance" class="md-nav__link">
+    Network Performance
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-cart-self_test" class="md-nav__link">
+    Building CaRT self_test
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-cart-self_test" class="md-nav__link">
+    Running CaRT self_test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarking-daos" class="md-nav__link">
+    Benchmarking DAOS
+  </a>
+  
+    <nav class="md-nav" aria-label="Benchmarking DAOS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ior" class="md-nav__link">
+    ior
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mdtest" class="md-nav__link">
+    mdtest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fio" class="md-nav__link">
+    FIO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daos_perf-vos_perf" class="md-nav__link">
+    daos_perf &amp; vos_perf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-performance-tuning" class="md-nav__link">
+    Client Performance Tuning
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities_examples/" class="md-nav__link">
+        Utilities and Usage Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        Environment Variables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/dmg_tool/" class="md-nav__link">
+        Management (DMG) Tool Reference
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Test and Benchmarking
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Test and Benchmarking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Test and Benchmarking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/autotest/" class="md-nav__link">
+        Run DAOS Autotest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cartselftest/" class="md-nav__link">
+        Run CaRT Self_test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/ior/" class="md-nav__link">
+        Run IOR and mdtest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/dbench/" class="md-nav__link">
+        Run dbench
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/datamover/" class="md-nav__link">
+        Run Datamover test
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4873388103/DAOS+IO-500+Instructions" class="md-nav__link">
+        Run IO500
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/workflow/" class="md-nav__link">
+        Workflow
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/container/" class="md-nav__link">
+        Container Management
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/filesystem/" class="md-nav__link">
+        File System
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/mpi-io/" class="md-nav__link">
+        MPI-IO Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/hdf5/" class="md-nav__link">
+        HDF5 Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/python/" class="md-nav__link">
+        Python Support
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/spark/" class="md-nav__link">
+        Spark and Hadoop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/datamover/" class="md-nav__link">
+        Data Mover
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/interface/" class="md-nav__link">
+        Native Programming Interface
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QSG/daos_tool/" class="md-nav__link">
+        DAOS Tool Reference
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/release_notes_v2_2/" class="md-nav__link">
+        Release Notes v2.2
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/support_matrix/" class="md-nav__link">
+        Support Matrix
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http://wiki.daos.io/spaces/DC/pages/4836661105/Roadmap" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        Developer Zone
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Developer Zone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Zone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/development/" class="md-nav__link">
+        Dev Environment
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/daos-stack/daos/blob/master/src/README.md" class="md-nav__link">
+        DAOS Internals
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/index.html" class="md-nav__link">
+        DAOS API Documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daos-stack/daos/edit/master/docs/admin/performance_tuning.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="daos-performance-tuning">DAOS Performance Tuning<a class="headerlink" href="#daos-performance-tuning" title="Permanent link">&para;</a></h1>
+<h2 id="network-performance">Network Performance<a class="headerlink" href="#network-performance" title="Permanent link">&para;</a></h2>
+<p>The DAOS <a href="/src/cart" title="Collective and RPC Transport">CaRT</a> layer can validate and benchmark network communications in
+the same context as an application and using the same networks/tuning options
+as regular DAOS.</p>
+<p>The CaRT <code>self_test</code> can run against the DAOS servers in a production environment
+in a non-destructive manner. CaRT <code>self_test</code> supports different message sizes,
+bulk transfers, multiple targets, and the following test scenarios:</p>
+<ul>
+<li>
+<p><strong>Selftest client to servers</strong> - where <code>self_test</code> issues RPCs directly
+    to a list of servers.</p>
+</li>
+<li>
+<p><strong>Cross-servers</strong> - where <code>self_test</code> sends instructions to the different
+    servers that will issue cross-server RPCs. This model supports a
+    many to many communication model.</p>
+</li>
+</ul>
+<h3 id="building-cart-self_test">Building CaRT self_test<a class="headerlink" href="#building-cart-self_test" title="Permanent link">&para;</a></h3>
+<p>The CaRT <code>self_test</code> and its tests are delivered as part of the daos_client
+and daos_tests <a href="/docs/admin/installation.md#distribution-packages" title="DAOS distribution packages">distribution packages</a>. It can also be built from scratch.</p>
+<pre><code class="bash">$ git clone --recurse-submodules https://github.com/daos-stack/daos.git
+$ cd daos
+$ scons --build-deps=yes install
+$ cd install
+</code></pre>
+
+<p>For detailed information, please refer to the <a href="/docs/admin/installation.md#building-daos--dependencies" title="DAOS build documentation">DAOS build documentation</a>
+section.</p>
+<h3 id="running-cart-self_test">Running CaRT self_test<a class="headerlink" href="#running-cart-self_test" title="Permanent link">&para;</a></h3>
+<p>Instructions to run CaRT <code>self_test</code> are as follows.</p>
+<p><strong>Start DAOS server</strong></p>
+<p><code>self_test</code> requires DAOS server to be running before attempt running
+<code>self_test</code>. For detailed instruction on how to start DAOS server, please refer
+to the <a href="/docs/admin/deployment.md#server-startup" title="DAOS server startup documentation">server startup</a> documentation.</p>
+<p><strong>Dump system attachinfo</strong></p>
+<p><code>self_test</code> will use the address information in <code>daos_server.attach_info_tmp</code>
+file. To create such file, run the following command:</p>
+<pre><code class="bash">./bin/daos_agent dump-attachinfo -o ./daos_server.attach_info_tmp
+</code></pre>
+
+<p><strong>Prepare hostfile</strong></p>
+<p>The list of nodes from which <code>self_test</code> will run can be specified in a
+hostfile (referred to as ${hostfile}). Hostfile used here is the same as the
+ones used by OpenMPI. For additional details, please refer to the
+<a href="https://www.open-mpi.org/faq/?category=running#mpirun-hostfile" title="mpirun hostfile">mpirun documentation</a>.</p>
+<p><strong>Run CaRT self_test</strong></p>
+<p>The example below uses an Ethernet interface and Sockets provider.
+In the <code>self_test</code> commands:</p>
+<ul>
+<li>
+<p><strong>Selftest client to servers</strong> - Replace the argument for <code>--endpoint</code>
+    accordingly.</p>
+</li>
+<li>
+<p><strong>Cross-servers</strong> - Replace the argument for <code>--endpoint</code> and
+    <code>--master-endpoint</code> accordingly.</p>
+</li>
+</ul>
+<p>For example, if you have 8 servers, you would specify <code>--endpoint 0-7:0</code> and
+<code>--master-endpoint 0-7:0</code></p>
+<p>The commands below will run <code>self_test</code> benchmark using the following message sizes:</p>
+<pre><code class="bash">b1048576     1Mb bulk transfer Get and Put
+b1048576 0   1Mb bulk transfer Get only
+0 b1048576   1Mb bulk transfer Put only
+I2048        2Kb iovec Input and Output
+i2048 0      2Kb iovec Input only
+0 i2048      2Kb iovec Output only
+</code></pre>
+
+<p>For a full description of <code>self_test</code> usage, run:</p>
+<pre><code class="bash">$ ./bin/self_test --help
+</code></pre>
+
+<p><strong>To run self_test in client-to-servers mode:</strong>
+(Assuming sockets provider over eth0)</p>
+<pre><code class="bash">
+# Specify provider
+export CRT_PHY_ADDR_STR='ofi+sockets'
+
+# Specify interface
+export OFI_INTERFACE=eth0
+
+# Specify domain; usually only required when running over ofi+verbs;ofi_rxm
+# For example in such configuration OFI_DOMAIN might be set to mlx5_0
+# run fi_info --provider='verbs;ofi_rxm' in order to find an appropriate domain
+# if only specifying OFI_INTERFACE without OFI_DOMAIN, we assume we do not need one
+export OFI_DOMAIN=eth0
+
+# Export additional CART-level environment variables as described in README.env
+# if needed. For example export D_LOG_FILE=/path/to/log will allow dumping of the
+# log into the file instead of stdout/stderr
+
+$ ./bin/self_test --group-name daos_server --endpoint 0-&lt;MAX_SERVER-1&gt;:0 \
+  --message-sizes &quot;b1048576,b1048576 0,0 b1048576,i2048,i2048 0,0 i2048&quot; \
+  --max-inflight-rpcs 16 --repetitions 100 -p /path/to/attach_info
+</code></pre>
+
+<p><strong>To run self_test in cross-servers mode:</strong></p>
+<pre><code class="bash">
+$ ./bin/self_test --group-name daos_server --endpoint 0-&lt;MAX_SERVER-1&gt;:0 \
+  --master-endpoint 0-&lt;MAX_SERVER-1&gt;:0 \
+  --message-sizes &quot;b1048576,b1048576 0,0 b1048576,i2048,i2048 0,0 i2048&quot; \
+  --max-inflight-rpcs 16 --repetitions 100 -p /path/to/attach_info
+</code></pre>
+
+<p>Note:
+Number of repetitions, max inflight rpcs, message sizes can be adjusted based on the
+particular test/experiment.</p>
+<h2 id="benchmarking-daos">Benchmarking DAOS<a class="headerlink" href="#benchmarking-daos" title="Permanent link">&para;</a></h2>
+<p>DAOS can be benchmarked using several widely used IO benchmarks like IOR,
+mdtest, and FIO. There are several backends that can be used with those
+benchmarks.</p>
+<h3 id="ior">ior<a class="headerlink" href="#ior" title="Permanent link">&para;</a></h3>
+<p>IOR (<a href="https://github.com/hpc/ior">https://github.com/hpc/ior</a>) with the following backends:</p>
+<ul>
+<li>
+<p>The IOR APIs POSIX, MPIIO and HDF5 can be used with DAOS POSIX containers
+    that are accessed over dfuse. This works without or with the I/O
+    interception library (<code>libioil</code>). Performance is significantly better when
+    using <code>libioil</code>. For detailed information on dfuse usage with the IO
+    interception library, please refer to the <a href="https://daos-stack.github.io/user/posix/#dfuse">POSIX DFUSE section</a>.</p>
+</li>
+<li>
+<p>A custom DFS (DAOS File System) plugin for DAOS can be used by building IOR
+    with DAOS support, and selecting API=DFS. This integrates IOR directly with the
+    DAOS File System (<code>libdfs</code>), without requiring FUSE or an interception library.
+    Please refer to the <a href="https://github.com/hpc/ior/blob/main/README_DAOS">DAOS README</a> in the hpc/ior repository for some basic
+    instructions on how to use the DFS driver.</p>
+</li>
+<li>
+<p>When using the IOR API=MPIIO, the ROMIO ADIO driver for DAOS can be used by
+    providing the <code>daos://</code> prefix to the filename. This ADIO driver bypasses <code>dfuse</code>
+    and directly invkes the <code>libdfs</code> calls to perform I/O to a DAOS POSIX container.
+    The DAOS-enabled MPIIO driver is available in the upstream MPICH repository and
+    included with Intel MPI. Please refer to the <a href="/docs/user/mpi-io.md">MPI-IO documentation</a>.</p>
+</li>
+<li>
+<p>An HDF5 VOL connector for DAOS is under development. This maps the HDF5 data model
+    directly to the DAOS data model, and works in conjunction with DAOS containers of
+    <code>--type=HDF5</code> (in contrast to DAOS container of <code>--type=POSIX</code> that are used for
+    the other IOR APIs). Please refer the the <a href="/docs/user/hdf5.md">HDF5 with DAOS documentation</a>.</p>
+</li>
+</ul>
+<p>IOR has several parameters to characterize performance. The main parameters to
+work with include:
+- transfer size (-t)
+- block size (-b)
+- segment size (-s)</p>
+<p>For more use cases, the IO-500 workloads are a good starting point to measure
+performance on a system: https://github.com/IO500/io500</p>
+<h3 id="mdtest">mdtest<a class="headerlink" href="#mdtest" title="Permanent link">&para;</a></h3>
+<p>mdtest is released in the same repository as IOR. The corresponding backends
+that are listed above support mdtest, except for the MPI-IO and HDF5 backends
+that were only designed to support IOR. The <a href="https://github.com/hpc/ior/blob/main/README_DAOS">DAOS README</a> in the hpc/ior
+repository includes some examples to run mdtest with DAOS.</p>
+<p>The IO-500 workloads for mdtest provide some good criteria for performance
+measurements.</p>
+<h3 id="fio">FIO<a class="headerlink" href="#fio" title="Permanent link">&para;</a></h3>
+<p>A DAOS engine is integrated into FIO and available upstream.
+To build it, just run:</p>
+<pre><code class="bash">$ git clone http://git.kernel.dk/fio.git
+$ cd fio
+$ ./configure
+$ make install
+</code></pre>
+
+<p>If DAOS is installed via packages, it should be automatically detected.
+If not, please specific the path to the DAOS library and headers to configure
+as follows:</p>
+<pre><code>$ CFLAGS=&quot;-I/path/to/daos/install/include&quot; LDFLAGS=&quot;-L/path/to/daos/install/lib64&quot; ./configure
+</code></pre>
+
+<p>Once successfully build, once can run the default example:</p>
+<pre><code class="bash">$ export POOL= # your pool UUID
+$ export CONT= # your container UUID
+$ fio ./examples/dfs.fio
+</code></pre>
+
+<p>Please note that DAOS does not transfer data (i.e. zeros) over the network
+when reading a hole in a sparse POSIX file. Very high read bandwidth can
+thus be reported if fio reads unallocated extents in a file. It is thus
+a good practice to start fio with a first write phase.</p>
+<p>FIO can also be used to benchmark DAOS performance using dfuse and the
+interception library with all the POSIX based engines like sync and libaio.</p>
+<h3 id="daos_perf-vos_perf">daos_perf &amp; vos_perf<a class="headerlink" href="#daos_perf-vos_perf" title="Permanent link">&para;</a></h3>
+<p>Finally, DAOS provides a tool called <code>daos_perf</code> which allows benchmarking to the
+DAOS object API directly and a tool called 'vos_perf' to benchmark the internal
+VOS API, which bypasses the client and network stack and reports performance
+accessing the storage directly using VOS. For a full description of <code>daos_perf</code> or
+<code>vos_perf</code> usage, run:</p>
+<pre><code class="bash">$ daos_perf --help
+</code></pre>
+
+<pre><code class="bash">$ vos_perf --help
+</code></pre>
+
+<p>The <code>-R</code> option is used to define the operation to be performanced:</p>
+<ul>
+<li><code>U</code> for <code>update</code> (i.e. write) operation</li>
+<li><code>F</code> for <code>fetch</code> (i.e. read) operation</li>
+<li><code>P</code> for <code>punch</code> (i.e. truncate) operation</li>
+<li><code>p</code> to display the performance result for the previous operation.</li>
+</ul>
+<p>For instance, -R "U;p F;P" means update the keys, print the update rate/bandwidth,
+fetch the keys and then print the fetch rate/bandwidth. The number of
+object/dkey/akey/value can be passed via respectively the -o, -d, -a and -n
+options. The value size is specified via the -s parameter (e.g. -s 4K for 4K
+value).</p>
+<p>For instance, to measure rate for 10M update &amp; fetch operation in VOS mode,
+mount the pmem device and then run:</p>
+<pre><code class="bash">$ cd /mnt/daos0
+$ df .
+Filesystem      1K-blocks  Used  Available Use% Mounted on
+/dev/pmem0     4185374720 49152 4118216704   1% /mnt/daos0
+$ taskset -c 1 vos_perf -f ./vos -P 100G -d 10000000 -a 1 -n 1 -s 4K -z -R &quot;U;p F;p&quot;
+Test :
+        VOS (storage only)
+Pool :
+        a3b7ff28-56ff-4974-9283-62990dd770ad
+Parameters :
+        pool size     : SCM: 102400 MB, NVMe: 0 MB
+        credits       : -1 (sync I/O for -ve)
+        obj_per_cont  : 1 x 1 (procs)
+        dkey_per_obj  : 10000000 (buf)
+        akey_per_dkey : 1
+        recx_per_akey : 1
+        value type    : single
+        stride size   : 4096
+        zero copy     : yes
+        VOS file      : ./vos0
+Running test=UPDATE
+Running UPDATE test (iteration=1)
+UPDATE successfully completed:
+        duration  : 124.478568 sec
+        bandwidth : 313.809    MB/sec
+        rate      : 80335.11   IO/sec
+        latency   : 12.448     us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 124.478568 sec
+        MIN duration : 124.478568 sec
+        Average duration : 124.478568 sec
+Completed test=UPDATE
+Running test=FETCH
+Running FETCH test (iteration=1)
+FETCH successfully completed:
+        duration  : 23.884087  sec
+        bandwidth : 1635.503   MB/sec
+        rate      : 418688.81  IO/sec
+        latency   : 2.388      us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 23.884087  sec
+        MIN duration : 23.884087  sec
+        Average duration : 23.884087  sec
+</code></pre>
+
+<p>Taskset is used to change the CPU affinity of the daos_perf process.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Performance of persistent memory may be impacted by NUMA affinity. It is
+thus recommended to set the affinity of daos_perf to a CPU core locally
+attached to the persistent memory device.</p>
+</div>
+<p>The same test can be performed on the 2nd pmem device to compare the
+performance.</p>
+<pre><code>$ cd /mnt/daos1/
+$ df .
+Filesystem      1K-blocks   Used  Available Use% Mounted on
+/dev/pmem1     4185374720 262144 4118003712   1% /mnt/daos1
+$ taskset -c 36 vos_perf -f ./vos -P 100G -d 10000000 -a 1 -n 1 -s 4K -z -R &quot;U;p F;p&quot;
+Test :
+        VOS (storage only)
+Pool :
+        9d6c3fbd-a4f1-47d2-92a9-6112feb52e74
+Parameters :
+        pool size     : SCM: 102400 MB, NVMe: 0 MB
+        credits       : -1 (sync I/O for -ve)
+        obj_per_cont  : 1 x 1 (procs)
+        dkey_per_obj  : 10000000 (buf)
+        akey_per_dkey : 1
+        recx_per_akey : 1
+        value type    : single
+        stride size   : 4096
+        zero copy     : yes
+        VOS file      : ./vos0
+Running test=UPDATE
+Running UPDATE test (iteration=1)
+UPDATE successfully completed:
+        duration  : 123.389467 sec
+        bandwidth : 316.579    MB/sec
+        rate      : 81044.19   IO/sec
+        latency   : 12.339     us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 123.389467 sec
+        MIN duration : 123.389467 sec
+        Average duration : 123.389467 sec
+Completed test=UPDATE
+Running test=FETCH
+Running FETCH test (iteration=1)
+FETCH successfully completed:
+        duration  : 24.114830  sec
+        bandwidth : 1619.854   MB/sec
+        rate      : 414682.58  IO/sec
+        latency   : 2.411      us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 24.114830  sec
+        MIN duration : 24.114830  sec
+        Average duration : 24.114830  sec
+Completed test=FETCH
+</code></pre>
+
+<p>Bandwidth can be tested by using a larger record size (i.e. -s option). For
+instance:</p>
+<pre><code>$ taskset -c 36 vos_perf -f ./vos -P 100G -d 40000 -a 1 -n 1 -s 1M -z -R &quot;U;p F;p&quot;
+Test :
+        VOS (storage only)
+Pool :
+        dc44f0dd-930e-43b1-b599-5cc141c868d9
+Parameters :
+        pool size     : SCM: 102400 MB, NVMe: 0 MB
+        credits       : -1 (sync I/O for -ve)
+        obj_per_cont  : 1 x 1 (procs)
+        dkey_per_obj  : 40000 (buf)
+        akey_per_dkey : 1
+        recx_per_akey : 1
+        value type    : single
+        stride size   : 1048576
+        zero copy     : yes
+        VOS file      : ./vos0
+Running test=UPDATE
+Running UPDATE test (iteration=1)
+UPDATE successfully completed:
+        duration  : 21.247287  sec
+        bandwidth : 1882.593   MB/sec
+        rate      : 1882.59    IO/sec
+        latency   : 531.182    us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 21.247287  sec
+        MIN duration : 21.247287  sec
+        Average duration : 21.247287  sec
+Completed test=UPDATE
+Running test=FETCH
+Running FETCH test (iteration=1)
+FETCH successfully completed:
+        duration  : 10.133850  sec
+        bandwidth : 3947.167   MB/sec
+        rate      : 3947.17    IO/sec
+        latency   : 253.346    us (nonsense if credits &gt; 1)
+Duration across processes:
+        MAX duration : 10.133850  sec
+        MIN duration : 10.133850  sec
+        Average duration : 10.133850  sec
+Completed test=FETCH
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With 3rd Gen Intel® Xeon® Scalable processors (ICX), the PMEM_NO_FLUSH
+environment variable can be set to 1 to take advantage of the extended
+asynchronous DRAM refresh (eADR) feature</p>
+</div>
+<p>In DAOS mode, daos_perf can be used as an MPI application like IOR.
+Parameters are the same, except that <code>-T daos</code> can be used to select the daos
+mode. This option can be omitted too since this is the default.</p>
+<h2 id="client-performance-tuning">Client Performance Tuning<a class="headerlink" href="#client-performance-tuning" title="Permanent link">&para;</a></h2>
+<p>For best performance, a DAOS client should specifically bind itself to a NUMA
+node instead of leaving core allocation and memory binding to chance.  This
+allows the DAOS Agent to detect the client's NUMA affinity from its PID and
+automatically assign a network interface with a matching NUMA node.  The network
+interface provided in the GetAttachInfo response is used to initialize CaRT.</p>
+<p>To override the automatically assigned interface, the client should set the
+environment variable <code>OFI_INTERFACE</code> to match the desired network
+interface.</p>
+<p>The DAOS Agent scans the client machine on the first GetAttachInfo request to
+determine the set of network interfaces available that support the DAOS Server's
+OFI provider.  This request occurs as part of the initialization sequence in the
+<code>libdaos daos_init()</code> performed by each client.</p>
+<p>Upon receipt, the Agent populates a cache of responses indexed by NUMA affinity.
+Provided a client application has bound itself to a specific NUMA node and that
+NUMA node has a network device associated with it, the DAOS Agent will provide a
+GetAttachInfo response with a network interface corresponding to the client's
+NUMA node.</p>
+<p>When more than one appropriate network interface exists per NUMA node, the agent
+uses a round-robin resource allocation scheme to load balance the responses for
+that NUMA node.</p>
+<p>If a client is bound to a NUMA node that has no matching network interface, then
+a default NUMA node is used for the purpose of selecting a response.  Provided
+that the DAOS Agent can detect any valid network device on any NUMA node, the
+default response will contain a valid network interface for the client.  When a
+default response is provided, a message in the Agent's log is emitted:</p>
+<pre><code>No network devices bound to client NUMA node X.  Using response from NUMA Y
+</code></pre>
+
+<p>To improve performance, it is worth figuring out if the client bound itself to
+the wrong NUMA node, or if expected network devices for that NUMA node are
+missing from the Agent's fabric scan.</p>
+<p>In some situations, the Agent may detect no network devices and the response
+cache will be empty.  In such a situation, the GetAttachInfo response will
+contain no interface assignment and the following info message will be found in
+the Agent's log:</p>
+<pre><code>No network devices detected in fabric scan; default AttachInfo response may be incorrect
+</code></pre>
+
+<p>In either situation, the admin may execute the command
+<code>daos_agent net-scan</code> with appropriate debug flags to gain more insight
+into the configuration problem.</p>
+<p><strong>Disabling the GetAttachInfo cache:</strong></p>
+<p>The default configuration enables the Agent GetAttachInfo cache.  If it is
+desired, the cache may be disabled prior to DAOS Agent startup by setting the
+Agent's environment variable <code>DAOS_AGENT_DISABLE_CACHE=true</code>.  The cache is
+loaded only at Agent startup. The following debug message will be found in the
+Agent's log:</p>
+<pre><code>GetAttachInfo agent caching has been disabled
+</code></pre>
+
+<p>If the network configuration changes while the Agent is running, it must be
+restarted to gain visibility to these changes. For additional information,
+please refer to the <a href="/docs/admin/deployment.md#disable-agent-cache-optional" title="System Deployment Agent Startup">System Deployment: Agent Startup</a> documentation
+section.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../tiering_uns/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tiering and Unified Namespace" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Tiering and Unified Namespace
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../troubleshooting/" class="md-footer__link md-footer__link--next" aria-label="Next: Troubleshooting" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Troubleshooting
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 Intel Corporation
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.top", "navigation.indexes", "toc.integrate", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.409db549.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>
