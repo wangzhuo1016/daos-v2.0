@@ -168,6 +168,278 @@ func TestTopology_NumCoresPerNUMA(t *testing.T) {
 	}
 }
 
+func TestHardware_Topology_AddDevice(t *testing.T) {
+	for name, tc := range map[string]struct {
+		topo      *Topology
+		numaNode  uint
+		device    *PCIDevice
+		expResult *Topology
+	}{
+		"nil topology": {
+			device: &PCIDevice{
+				Name:    "test",
+				PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+			},
+		},
+		"nil input": {
+			topo:      &Topology{},
+			expResult: &Topology{},
+		},
+		"add to empty": {
+			topo:     &Topology{},
+			numaNode: 1,
+			device: &PCIDevice{
+				Name:    "test",
+				PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					1: MockNUMANode(1, 0).WithDevices([]*PCIDevice{
+						{
+							Name:    "test",
+							PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+						},
+					}),
+				},
+			},
+		},
+		"add to existing node": {
+			topo: &Topology{
+				NUMANodes: NodeMap{
+					1: MockNUMANode(1, 6).WithDevices([]*PCIDevice{
+						{
+							Name:    "test0",
+							PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+						},
+					}),
+				},
+			},
+			numaNode: 1,
+			device: &PCIDevice{
+				Name:    "test1",
+				PCIAddr: *MustNewPCIAddress("0000:00:00.2"),
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					1: MockNUMANode(1, 6).WithDevices([]*PCIDevice{
+						{
+							Name:    "test0",
+							PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+						},
+						{
+							Name:    "test1",
+							PCIAddr: *MustNewPCIAddress("0000:00:00.2"),
+						},
+					}),
+				},
+			},
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			tc.topo.AddDevice(tc.numaNode, tc.device)
+
+			if diff := cmp.Diff(tc.expResult, tc.topo); diff != "" {
+				t.Fatalf("(-want, +got)\n%s\n", diff)
+			}
+		})
+	}
+}
+
+func TestHardware_Topology_Merge(t *testing.T) {
+	testNuma := []*NUMANode{
+		MockNUMANode(1, 4).
+			WithDevices([]*PCIDevice{
+				{
+					Name:      "test0",
+					PCIAddr:   *MustNewPCIAddress("0000:00:00.1"),
+					LinkSpeed: 60,
+				},
+			}).
+			WithCPUCores([]CPUCore{}).
+			WithPCIBuses([]*PCIBus{
+				{
+					LowAddress:  *MustNewPCIAddress("0000:00:00.0"),
+					HighAddress: *MustNewPCIAddress("0000:05:00.0"),
+				},
+			}),
+		MockNUMANode(2, 4).
+			WithDevices([]*PCIDevice{
+				{
+					Name:    "test1",
+					PCIAddr: *MustNewPCIAddress("0000:0a:00.1"),
+				},
+			}).
+			WithCPUCores([]CPUCore{}).
+			WithPCIBuses([]*PCIBus{
+				{
+					LowAddress:  *MustNewPCIAddress("0000:05:00.0"),
+					HighAddress: *MustNewPCIAddress("0000:0f:00.0"),
+				},
+			}),
+	}
+
+	for name, tc := range map[string]struct {
+		topo      *Topology
+		input     *Topology
+		expResult *Topology
+	}{
+		"nil base": {
+			input: &Topology{},
+		},
+		"nil input": {
+			topo:      &Topology{},
+			expResult: &Topology{},
+		},
+		"all empties": {
+			topo:      &Topology{},
+			input:     &Topology{},
+			expResult: &Topology{},
+		},
+		"add to empty": {
+			topo: &Topology{},
+			input: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+				},
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+				},
+			},
+		},
+		"no intersection": {
+			topo: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+				},
+			},
+			input: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[1].ID: testNuma[1],
+				},
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+					testNuma[1].ID: testNuma[1],
+				},
+			},
+		},
+		"add to same NUMA node": {
+			topo: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+				},
+			},
+			input: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 0).
+						WithDevices([]*PCIDevice{
+							{
+								Name:    "test1",
+								Type:    DeviceTypeNetInterface,
+								PCIAddr: *MustNewPCIAddress("0000:00:00.2"),
+							},
+						}).
+						WithCPUCores([]CPUCore{
+							{
+								ID: 4,
+							},
+						}).
+						WithPCIBuses([]*PCIBus{
+							{
+								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
+								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
+							},
+						}),
+				},
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+						WithDevices([]*PCIDevice{
+							testNuma[0].PCIDevices[*MustNewPCIAddress("0000:00:00.1")][0],
+							{
+								Name:    "test1",
+								Type:    DeviceTypeNetInterface,
+								PCIAddr: *MustNewPCIAddress("0000:00:00.2"),
+							},
+						}).
+						WithPCIBuses([]*PCIBus{
+							testNuma[0].PCIBuses[0],
+							{
+								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
+								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
+							},
+						}),
+				},
+			},
+		},
+		"update": {
+			topo: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: testNuma[0],
+				},
+			},
+			input: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+						WithDevices([]*PCIDevice{
+							{
+								Name:    "test0",
+								Type:    DeviceTypeNetInterface,
+								PCIAddr: *MustNewPCIAddress("0000:00:00.1"),
+							},
+							{
+								Name:      "test1",
+								Type:      DeviceTypeNetInterface,
+								PCIAddr:   *MustNewPCIAddress("0000:00:00.2"),
+								LinkSpeed: 75,
+							},
+						}).
+						WithPCIBuses([]*PCIBus{
+							testNuma[0].PCIBuses[0],
+							{
+								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
+								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
+							},
+						}),
+				},
+			},
+			expResult: &Topology{
+				NUMANodes: NodeMap{
+					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+						WithDevices([]*PCIDevice{
+							testNuma[0].PCIDevices[*MustNewPCIAddress("0000:00:00.1")][0],
+							{
+								Name:      "test1",
+								Type:      DeviceTypeNetInterface,
+								PCIAddr:   *MustNewPCIAddress("0000:00:00.2"),
+								LinkSpeed: 75,
+							},
+						}).
+						WithPCIBuses([]*PCIBus{
+							testNuma[0].PCIBuses[0],
+							{
+								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
+								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
+							},
+						}),
+				},
+			},
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			tc.topo.Merge(tc.input)
+
+			if diff := cmp.Diff(tc.expResult, tc.topo, common.CmpOptIgnoreField("NUMANode")); diff != "" {
+				t.Fatalf("(-want, +got)\n%s\n", diff)
+			}
+		})
+	}
+}
+
 func TestHardware_DeviceType_String(t *testing.T) {
 	for name, tc := range map[string]struct {
 		devType   DeviceType

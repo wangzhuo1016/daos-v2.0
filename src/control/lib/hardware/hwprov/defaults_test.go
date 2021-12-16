@@ -24,12 +24,17 @@ func TestHwprov_DefaultTopologyProvider(t *testing.T) {
 	log, buf := logging.NewTestLogger(t.Name())
 	defer common.ShowBufferOnFailure(t, buf)
 
-	expResult := hwloc.NewProvider(log)
+	expResult := hardware.NewTopologyFactory(
+		hwloc.NewProvider(log),
+		sysfs.NewProvider(log),
+	)
 
 	result := DefaultTopologyProvider(log)
 
 	if diff := cmp.Diff(expResult, result,
+		cmp.AllowUnexported(hardware.TopologyFactory{}),
 		cmpopts.IgnoreUnexported(hwloc.Provider{}),
+		cmpopts.IgnoreUnexported(sysfs.Provider{}),
 	); diff != "" {
 		t.Fatalf("(-want, +got)\n%s\n", diff)
 	}
@@ -54,9 +59,12 @@ func TestHwprov_DefaultFabricInterfaceProvider(t *testing.T) {
 }
 
 func TestHwprov_DefaultNetDevClassProvider(t *testing.T) {
-	expResult := sysfs.NewProvider()
+	log, buf := logging.NewTestLogger(t.Name())
+	defer common.ShowBufferOnFailure(t, buf)
 
-	result := DefaultNetDevClassProvider()
+	expResult := sysfs.NewProvider(log)
+
+	result := DefaultNetDevClassProvider(log)
 
 	if diff := cmp.Diff(expResult, result,
 		cmpopts.IgnoreUnexported(sysfs.Provider{}),
@@ -72,13 +80,14 @@ func TestHwprov_DefaultFabricScannerConfig(t *testing.T) {
 	expResult := &hardware.FabricScannerConfig{
 		TopologyProvider:         DefaultTopologyProvider(log),
 		FabricInterfaceProviders: DefaultFabricInterfaceProviders(log),
-		NetDevClassProvider:      DefaultNetDevClassProvider(),
+		NetDevClassProvider:      DefaultNetDevClassProvider(log),
 	}
 
 	result := DefaultFabricScannerConfig(log)
 
 	if diff := cmp.Diff(expResult, result,
 		cmpopts.IgnoreUnexported(
+			hardware.TopologyFactory{},
 			hwloc.Provider{},
 			libfabric.Provider{},
 			sysfs.Provider{},
@@ -96,7 +105,7 @@ func TestHwprov_DefaultFabricScanner(t *testing.T) {
 	expResult, err := hardware.NewFabricScanner(log, &hardware.FabricScannerConfig{
 		TopologyProvider:         DefaultTopologyProvider(log),
 		FabricInterfaceProviders: DefaultFabricInterfaceProviders(log),
-		NetDevClassProvider:      DefaultNetDevClassProvider(),
+		NetDevClassProvider:      DefaultNetDevClassProvider(log),
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -107,6 +116,7 @@ func TestHwprov_DefaultFabricScanner(t *testing.T) {
 	if diff := cmp.Diff(expResult, result,
 		cmp.AllowUnexported(
 			hardware.FabricScanner{},
+			hardware.TopologyFactory{},
 		),
 		cmpopts.IgnoreUnexported(
 			hwloc.Provider{},
