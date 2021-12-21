@@ -56,8 +56,13 @@ sysctl --system
 if [ \"\$(ulimit -c)\" != \"unlimited\" ]; then
     echo \"*  soft  core  unlimited\" >> /etc/security/limits.conf
 fi
+if [ \"\$(ulimit -l)\" != \"unlimited\" ]; then
+    echo \"*  soft  memlock  unlimited\" >> /etc/security/limits.conf
+    echo \"*  hard  memlock  unlimited\" >> /etc/security/limits.conf
+fi
+ulimit -a
 echo \"/var/tmp/core.%e.%t.%p\" > /proc/sys/kernel/core_pattern"
-rm -f /var/tmp/core.*
+sudo rm -f /var/tmp/core.*
 if [ "${HOSTNAME%%.*}" != "$FIRST_NODE" ]; then
     if grep /mnt/daos\  /proc/mounts; then
         sudo umount /mnt/daos
