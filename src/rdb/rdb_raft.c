@@ -1531,20 +1531,8 @@ rdb_raft_queue_event(struct rdb *db, enum rdb_raft_event_type type,
 		switch (type) {
 		case RDB_RAFT_STEP_UP:
 			D_ASSERT(tail->dre_type == RDB_RAFT_STEP_DOWN);
-#if 0
 			D_ASSERTF(tail->dre_term < term, DF_U64" < "DF_U64"\n",
 				  tail->dre_term, term);
-#else
-			/*
-			 * Because raft handles the self-only case (i.e.,
-			 * there's only one voting node) specially, without
-			 * elections, it's possible that this only replica
-			 * becomes leader without incrementing the term. This
-			 * special handling in raft will be removed.
-			 */
-			D_ASSERTF(tail->dre_term <= term,
-				  DF_U64" <= "DF_U64"\n", tail->dre_term, term);
-#endif
 			break;
 		case RDB_RAFT_STEP_DOWN:
 			D_ASSERT(tail->dre_type == RDB_RAFT_STEP_UP);
@@ -1683,7 +1671,7 @@ rdb_raft_step_up(struct rdb *db, uint64_t term)
 	msg_entry_response_t	mresponse;
 	int			rc;
 
-	D_WARN(DF_DB": became leader of term "DF_U64"\n", DP_DB(db), term);
+	D_NOTE(DF_DB": became leader of term "DF_U64"\n", DP_DB(db), term);
 	/* Commit an empty entry for an up-to-date last committed index. */
 	mentry.term = raft_get_current_term(db->d_raft);
 	mentry.id = 0; /* unused */
@@ -1705,8 +1693,7 @@ rdb_raft_step_up(struct rdb *db, uint64_t term)
 static void
 rdb_raft_step_down(struct rdb *db, uint64_t term)
 {
-	D_WARN(DF_DB": no longer leader of term "DF_U64"\n", DP_DB(db),
-	       term);
+	D_NOTE(DF_DB": no longer leader of term "DF_U64"\n", DP_DB(db), term);
 	db->d_debut = 0;
 	rdb_raft_queue_event(db, RDB_RAFT_STEP_DOWN, term);
 }
@@ -2670,8 +2657,8 @@ rdb_raft_campaign(struct rdb *db)
 	rdb_raft_save_state(db, &state);
 	D_DEBUG(DB_MD, DF_DB": calling election from current term %ld\n",
 		DP_DB(db), raft_get_current_term(db->d_raft));
-	raft_election_start(db->d_raft);
-	rc = rdb_raft_check_state(db, &state, 0 /* raft_rc */);
+	rc = raft_election_start(db->d_raft);
+	rc = rdb_raft_check_state(db, &state, rc);
 	ABT_mutex_unlock(db->d_raft_mutex);
 	return rc;
 }
