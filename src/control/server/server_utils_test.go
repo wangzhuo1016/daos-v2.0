@@ -355,7 +355,12 @@ func TestServer_prepBdevStorage(t *testing.T) {
 				srvCfg: cfg,
 			}
 
-			gotErr := prepBdevStorage(srv, true, common.GetHugePageInfo)
+			hpi, err := common.GetHugePageInfo
+			if hpi.Free < minHugePageCount {
+				hpi.Free += minHugePageCount
+				hpi.Total += minHugePageCount
+			}
+			gotErr := prepBdevStorage(srv, true, hpi)
 
 			mbb.RLock()
 			if diff := cmp.Diff(tc.expPrepCalls, mbb.PrepareCalls); diff != "" {
