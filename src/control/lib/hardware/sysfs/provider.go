@@ -105,10 +105,11 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 
 		numaID, err := strconv.Atoi(string(numaStr))
 		if err != nil || numaID < 0 {
+			s.log.Debugf("invalid NUMA node ID %q, using NUMA node 0", numaStr)
 			numaID = 0
 		}
 
-		pciPath, err := filepath.EvalSymlinks(filepath.Join(path, "device", "net", netDevName, "device"))
+		pciPath, err := filepath.EvalSymlinks(filepath.Join(path, "device"))
 		if err != nil {
 			s.log.Debugf("couldn't get PCI info: %s", err)
 			return nil
@@ -119,6 +120,8 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			s.log.Debugf("%q not parsed as PCI address: %s", pciAddr, err)
 			return nil
 		}
+
+		s.log.Debugf("adding device found at %q (type %s, NUMA node %d)", path)
 
 		topo.AddDevice(uint(numaID), &hardware.PCIDevice{
 			Name:    devName,
