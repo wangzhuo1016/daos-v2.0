@@ -175,7 +175,7 @@ func TestProvider_GetTopology(t *testing.T) {
 					}
 				}
 
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "2")
+				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "2\n")
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{

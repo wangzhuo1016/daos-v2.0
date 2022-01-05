@@ -97,13 +97,14 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 		}
 
 		numaPath := filepath.Join(path, "device", "numa_node")
-		numaStr, err := ioutil.ReadFile(numaPath)
+		numaBytes, err := ioutil.ReadFile(numaPath)
 		if err != nil {
 			s.log.Debugf("couldn't read %q: %s", numaPath, err)
 			return nil
 		}
+		numaStr := strings.TrimSpace(string(numaBytes))
 
-		numaID, err := strconv.Atoi(string(numaStr))
+		numaID, err := strconv.Atoi(numaStr)
 		if err != nil || numaID < 0 {
 			s.log.Debugf("invalid NUMA node ID %q, using NUMA node 0", numaStr)
 			numaID = 0
@@ -121,7 +122,7 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			return nil
 		}
 
-		s.log.Debugf("adding device found at %q (type %s, NUMA node %d)", path)
+		s.log.Debugf("adding device found at %q (type %s, NUMA node %d)", path, devType, numaID)
 
 		topo.AddDevice(uint(numaID), &hardware.PCIDevice{
 			Name:    devName,

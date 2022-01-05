@@ -21,6 +21,7 @@ import (
 // DumpTopologyCmd implements a go-flags Commander that dumps
 // the system topology to stdout or to a file.
 type DumpTopologyCmd struct {
+	Debug  bool   `short:"d" long:"debug" description:"Enable debug output"`
 	Output string `short:"o" long:"output" default:"stdout" description:"Dump output to this location"`
 	JSON   bool   `short:"j" long:"json" description:"Enable JSON output"`
 }
@@ -37,6 +38,9 @@ func (cmd *DumpTopologyCmd) Execute(_ []string) error {
 	}
 
 	log := logging.NewCommandLineLogger()
+	if cmd.Debug {
+		log.SetLevel(logging.LogLevelDebug)
+	}
 	hwProv := hwprov.DefaultTopologyProvider(log)
 	topo, err := hwProv.GetTopology(context.Background())
 	if err != nil {
