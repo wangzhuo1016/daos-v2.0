@@ -8,13 +8,14 @@ package sysfs
 
 import (
 	"context"
-	"errors"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 
 	"github.com/daos-stack/daos/src/control/common"
 	"github.com/daos-stack/daos/src/control/lib/hardware"
@@ -71,13 +72,27 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 
 	topo := &hardware.Topology{}
 
-	err := filepath.Walk(s.sysPath("devices"), func(path string, fi os.FileInfo, err error) error {
+	err := filepath.Walk(s.sysPath("class"), func(path string, fi os.FileInfo, err error) error {
 		if fi == nil {
 			return nil
 		}
 
 		if err != nil {
 			return err
+		}
+
+		allowedClasses := getFabricDevClasses()
+		allowedClasses = append(allowedClasses, "net")
+		allowed := false
+		for _, class := range allowedClasses {
+			if strings.HasPrefix(path, s.sysPath("class", class)) {
+				allowed = true
+				break
+			}
+		}
+
+		if !allowed {
+			return nil
 		}
 
 		// Network devices will have the device/net subdirectory structure
@@ -96,29 +111,15 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			devType = hardware.DeviceTypeOFIDomain
 		}
 
-		numaPath := filepath.Join(path, "device", "numa_node")
-		numaBytes, err := ioutil.ReadFile(numaPath)
+		numaID, err := s.getNUMANode(path)
 		if err != nil {
-			s.log.Debugf("couldn't read %q: %s", numaPath, err)
-			return nil
-		}
-		numaStr := strings.TrimSpace(string(numaBytes))
-
-		numaID, err := strconv.Atoi(numaStr)
-		if err != nil || numaID < 0 {
-			s.log.Debugf("invalid NUMA node ID %q, using NUMA node 0", numaStr)
-			numaID = 0
-		}
-
-		pciPath, err := filepath.EvalSymlinks(filepath.Join(path, "device"))
-		if err != nil {
-			s.log.Debugf("couldn't get PCI info: %s", err)
+			s.log.Debug(err.Error())
 			return nil
 		}
 
-		pciAddr, err := common.NewPCIAddress(filepath.Base(pciPath))
+		pciAddr, err := s.getPCIAddress(path)
 		if err != nil {
-			s.log.Debugf("%q not parsed as PCI address: %s", pciAddr, err)
+			s.log.Debug(err.Error())
 			return nil
 		}
 
@@ -137,4 +138,41 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 		return topo, nil
 	}
 	return nil, err
+}
+
+func getFabricDevClasses() []string {
+	return []string{
+		"infiniband",
+		"cxi",
+	}
+}
+
+func (s *Provider) getNUMANode(path string) (uint, error) {
+	numaPath := filepath.Join(path, "device", "numa_node")
+	numaBytes, err := ioutil.ReadFile(numaPath)
+	if err != nil {
+		return 0, errors.Wrapf(err, "couldn't read %q", numaPath)
+	}
+	numaStr := strings.TrimSpace(string(numaBytes))
+
+	numaID, err := strconv.Atoi(numaStr)
+	if err != nil || numaID < 0 {
+		s.log.Debugf("invalid NUMA node ID %q, using NUMA node 0", numaStr)
+		numaID = 0
+	}
+	return uint(numaID), nil
+}
+
+func (s *Provider) getPCIAddress(path string) (*common.PCIAddress, error) {
+	pciPath, err := filepath.EvalSymlinks(filepath.Join(path, "device"))
+	if err != nil {
+		return nil, errors.Wrap(err, "couldn't get PCI device")
+	}
+
+	pciAddr, err := common.NewPCIAddress(filepath.Base(pciPath))
+	if err != nil {
+		return nil, errors.Wrapf(err, "%q not parsed as PCI address", pciAddr)
+	}
+
+	return pciAddr, nil
 }

@@ -105,6 +105,42 @@ func writeTestFile(t *testing.T, path, contents string) {
 }
 
 func TestProvider_GetTopology(t *testing.T) {
+	validPCIAddr := "0000:02:00.0"
+	setupPCIDev := func(t *testing.T, root, pciAddr, class, dev string) string {
+		t.Helper()
+
+		pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", pciAddr)
+		path := filepath.Join(pciPath, class, dev)
+		if err := os.MkdirAll(path, 0755); err != nil {
+			t.Fatal(err)
+		}
+
+		if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
+			t.Fatal(err)
+		}
+
+		return path
+	}
+
+	setupClassLink := func(t *testing.T, root, class, devPath string) {
+		classPath := filepath.Join(root, "class", class)
+		if err := os.MkdirAll(classPath, 0755); err != nil {
+			t.Fatal(err)
+		}
+
+		if devPath == "" {
+			return
+		}
+
+		if err := os.Symlink(devPath, filepath.Join(classPath, filepath.Base(devPath))); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	setupNUMANode := func(t *testing.T, devPath, numaStr string) {
+		writeTestFile(t, filepath.Join(devPath, "device", "numa_node"), numaStr)
+	}
+
 	for name, tc := range map[string]struct {
 		setup     func(*testing.T, string)
 		p         *Provider
@@ -120,12 +156,8 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"no net devices": {
 			setup: func(t *testing.T, root string) {
-				for _, bus := range []string{"0000:00", "0000:01", "0000:02"} {
-					path := filepath.Join(root, "devices", "pci"+bus, "0000:00:01.0", "0000:02:00.0")
-					err := os.MkdirAll(path, 0755)
-					if err != nil {
-						t.Fatal(err)
-					}
+				for _, class := range getFabricDevClasses() {
+					setupClassLink(t, root, class, "")
 				}
 			},
 			p:         &Provider{},
@@ -133,17 +165,9 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"net device only": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
-					t.Fatal(err)
-				}
-
-				if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-					t.Fatal(err)
-				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "2")
+				path := setupPCIDev(t, root, validPCIAddr, "net", "net0")
+				setupNUMANode(t, path, "2\n")
+				setupClassLink(t, root, "net", path)
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{
@@ -153,29 +177,26 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress("0000:02:00.0"),
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
 			},
 		},
-		"fabric device": {
+		"fabric devices": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				for _, path := range []string{
-					filepath.Join(pciPath, "net", "net0"),
-					filepath.Join(pciPath, "infiniband", "ib0"),
+				for _, dev := range []struct {
+					class string
+					name  string
+				}{
+					{class: "net", name: "net0"},
+					{class: "infiniband", name: "ib0"},
+					{class: "cxi", name: "cxi0"},
 				} {
-					if err := os.MkdirAll(path, 0755); err != nil {
-						t.Fatal(err)
-					}
-
-					if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-						t.Fatal(err)
-					}
+					path := setupPCIDev(t, root, validPCIAddr, dev.class, dev.name)
+					setupClassLink(t, root, dev.class, path)
+					setupNUMANode(t, path, "2\n")
 				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "2\n")
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{
@@ -183,14 +204,54 @@ func TestProvider_GetTopology(t *testing.T) {
 					2: hardware.MockNUMANode(2, 0).
 						WithDevices([]*hardware.PCIDevice{
 							{
+								Name:    "cxi0",
+								Type:    hardware.DeviceTypeOFIDomain,
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+							},
+							{
 								Name:    "ib0",
 								Type:    hardware.DeviceTypeOFIDomain,
-								PCIAddr: *common.MustNewPCIAddress("0000:02:00.0"),
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress("0000:02:00.0"),
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+							},
+						}),
+				},
+			},
+		},
+		"exclude non-fabric classes": {
+			setup: func(t *testing.T, root string) {
+				for _, dev := range []struct {
+					class string
+					name  string
+				}{
+					{class: "net", name: "net0"},
+					{class: "hwmon", name: "hwmon0"},
+					{class: "cxi", name: "cxi0"},
+					{class: "ptp", name: "ptp0"},
+				} {
+					path := setupPCIDev(t, root, validPCIAddr, dev.class, dev.name)
+					setupClassLink(t, root, dev.class, path)
+					setupNUMANode(t, path, "2\n")
+				}
+			},
+			p: &Provider{},
+			expResult: &hardware.Topology{
+				NUMANodes: hardware.NodeMap{
+					2: hardware.MockNUMANode(2, 0).
+						WithDevices([]*hardware.PCIDevice{
+							{
+								Name:    "cxi0",
+								Type:    hardware.DeviceTypeOFIDomain,
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+							},
+							{
+								Name:    "net0",
+								Type:    hardware.DeviceTypeNetInterface,
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -198,17 +259,9 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"no NUMA node": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
-					t.Fatal(err)
-				}
-
-				if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-					t.Fatal(err)
-				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "-1")
+				path := setupPCIDev(t, root, validPCIAddr, "net", "net0")
+				setupNUMANode(t, path, "-1\n")
+				setupClassLink(t, root, "net", path)
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{
@@ -218,7 +271,7 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress("0000:02:00.0"),
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -226,17 +279,9 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"garbage NUMA file": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
-					t.Fatal(err)
-				}
-
-				if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-					t.Fatal(err)
-				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "abcdef")
+				path := setupPCIDev(t, root, validPCIAddr, "net", "net0")
+				setupNUMANode(t, path, "abcdef\n")
+				setupClassLink(t, root, "net", path)
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{
@@ -246,7 +291,7 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress("0000:02:00.0"),
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -254,45 +299,30 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"no NUMA file": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
-					t.Fatal(err)
-				}
-
-				if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-					t.Fatal(err)
-				}
+				path := setupPCIDev(t, root, validPCIAddr, "net", "net0")
+				setupClassLink(t, root, "net", path)
 			},
 			p:         &Provider{},
 			expResult: &hardware.Topology{},
 		},
 		"no PCI device link": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "0000:02:00.0")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
+				path := setupPCIDev(t, root, validPCIAddr, "net", "net0")
+				setupNUMANode(t, path, "2\n")
+				setupClassLink(t, root, "net", path)
+
+				if err := os.Remove(filepath.Join(path, "device")); err != nil {
 					t.Fatal(err)
 				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "0")
 			},
 			p:         &Provider{},
 			expResult: &hardware.Topology{},
 		},
 		"device link not valid PCI addr": {
 			setup: func(t *testing.T, root string) {
-				pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", "junky")
-				path := filepath.Join(pciPath, "net", "net0")
-				if err := os.MkdirAll(path, 0755); err != nil {
-					t.Fatal(err)
-				}
-
-				if err := os.Symlink(pciPath, filepath.Join(path, "device")); err != nil {
-					t.Fatal(err)
-				}
-
-				writeTestFile(t, filepath.Join(pciPath, "numa_node"), "-1")
+				path := setupPCIDev(t, root, "junk", "net", "net0")
+				setupNUMANode(t, path, "2\n")
+				setupClassLink(t, root, "net", path)
 			},
 			p:         &Provider{},
 			expResult: &hardware.Topology{},
