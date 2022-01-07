@@ -7,10 +7,12 @@
 package hardware
 
 import (
+	"context"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/pkg/errors"
 
 	"github.com/daos-stack/daos/src/control/common"
 )
@@ -246,36 +248,39 @@ func TestHardware_Topology_AddDevice(t *testing.T) {
 }
 
 func TestHardware_Topology_Merge(t *testing.T) {
-	testNuma := []*NUMANode{
-		MockNUMANode(1, 4).
-			WithDevices([]*PCIDevice{
-				{
-					Name:      "test0",
-					PCIAddr:   *MustNewPCIAddress("0000:00:00.1"),
-					LinkSpeed: 60,
-				},
-			}).
-			WithCPUCores([]CPUCore{}).
-			WithPCIBuses([]*PCIBus{
-				{
-					LowAddress:  *MustNewPCIAddress("0000:00:00.0"),
-					HighAddress: *MustNewPCIAddress("0000:05:00.0"),
-				},
-			}),
-		MockNUMANode(2, 4).
-			WithDevices([]*PCIDevice{
-				{
-					Name:    "test1",
-					PCIAddr: *MustNewPCIAddress("0000:0a:00.1"),
-				},
-			}).
-			WithCPUCores([]CPUCore{}).
-			WithPCIBuses([]*PCIBus{
-				{
-					LowAddress:  *MustNewPCIAddress("0000:05:00.0"),
-					HighAddress: *MustNewPCIAddress("0000:0f:00.0"),
-				},
-			}),
+	testNuma := func(idx int) *NUMANode {
+		nodes := []*NUMANode{
+			MockNUMANode(1, 4).
+				WithDevices([]*PCIDevice{
+					{
+						Name:      "test0",
+						PCIAddr:   *MustNewPCIAddress("0000:00:00.1"),
+						LinkSpeed: 60,
+					},
+				}).
+				WithCPUCores([]CPUCore{}).
+				WithPCIBuses([]*PCIBus{
+					{
+						LowAddress:  *MustNewPCIAddress("0000:00:00.0"),
+						HighAddress: *MustNewPCIAddress("0000:05:00.0"),
+					},
+				}),
+			MockNUMANode(2, 4).
+				WithDevices([]*PCIDevice{
+					{
+						Name:    "test1",
+						PCIAddr: *MustNewPCIAddress("0000:0a:00.1"),
+					},
+				}).
+				WithCPUCores([]CPUCore{}).
+				WithPCIBuses([]*PCIBus{
+					{
+						LowAddress:  *MustNewPCIAddress("0000:05:00.0"),
+						HighAddress: *MustNewPCIAddress("0000:0f:00.0"),
+					},
+				}),
+		}
+		return nodes[idx]
 	}
 
 	for name, tc := range map[string]struct {
@@ -299,42 +304,42 @@ func TestHardware_Topology_Merge(t *testing.T) {
 			topo: &Topology{},
 			input: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
+					testNuma(0).ID: testNuma(0),
 				},
 			},
 			expResult: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
+					testNuma(0).ID: testNuma(0),
 				},
 			},
 		},
 		"no intersection": {
 			topo: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
+					testNuma(0).ID: testNuma(0),
 				},
 			},
 			input: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[1].ID: testNuma[1],
+					testNuma(1).ID: testNuma(1),
 				},
 			},
 			expResult: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
-					testNuma[1].ID: testNuma[1],
+					testNuma(0).ID: testNuma(0),
+					testNuma(1).ID: testNuma(1),
 				},
 			},
 		},
 		"add to same NUMA node": {
 			topo: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
+					testNuma(0).ID: testNuma(0),
 				},
 			},
 			input: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 0).
+					testNuma(0).ID: MockNUMANode(testNuma(0).ID, 0).
 						WithDevices([]*PCIDevice{
 							{
 								Name:    "test1",
@@ -357,9 +362,9 @@ func TestHardware_Topology_Merge(t *testing.T) {
 			},
 			expResult: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+					testNuma(0).ID: MockNUMANode(testNuma(0).ID, 5).
 						WithDevices([]*PCIDevice{
-							testNuma[0].PCIDevices[*MustNewPCIAddress("0000:00:00.1")][0],
+							testNuma(0).PCIDevices[*MustNewPCIAddress("0000:00:00.1")][0],
 							{
 								Name:    "test1",
 								Type:    DeviceTypeNetInterface,
@@ -367,7 +372,7 @@ func TestHardware_Topology_Merge(t *testing.T) {
 							},
 						}).
 						WithPCIBuses([]*PCIBus{
-							testNuma[0].PCIBuses[0],
+							testNuma(0).PCIBuses[0],
 							{
 								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
 								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
@@ -379,12 +384,12 @@ func TestHardware_Topology_Merge(t *testing.T) {
 		"update": {
 			topo: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: testNuma[0],
+					testNuma(0).ID: testNuma(0),
 				},
 			},
 			input: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+					testNuma(0).ID: MockNUMANode(testNuma(0).ID, 5).
 						WithDevices([]*PCIDevice{
 							{
 								Name:    "test0",
@@ -399,7 +404,7 @@ func TestHardware_Topology_Merge(t *testing.T) {
 							},
 						}).
 						WithPCIBuses([]*PCIBus{
-							testNuma[0].PCIBuses[0],
+							testNuma(0).PCIBuses[0],
 							{
 								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
 								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
@@ -409,9 +414,14 @@ func TestHardware_Topology_Merge(t *testing.T) {
 			},
 			expResult: &Topology{
 				NUMANodes: NodeMap{
-					testNuma[0].ID: MockNUMANode(testNuma[0].ID, 5).
+					testNuma(0).ID: MockNUMANode(testNuma(0).ID, 5).
 						WithDevices([]*PCIDevice{
-							testNuma[0].PCIDevices[*MustNewPCIAddress("0000:00:00.1")][0],
+							{
+								Name:      "test0",
+								Type:      DeviceTypeNetInterface,
+								PCIAddr:   *MustNewPCIAddress("0000:00:00.1"),
+								LinkSpeed: 60,
+							},
 							{
 								Name:      "test1",
 								Type:      DeviceTypeNetInterface,
@@ -420,7 +430,7 @@ func TestHardware_Topology_Merge(t *testing.T) {
 							},
 						}).
 						WithPCIBuses([]*PCIBus{
-							testNuma[0].PCIBuses[0],
+							testNuma(0).PCIBuses[0],
 							{
 								LowAddress:  *MustNewPCIAddress("0000:0f:00.0"),
 								HighAddress: *MustNewPCIAddress("0000:20:00.0"),
@@ -464,6 +474,105 @@ func TestHardware_DeviceType_String(t *testing.T) {
 	} {
 		t.Run(name, func(t *testing.T) {
 			common.AssertEqual(t, tc.expResult, tc.devType.String(), "")
+		})
+	}
+}
+
+func TestHardware_NewTopologyFactory(t *testing.T) {
+	for name, tc := range map[string]struct {
+		input     []*WeightedTopologyProvider
+		expResult *TopologyFactory
+	}{
+		"empty": {
+			expResult: &TopologyFactory{
+				providers: []TopologyProvider{},
+			},
+		},
+		"one provider": {
+			input: []*WeightedTopologyProvider{
+				{
+					Provider: &MockTopologyProvider{},
+					Weight:   1,
+				},
+			},
+			expResult: &TopologyFactory{
+				providers: []TopologyProvider{
+					&MockTopologyProvider{},
+				},
+			},
+		},
+		"multiple providers": {
+			input: []*WeightedTopologyProvider{
+				{
+					Provider: &MockTopologyProvider{
+						GetTopoErr: errors.New("provider 1"),
+					},
+					Weight: 1,
+				},
+				{
+					Provider: &MockTopologyProvider{
+						GetTopoErr: errors.New("provider 3"),
+					},
+					Weight: 3,
+				},
+				{
+					Provider: &MockTopologyProvider{
+						GetTopoErr: errors.New("provider 2"),
+					},
+					Weight: 2,
+				},
+				{
+					Provider: &MockTopologyProvider{
+						GetTopoErr: errors.New("provider 4"),
+					},
+					Weight: 4,
+				},
+			},
+			expResult: &TopologyFactory{
+				providers: []TopologyProvider{
+					&MockTopologyProvider{
+						GetTopoErr: errors.New("provider 4"),
+					},
+					&MockTopologyProvider{
+						GetTopoErr: errors.New("provider 3"),
+					},
+					&MockTopologyProvider{
+						GetTopoErr: errors.New("provider 2"),
+					},
+					&MockTopologyProvider{
+						GetTopoErr: errors.New("provider 1"),
+					},
+				},
+			},
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			result := NewTopologyFactory(tc.input...)
+
+			if diff := cmp.Diff(tc.expResult, result,
+				cmp.AllowUnexported(TopologyFactory{}),
+				common.CmpOptEquateErrorMessages(),
+			); diff != "" {
+				t.Fatalf("(-want, +got)\n%s\n", diff)
+			}
+		})
+	}
+}
+
+// TODO KJ
+func TestHardware_TopologyFactory_GetTopology(t *testing.T) {
+	for name, tc := range map[string]struct {
+		tf        *TopologyFactory
+		expResult *Topology
+		expErr    error
+	}{} {
+		t.Run(name, func(t *testing.T) {
+			result, err := tc.tf.GetTopology(context.Background())
+
+			common.CmpErr(t, tc.expErr, err)
+			if diff := cmp.Diff(tc.expResult, result); diff != "" {
+				t.Fatalf("(-want, +got)\n%s\n", diff)
+			}
 		})
 	}
 }

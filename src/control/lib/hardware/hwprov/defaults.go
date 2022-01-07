@@ -17,8 +17,14 @@ import (
 // DefaultTopologyProvider gets the default hardware topology provider.
 func DefaultTopologyProvider(log logging.Logger) hardware.TopologyProvider {
 	return hardware.NewTopologyFactory(
-		hwloc.NewProvider(log),
-		sysfs.NewProvider(log),
+		&hardware.WeightedTopologyProvider{
+			Provider: hwloc.NewProvider(log),
+			Weight:   100,
+		},
+		&hardware.WeightedTopologyProvider{
+			Provider: sysfs.NewProvider(log),
+			Weight:   90,
+		},
 	)
 }
 

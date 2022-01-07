@@ -8,6 +8,7 @@ package hardware
 
 import (
 	"context"
+	"sort"
 
 	"github.com/pkg/errors"
 )
@@ -245,6 +246,13 @@ func (t DeviceType) String() string {
 	return "unknown device type"
 }
 
+// WeightedTopologyProvider is a provider with associated weight to determine order of operations.
+// Greater weights indicate higher priority.
+type WeightedTopologyProvider struct {
+	Provider TopologyProvider
+	Weight   int
+}
+
 // TopologyFactory is a TopologyProvider that merges results from multiple other
 // TopologyProviders.
 type TopologyFactory struct {
@@ -264,9 +272,19 @@ func (tf *TopologyFactory) GetTopology(ctx context.Context) (*Topology, error) {
 	return newTopo, nil
 }
 
-// NewTopologyFactory creates a TopologyFactory based on the list of topology providers.
-func NewTopologyFactory(providers ...TopologyProvider) *TopologyFactory {
+// NewTopologyFactory creates a TopologyFactory based on the list of weighted topology providers.
+func NewTopologyFactory(providers ...*WeightedTopologyProvider) *TopologyFactory {
+	sort.Slice(providers, func(i, j int) bool {
+		// Higher weight goes first
+		return providers[i].Weight > providers[j].Weight
+	})
+
+	orderedProviders := make([]TopologyProvider, 0, len(providers))
+	for _, wtp := range providers {
+		orderedProviders = append(orderedProviders, wtp.Provider)
+	}
+
 	return &TopologyFactory{
-		providers: providers,
+		providers: orderedProviders,
 	}
 }
