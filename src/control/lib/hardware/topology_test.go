@@ -559,13 +559,113 @@ func TestHardware_NewTopologyFactory(t *testing.T) {
 	}
 }
 
-// TODO KJ
 func TestHardware_TopologyFactory_GetTopology(t *testing.T) {
+	testTopo1 := func() *Topology {
+		return &Topology{
+			NUMANodes: NodeMap{
+				0: MockNUMANode(0, 6).
+					WithDevices([]*PCIDevice{
+						{
+							Name: "net0",
+							Type: DeviceTypeNetInterface,
+						},
+						{
+							Name: "ofi0",
+							Type: DeviceTypeOFIDomain,
+						},
+					}),
+				1: MockNUMANode(1, 6).
+					WithDevices([]*PCIDevice{
+						{
+							Name: "net1",
+							Type: DeviceTypeNetInterface,
+						},
+						{
+							Name: "ofi1",
+							Type: DeviceTypeOFIDomain,
+						},
+					}),
+			},
+		}
+	}
+
+	testTopo2 := func() *Topology {
+		return &Topology{
+			NUMANodes: NodeMap{
+				0: MockNUMANode(0, 6).
+					WithDevices([]*PCIDevice{
+						{
+							Name: "net0",
+							Type: DeviceTypeNetInterface,
+						},
+						{
+							Name: "net2",
+							Type: DeviceTypeNetInterface,
+						},
+					}),
+				1: MockNUMANode(1, 6).
+					WithDevices([]*PCIDevice{
+						{
+							Name: "net1",
+							Type: DeviceTypeNetInterface,
+						},
+					}),
+			},
+		}
+	}
+
+	testMerged := testTopo1()
+	testMerged.Merge(testTopo2())
+
 	for name, tc := range map[string]struct {
 		tf        *TopologyFactory
 		expResult *Topology
 		expErr    error
-	}{} {
+	}{
+		"nil": {
+			expErr: errors.New("nil"),
+		},
+		"no providers in factory": {
+			tf:     &TopologyFactory{},
+			expErr: errors.New("no TopologyProviders"),
+		},
+		"successful provider": {
+			tf: &TopologyFactory{
+				providers: []TopologyProvider{
+					&MockTopologyProvider{
+						GetTopoReturn: testTopo1(),
+					},
+				},
+			},
+			expResult: testTopo1(),
+		},
+		"multi provider": {
+			tf: &TopologyFactory{
+				providers: []TopologyProvider{
+					&MockTopologyProvider{
+						GetTopoReturn: testTopo1(),
+					},
+					&MockTopologyProvider{
+						GetTopoReturn: testTopo2(),
+					},
+				},
+			},
+			expResult: testMerged,
+		},
+		"one provider fails": {
+			tf: &TopologyFactory{
+				providers: []TopologyProvider{
+					&MockTopologyProvider{
+						GetTopoErr: errors.New("mock GetTopology"),
+					},
+					&MockTopologyProvider{
+						GetTopoReturn: testTopo2(),
+					},
+				},
+			},
+			expErr: errors.New("mock GetTopology"),
+		},
+	} {
 		t.Run(name, func(t *testing.T) {
 			result, err := tc.tf.GetTopology(context.Background())
 

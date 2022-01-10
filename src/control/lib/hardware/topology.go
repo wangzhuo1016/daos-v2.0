@@ -261,6 +261,14 @@ type TopologyFactory struct {
 
 // GetTopology gets a merged master topology from all the topology providers.
 func (tf *TopologyFactory) GetTopology(ctx context.Context) (*Topology, error) {
+	if tf == nil {
+		return nil, errors.New("nil TopologyFactory")
+	}
+
+	if len(tf.providers) == 0 {
+		return nil, errors.New("no TopologyProviders in TopologyFactory")
+	}
+
 	newTopo := &Topology{}
 	for _, prov := range tf.providers {
 		topo, err := prov.GetTopology(ctx)
