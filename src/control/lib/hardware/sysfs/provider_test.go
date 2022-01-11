@@ -135,6 +135,10 @@ func TestProvider_GetTopology(t *testing.T) {
 		if err := os.Symlink(devPath, filepath.Join(classPath, filepath.Base(devPath))); err != nil {
 			t.Fatal(err)
 		}
+
+		if err := os.Symlink(classPath, filepath.Join(devPath, "subsystem")); err != nil {
+			t.Fatal(err)
+		}
 	}
 
 	setupNUMANode := func(t *testing.T, devPath, numaStr string) {
@@ -156,7 +160,7 @@ func TestProvider_GetTopology(t *testing.T) {
 		},
 		"no net devices": {
 			setup: func(t *testing.T, root string) {
-				for _, class := range getFabricDevClasses() {
+				for _, class := range []string{"net", "infiniband", "cxi"} {
 					setupClassLink(t, root, class, "")
 				}
 			},
@@ -222,7 +226,7 @@ func TestProvider_GetTopology(t *testing.T) {
 				},
 			},
 		},
-		"exclude non-fabric classes": {
+		"exclude non-specified classes": {
 			setup: func(t *testing.T, root string) {
 				for _, dev := range []struct {
 					class string
@@ -231,7 +235,10 @@ func TestProvider_GetTopology(t *testing.T) {
 					{class: "net", name: "net0"},
 					{class: "hwmon", name: "hwmon0"},
 					{class: "cxi", name: "cxi0"},
+					{class: "cxi_user", name: "cxi0"},
 					{class: "ptp", name: "ptp0"},
+					{class: "infiniband_verbs", name: "uverbs0"},
+					{class: "infiniband", name: "mlx0"},
 				} {
 					path := setupPCIDev(t, root, validPCIAddr, dev.class, dev.name)
 					setupClassLink(t, root, dev.class, path)
@@ -245,6 +252,11 @@ func TestProvider_GetTopology(t *testing.T) {
 						WithDevices([]*hardware.PCIDevice{
 							{
 								Name:    "cxi0",
+								Type:    hardware.DeviceTypeOFIDomain,
+								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+							},
+							{
+								Name:    "mlx0",
 								Type:    hardware.DeviceTypeOFIDomain,
 								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
 							},

@@ -72,7 +72,7 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 
 	topo := &hardware.Topology{}
 
-	err := filepath.Walk(s.sysPath("class"), func(path string, fi os.FileInfo, err error) error {
+	err := filepath.Walk(s.sysPath("devices"), func(path string, fi os.FileInfo, err error) error {
 		if fi == nil {
 			return nil
 		}
@@ -81,34 +81,22 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			return err
 		}
 
-		allowedClasses := getFabricDevClasses()
-		allowedClasses = append(allowedClasses, "net")
-		allowed := false
-		for _, class := range allowedClasses {
-			if strings.HasPrefix(path, s.sysPath("class", class)) {
-				allowed = true
-				break
+		subsystem, err := s.getSubsystemClass(path)
+		if err != nil {
+			// Current directory does not represent a device
+			return nil
+		}
+
+		var dev *hardware.PCIDevice
+		switch subsystem {
+		case "net", "infiniband", "cxi":
+			dev, err = s.getNetworkDevice(path)
+			if err != nil {
+				s.log.Debug(err.Error())
+				return nil
 			}
-		}
-
-		if !allowed {
+		default:
 			return nil
-		}
-
-		// Network devices will have the device/net subdirectory structure
-		netDev, err := ioutil.ReadDir(filepath.Join(path, "device", "net"))
-		if err != nil || len(netDev) == 0 {
-			return nil
-		}
-
-		devName := filepath.Base(path)
-		netDevName := netDev[0].Name()
-
-		var devType hardware.DeviceType
-		if netDevName == devName {
-			devType = hardware.DeviceTypeNetInterface
-		} else {
-			devType = hardware.DeviceTypeOFIDomain
 		}
 
 		numaID, err := s.getNUMANode(path)
@@ -122,14 +110,11 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			s.log.Debug(err.Error())
 			return nil
 		}
+		dev.PCIAddr = *pciAddr
 
-		s.log.Debugf("adding device found at %q (type %s, NUMA node %d)", path, devType, numaID)
+		s.log.Debugf("adding device found at %q (type %s, NUMA node %d)", path, dev.Type, numaID)
 
-		topo.AddDevice(uint(numaID), &hardware.PCIDevice{
-			Name:    devName,
-			Type:    devType,
-			PCIAddr: *pciAddr,
-		})
+		topo.AddDevice(uint(numaID), dev)
 
 		return nil
 	})
@@ -140,11 +125,40 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 	return nil, err
 }
 
-func getFabricDevClasses() []string {
-	return []string{
-		"infiniband",
-		"cxi",
+func (s *Provider) getSubsystemClass(path string) (string, error) {
+	subsysPath, err := filepath.EvalSymlinks(filepath.Join(path, "subsystem"))
+	if err != nil {
+		return "", errors.Wrap(err, "couldn't get subsystem data")
 	}
+
+	return filepath.Base(subsysPath), nil
+}
+
+func (s *Provider) getNetworkDevice(path string) (*hardware.PCIDevice, error) {
+	// Network devices will have the device/net subdirectory structure
+	netDev, err := ioutil.ReadDir(filepath.Join(path, "device", "net"))
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to read net device")
+	}
+
+	if len(netDev) == 0 {
+		return nil, errors.Errorf("no network device for %q", filepath.Base(path))
+	}
+
+	devName := filepath.Base(path)
+	netDevName := netDev[0].Name()
+
+	var devType hardware.DeviceType
+	if netDevName == devName {
+		devType = hardware.DeviceTypeNetInterface
+	} else {
+		devType = hardware.DeviceTypeOFIDomain
+	}
+
+	return &hardware.PCIDevice{
+		Name: devName,
+		Type: devType,
+	}, nil
 }
 
 func (s *Provider) getNUMANode(path string) (uint, error) {
