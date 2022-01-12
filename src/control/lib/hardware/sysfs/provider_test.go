@@ -181,7 +181,7 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -210,17 +210,17 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "cxi0",
 								Type:    hardware.DeviceTypeOFIDomain,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 							{
 								Name:    "ib0",
 								Type:    hardware.DeviceTypeOFIDomain,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -253,17 +253,17 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "cxi0",
 								Type:    hardware.DeviceTypeOFIDomain,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 							{
 								Name:    "mlx0",
 								Type:    hardware.DeviceTypeOFIDomain,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -283,7 +283,7 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},
@@ -303,7 +303,7 @@ func TestProvider_GetTopology(t *testing.T) {
 							{
 								Name:    "net0",
 								Type:    hardware.DeviceTypeNetInterface,
-								PCIAddr: *common.MustNewPCIAddress(validPCIAddr),
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
 							},
 						}),
 				},

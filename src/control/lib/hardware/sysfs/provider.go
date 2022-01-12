@@ -17,7 +17,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/daos-stack/daos/src/control/common"
 	"github.com/daos-stack/daos/src/control/lib/hardware"
 	"github.com/daos-stack/daos/src/control/logging"
 )
@@ -177,13 +176,13 @@ func (s *Provider) getNUMANode(path string) (uint, error) {
 	return uint(numaID), nil
 }
 
-func (s *Provider) getPCIAddress(path string) (*common.PCIAddress, error) {
+func (s *Provider) getPCIAddress(path string) (*hardware.PCIAddress, error) {
 	pciPath, err := filepath.EvalSymlinks(filepath.Join(path, "device"))
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't get PCI device")
 	}
 
-	pciAddr, err := common.NewPCIAddress(filepath.Base(pciPath))
+	pciAddr, err := hardware.NewPCIAddress(filepath.Base(pciPath))
 	if err != nil {
 		return nil, errors.Wrapf(err, "%q not parsed as PCI address", pciAddr)
 	}
