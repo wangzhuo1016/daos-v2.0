@@ -25,8 +25,14 @@ func TestHwprov_DefaultTopologyProvider(t *testing.T) {
 	defer common.ShowBufferOnFailure(t, buf)
 
 	expResult := hardware.NewTopologyFactory(
-		hwloc.NewProvider(log),
-		sysfs.NewProvider(log),
+		&hardware.WeightedTopologyProvider{
+			Provider: hwloc.NewProvider(log),
+			Weight:   100,
+		},
+		&hardware.WeightedTopologyProvider{
+			Provider: sysfs.NewProvider(log),
+			Weight:   90,
+		},
 	)
 
 	result := DefaultTopologyProvider(log)
