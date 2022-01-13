@@ -506,8 +506,7 @@ class SoakTestBase(TestWithServers):
         # self.pool[0] will always be the reserved pool
         add_pools(self, ["pool_reserved"])
         # Create the reserved container
-        resv_cont = self.get_container(
-            self.pool[0], "/run/container_reserved/*", True)
+        resv_cont = self.create_container(self.pool[0], "/run/container_reserved/*", True)
         # populate reserved container with a 500MB file
         initial_resv_file = os.path.join(
             os.environ["DAOS_TEST_LOG_DIR"], "initial", "resv_file")

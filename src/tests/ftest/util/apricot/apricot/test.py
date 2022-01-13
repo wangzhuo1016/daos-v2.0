@@ -1649,26 +1649,39 @@ class TestWithServers(TestWithoutServers):
         for _ in range(quantity):
             self.pool.append(self.get_pool(namespace, create, connect, index))
 
-    def get_container(self, pool, namespace=None, create=True):
-        """Get a test container object.
+    @fail_on(AttributeError)
+    def create_container(self, pool, namespace=None, create=True, **kwargs):
+        """Create a TestContainer object.
 
         Args:
             pool (TestPool): pool in which to create the container.
             namespace (str, optional): namespace for TestContainer parameters in
-                the test yaml file. Defaults to None.
-            create (bool, optional): should the container be created. Defaults
-                to True.
+                the test yaml file. Default is None.
+            create (bool, optional): should the container be created. Default is True.
+            kwargs (dict): name/value of attributes for which to call update(value, name).
+                See TestContainer for available attributes.
 
         Returns:
-            TestContainer: the created test container object.
+            TestContainer: the created container.
+
+        Raises:
+            AttributeError: if an attribute does not exist or does not have an update() method.
 
         """
+        # Create a container with params from the config
         container = TestContainer(pool, daos_command=self.get_daos_command())
         if namespace is not None:
             container.namespace = namespace
         container.get_params(self)
+
+        # Set passed params
+        for name, value in kwargs.items():
+            param = getattr(container, name)
+            param.update(value, name=name)
+
         if create:
             container.create()
+
         return container
 
     def add_container(self, pool, namespace=None, create=True):
@@ -1683,7 +1696,7 @@ class TestWithServers(TestWithoutServers):
             create (bool, optional): should the container be created. Defaults
                 to True.
         """
-        self.container = self.get_container(pool, namespace, create)
+        self.container = self.create_container(pool=pool, namespace=namespace, create=create)
 
     def add_container_qty(self, quantity, pool, namespace=None, create=True):
         """Add multiple containers to the test case.
@@ -1710,7 +1723,8 @@ class TestWithServers(TestWithoutServers):
                 "add_container_qty(): self.container must be a list: {}".format(
                     type(self.container)))
         for _ in range(quantity):
-            self.container.append(self.get_container(pool, namespace, create))
+            self.container.append(
+                self.create_container(pool=pool, namespace=namespace, create=create))
 
     def start_additional_servers(self, additional_servers, index=0,
                                  access_points=None):

@@ -32,8 +32,7 @@ class RbldBasic(TestWithServers):
         self.daos_cmd = DaosCommand(self.bin)
         for _ in range(pool_quantity):
             self.pool.append(self.get_pool(create=False))
-            self.container.append(
-                self.get_container(self.pool[-1], create=False))
+            self.container.append(self.create_container(self.pool[-1], create=False))
         rank = self.params.get("rank", "/run/testparams/*")
         obj_class = self.params.get("object_class", "/run/testparams/*")
 

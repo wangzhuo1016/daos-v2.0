@@ -40,7 +40,7 @@ class RbldContainerCreate(IorTestBase):
             self.log.info(
                 "..Creating container %s/%s in pool %s during rebuild",
                 count, qty, self.pool.uuid)
-            self.container.append(self.get_container(self.pool))
+            self.container.append(self.create_container(self.pool))
 
         self.log.info("..Create %s containers and write data during rebuild.",
                       qty)

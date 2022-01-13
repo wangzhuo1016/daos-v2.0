@@ -46,8 +46,7 @@ class PoolServicesFaultInjection(TestWithServers):
         Look for missed requests shown by daos command.
         """
         # Get and write into container
-        self.container = self.get_container(self.pool,
-                                            namespace=self.container_namespace)
+        self.container = self.create_container(self.pool, namespace=self.container_namespace)
         self.look_missed_request(self.container.daos.result.stderr)
 
         # This is done through IOR

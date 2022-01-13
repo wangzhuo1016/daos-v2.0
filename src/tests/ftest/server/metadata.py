@@ -158,7 +158,7 @@ class ObjectMetadata(TestWithServers):
         """
         status = False
         # self.log.info("Creating container %d", index + 1)
-        self.container.append(self.get_container(self.pool, create=False))
+        self.container.append(self.create_container(self.pool, create=False))
         if self.container[-1].daos:
             self.container[-1].daos.verbose = False
         try:
@@ -455,7 +455,7 @@ class ObjectMetadata(TestWithServers):
             additional_containers)
         for loop in range(additional_containers):
             try:
-                self.container.append(self.get_container(self.pool))
+                self.container.append(self.create_container(self.pool))
             except TestFail as error:
                 self.log.info("(1.3) Expected create failure: %s", error)
                 if "RC: -1007" in str(error):

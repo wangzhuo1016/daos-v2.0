@@ -50,7 +50,7 @@ class FileCountTestBase(IorTestBase, MdtestBase):
 
         """
         # Create a container and add it to the overall list of containers
-        container = self.get_container(self.pool, create=False)
+        container = self.create_container(self.pool, create=False)
         # don't include oclass in daos cont cmd; include rf based on the class
         if oclass:
             container.oclass.update(oclass)

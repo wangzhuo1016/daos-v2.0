@@ -44,7 +44,7 @@ class DmgSystemCleanupTest(TestWithServers):
         self.container = []
         for _ in range(2):
             self.pool.append(self.get_pool())
-            self.container.append(self.get_container(self.pool[-1]))
+            self.container.append(self.create_container(self.pool[-1]))
 
         # Create 5 more connections to each pool
         pool_handles = []

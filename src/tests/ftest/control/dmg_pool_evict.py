@@ -40,7 +40,7 @@ class DmgPoolEvictTest(TestWithServers):
         self.container = []
         for _ in range(2):
             self.pool.append(self.get_pool())
-            self.container.append(self.get_container(self.pool[-1]))
+            self.container.append(self.create_container(self.pool[-1]))
 
         # Call dmg pool evict on the second pool.
         self.pool[-1].evict()
@@ -69,7 +69,7 @@ class DmgPoolEvictTest(TestWithServers):
 
         # Verify the other pool isn't affected by creating a new container,
         # list, and destroy.
-        self.container.append(self.get_container(self.pool[0]))
+        self.container.append(self.create_container(self.pool[0]))
         data = daos_cmd.container_list(pool=self.pool[0].uuid)
         self.assertEqual(len(data["response"]), len(self.container))
         self.container[0].destroy()

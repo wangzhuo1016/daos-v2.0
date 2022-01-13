@@ -62,18 +62,17 @@ class IorTestBase(DfuseTestBase):
     def create_cont(self):
         """Create a TestContainer object to be used to create container.
 
+        Returns:
+            TestContainer: the created container.
+
         """
-        # Get container params
-        self.container = TestContainer(
-            self.pool, daos_command=DaosCommand(self.bin))
-        self.container.get_params(self)
+        params = {}
 
-        # update container oclass
+        # Set container oclass to match ior oclass
         if self.ior_cmd.dfs_oclass:
-            self.container.oclass.update(self.ior_cmd.dfs_oclass.value)
+            params["oclass"] = self.ior_cmd.dfs_oclass.value
 
-        # create container
-        self.container.create()
+        return self.create_container(self.pool, **params)
 
     def display_pool_space(self, pool=None):
         """Display the current pool space.

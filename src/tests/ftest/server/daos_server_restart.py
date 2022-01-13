@@ -74,7 +74,7 @@ class DaosServerTest(TestWithServers):
         for _ in range(num_of_pool):
             self.pool.append(self.get_pool(connect=False))
             for _ in range(container_per_pool):
-                self.container.append(self.get_container(self.pool[-1]))
+                self.container.append(self.create_container(self.pool[-1]))
 
     def test_daos_server_reformat(self):
         """JIRA ID: DAOS-3596.

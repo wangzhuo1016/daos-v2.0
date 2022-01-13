@@ -63,7 +63,7 @@ def test_runner(self, namespace, record_size, array_size, thread_per_size=4):
     self.pool[-1].connect()
 
     # create a new container
-    self.container.append(self.get_container(self.pool[-1]))
+    self.container.append(self.create_container(self.pool[-1]))
     self.container[-1].open()
 
     # initialize dicts to hold threads
