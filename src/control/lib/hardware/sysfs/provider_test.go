@@ -106,10 +106,14 @@ func writeTestFile(t *testing.T, path, contents string) {
 
 func TestProvider_GetTopology(t *testing.T) {
 	validPCIAddr := "0000:02:00.0"
+	getPCIPath := func(root, pciAddr string) string {
+		return filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", pciAddr)
+	}
+
 	setupPCIDev := func(t *testing.T, root, pciAddr, class, dev string) string {
 		t.Helper()
 
-		pciPath := filepath.Join(root, "devices", "pci0000:00", "0000:00:01.0", pciAddr)
+		pciPath := getPCIPath(root, pciAddr)
 		path := filepath.Join(pciPath, class, dev)
 		if err := os.MkdirAll(path, 0755); err != nil {
 			t.Fatal(err)
@@ -244,6 +248,56 @@ func TestProvider_GetTopology(t *testing.T) {
 					setupClassLink(t, root, dev.class, path)
 					setupNUMANode(t, path, "2\n")
 				}
+			},
+			p: &Provider{},
+			expResult: &hardware.Topology{
+				NUMANodes: hardware.NodeMap{
+					2: hardware.MockNUMANode(2, 0).
+						WithDevices([]*hardware.PCIDevice{
+							{
+								Name:    "cxi0",
+								Type:    hardware.DeviceTypeOFIDomain,
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
+							},
+							{
+								Name:    "mlx0",
+								Type:    hardware.DeviceTypeOFIDomain,
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
+							},
+							{
+								Name:    "net0",
+								Type:    hardware.DeviceTypeNetInterface,
+								PCIAddr: *hardware.MustNewPCIAddress(validPCIAddr),
+							},
+						}),
+				},
+			},
+		},
+		"exclude virtual devices": {
+			setup: func(t *testing.T, root string) {
+				for _, dev := range []struct {
+					class string
+					name  string
+				}{
+					{class: "net", name: "net0"},
+					{class: "cxi", name: "cxi0"},
+					{class: "infiniband", name: "mlx0"},
+				} {
+					path := setupPCIDev(t, root, validPCIAddr, dev.class, dev.name)
+					setupClassLink(t, root, dev.class, path)
+					setupNUMANode(t, path, "2\n")
+				}
+
+				virtPath := filepath.Join(root, "devices", "virtual", "net", "virt_net0")
+				if err := os.MkdirAll(virtPath, 0755); err != nil {
+					t.Fatal(err)
+				}
+
+				if err := os.Symlink(getPCIPath(root, validPCIAddr), filepath.Join(virtPath, "device")); err != nil {
+					t.Fatal(err)
+				}
+
+				setupClassLink(t, root, "net", virtPath)
 			},
 			p: &Provider{},
 			expResult: &hardware.Topology{

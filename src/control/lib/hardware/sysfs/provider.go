@@ -80,6 +80,11 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 			return err
 		}
 
+		if s.isVirtual(path) {
+			// skip virtual devices
+			return nil
+		}
+
 		subsystem, err := s.getSubsystemClass(path)
 		if err != nil {
 			// Current directory does not represent a device
@@ -122,6 +127,10 @@ func (s *Provider) GetTopology(ctx context.Context) (*hardware.Topology, error) 
 		return topo, nil
 	}
 	return nil, err
+}
+
+func (s *Provider) isVirtual(path string) bool {
+	return strings.HasPrefix(path, s.sysPath("devices", "virtual"))
 }
 
 func (s *Provider) getSubsystemClass(path string) (string, error) {
